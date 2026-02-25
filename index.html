@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O'mely — Thời trang bền vững</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:    '#F5F2ED',
+            'cream-dark': '#EDE8E1',
+            'brand-dark': '#1A1A1A',
+            accent:   '#8B7355',
+            'accent-light': '#C4A882',
+            secondary: '#D4C5B0',
+            'secondary-dark': '#B8A89A',
+          },
+          fontFamily: {
+            heading: ['"Cormorant Garamond"', 'serif'],
+            body:    ['Jost', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after {
+      font-style: normal !important;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: #F5F2ED;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Subtle noise overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+    h1,h2,h3,h4,h5,h6,.font-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: normal !important;
+    }
+
+    /* === NAVBAR === */
+    #navbar {
+      transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    #navbar.scrolled {
+      background-color: rgba(245,242,237,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(139,115,85,0.12);
+    }
+
+    /* === PAGE TRANSITIONS === */
+    .page-section { animation: pgFade 0.45s ease; }
+    @keyframes pgFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === HERO ANIMATIONS === */
+    .h1 { animation: hReveal 0.85s cubic-bezier(0.22,1,0.36,1) 0.05s forwards; opacity: 0; }
+    .h2 { animation: hReveal 0.85s cubic-bezier(0.22,1,0.36,1) 0.2s  forwards; opacity: 0; }
+    .h3 { animation: hReveal 0.85s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; opacity: 0; }
+    .h4 { animation: hReveal 0.85s cubic-bezier(0.22,1,0.36,1) 0.5s  forwards; opacity: 0; }
+    @keyframes hReveal {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === BUTTONS === */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1A1A1A;
+      color: #F5F2ED;
+      padding: 14px 36px;
+      letter-spacing: 0.12em;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.25s ease, transform 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-primary:hover  { background-color: #8B7355; }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:focus-visible { outline: 2px solid #8B7355; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      color: #1A1A1A;
+      padding: 13px 36px;
+      letter-spacing: 0.12em;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      border: 1px solid #1A1A1A;
+      cursor: pointer;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-outline:hover  { background-color: #1A1A1A; color: #F5F2ED; }
+    .btn-outline:active { transform: scale(0.97); }
+    .btn-outline:focus-visible { outline: 2px solid #8B7355; outline-offset: 3px; }
+
+    /* === NAV LINKS === */
+    .nav-link {
+      position: relative;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background-color: #8B7355;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after { width: 100%; }
+    .nav-link.active         { color: #8B7355; }
+    .nav-link:focus-visible  { outline: 2px solid #8B7355; outline-offset: 4px; }
+
+    /* === PRODUCT CARDS === */
+    .product-card { transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-card:hover .card-img { transform: scale(1.04); }
+    .card-img { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .card-overlay { opacity: 0; transition: opacity 0.3s ease; }
+    .product-card:hover .card-overlay { opacity: 1; }
+    .card-img-wrap { overflow: hidden; }
+
+    /* === FILTER BUTTONS === */
+    .filter-btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border: 1px solid #D4C5B0;
+      background: transparent;
+      cursor: pointer;
+      color: #1A1A1A;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background-color: #1A1A1A;
+      color: #F5F2ED;
+      border-color: #1A1A1A;
+    }
+    .filter-btn:focus-visible { outline: 2px solid #8B7355; outline-offset: 2px; }
+
+    /* === SIZE BUTTONS === */
+    .size-btn {
+      width: 44px; height: 44px;
+      border: 1px solid #D4C5B0;
+      background: transparent;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    }
+    .size-btn:hover { border-color: #8B7355; }
+    .size-btn.selected { background-color: #1A1A1A; color: #F5F2ED; border-color: #1A1A1A; }
+    .size-btn:focus-visible { outline: 2px solid #8B7355; outline-offset: 2px; }
+
+    /* === TABS === */
+    .tab-btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 22px;
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #B8A89A;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .tab-btn.active { color: #1A1A1A; border-bottom-color: #8B7355; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* === QTY BUTTONS === */
+    .qty-btn {
+      width: 38px; height: 38px;
+      border: 1px solid #D4C5B0;
+      background: transparent;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Jost', sans-serif;
+      font-size: 20px; line-height: 1;
+      color: #1A1A1A;
+      transition: background-color 0.2s ease;
+      user-select: none;
+    }
+    .qty-btn:hover { background-color: #EDE8E1; }
+
+    /* === CART SIDEBAR === */
+    #cart-sidebar {
+      transition: transform 0.38s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    /* === MOBILE MENU === */
+    #mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #mobile-menu.open { transform: translateX(0); }
+
+    /* === CART BADGE === */
+    .cart-badge {
+      position: absolute; top: -6px; right: -7px;
+      width: 17px; height: 17px;
+      background-color: #8B7355;
+      color: #FEFEFE;
+      font-size: 9px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+    }
+
+    /* === TIMELINE === */
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      left: -29px; top: 4px;
+      width: 11px; height: 11px;
+      border: 2px solid #8B7355;
+      border-radius: 50%;
+      background: #F5F2ED;
+    }
+    .timeline-dot-dark::before {
+      background: #EDE8E1;
+    }
+
+    /* === DECORATIVE === */
+    .deco-line {
+      width: 36px; height: 1px;
+      background-color: #8B7355;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* === SCROLLBAR === */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #F5F2ED; }
+    ::-webkit-scrollbar-thumb { background: #D4C5B0; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #8B7355; }
+  </style>
+</head>
+<body class="bg-cream">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 md:px-14 py-5 flex items-center justify-between">
+    <a href="#home" onclick="navigateTo('home');return false;"
+       class="font-heading font-semibold text-[1.6rem] tracking-[0.06em] text-brand-dark hover:text-accent transition-colors duration-200 focus-visible:outline-none">
+      O'mely
+    </a>
+
+    <div class="hidden md:flex items-center gap-10">
+      <a href="#home"  class="nav-link" onclick="navigateTo('home');return false;"  data-page="home">Trang chủ</a>
+      <a href="#shop"  class="nav-link" onclick="navigateTo('shop');return false;"  data-page="shop">Cửa hàng</a>
+      <a href="#about" class="nav-link" onclick="navigateTo('about');return false;" data-page="about">Về chúng tôi</a>
+    </div>
+
+    <div class="flex items-center gap-5">
+      <button onclick="toggleCart()" aria-label="Giỏ hàng"
+              class="relative p-1 hover:opacity-60 transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span id="cart-badge" class="cart-badge hidden">0</span>
+      </button>
+      <button onclick="toggleMobileMenu()" aria-label="Menu"
+              class="md:hidden p-1 hover:opacity-60 transition-opacity duration-200 focus-visible:outline-none">
+        <svg id="ham-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MOBILE MENU ===== -->
+  <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-cream z-[60] flex flex-col px-8 pt-16 pb-10"
+       style="box-shadow: -8px 0 40px rgba(26,26,26,0.1);">
+    <button onclick="toggleMobileMenu()" aria-label="Đóng"
+            class="absolute top-5 right-6 p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <p class="font-heading font-semibold text-2xl text-brand-dark mb-10">O'mely</p>
+    <nav class="flex flex-col gap-7">
+      <a href="#home"  class="nav-link text-base" onclick="navigateTo('home');toggleMobileMenu();return false;">Trang chủ</a>
+      <a href="#shop"  class="nav-link text-base" onclick="navigateTo('shop');toggleMobileMenu();return false;">Cửa hàng</a>
+      <a href="#about" class="nav-link text-base" onclick="navigateTo('about');toggleMobileMenu();return false;">Về chúng tôi</a>
+    </nav>
+    <div class="mt-auto">
+      <p class="font-body text-[11px] tracking-[0.12em] uppercase text-secondary-dark">Thời trang bền vững</p>
+    </div>
+  </div>
+  <div id="mobile-overlay" class="fixed inset-0 bg-brand-dark/20 z-[55] hidden" onclick="toggleMobileMenu()"></div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: HOME                                                    -->
+  <!-- ============================================================ -->
+  <section id="home" class="page-section">
+
+    <!-- HERO -->
+    <div class="relative min-h-screen flex items-center overflow-hidden pt-20"
+         style="background: linear-gradient(135deg,#EDE8E1 0%,#F5F2ED 55%,#E8E0D4 100%);">
+      <!-- Decorative blobs -->
+      <div class="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full translate-x-1/3 pointer-events-none"
+           style="background: radial-gradient(circle, rgba(212,197,176,0.35) 0%, transparent 70%);"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full -translate-x-1/4 translate-y-1/4 pointer-events-none"
+           style="background: radial-gradient(circle, rgba(139,115,85,0.06) 0%, transparent 70%);"></div>
+
+      <div class="container mx-auto px-6 md:px-14 grid md:grid-cols-2 gap-12 md:gap-16 items-center relative z-10">
+        <!-- Left text -->
+        <div>
+          <p class="h1 font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-7 flex items-center gap-3">
+            <span class="deco-line"></span>Thời trang có trách nhiệm
+          </p>
+          <h1 class="h2 font-heading font-light leading-[1.08] text-brand-dark mb-6"
+              style="font-size:clamp(3rem,6.5vw,5.2rem);">
+            Vẻ đẹp<br><span class="text-accent">bền vững</span><br>mỗi ngày
+          </h1>
+          <p class="h3 font-body font-light text-[15px] leading-relaxed text-brand-dark/65 max-w-sm mb-10">
+            O'mely — nơi thời trang gặp gỡ trách nhiệm. Mỗi món đồ chúng tôi tạo ra đều mang trong mình cam kết với con người và hành tinh.
+          </p>
+          <div class="h4 flex flex-wrap gap-4">
+            <button class="btn-primary" onclick="navigateTo('shop')">Khám phá bộ sưu tập</button>
+            <button class="btn-outline" onclick="navigateTo('about')">Câu chuyện của chúng tôi</button>
+          </div>
+        </div>
+
+        <!-- Right image -->
+        <div class="h1 relative">
+          <div class="relative aspect-[3/4] max-w-md ml-auto overflow-hidden">
+            <img src="https://placehold.co/480x640/D4C5B0/8B7355?text=O%27mely" alt="O'mely" class="w-full h-full object-cover">
+            <div class="absolute inset-0 pointer-events-none"
+                 style="background: linear-gradient(to top, rgba(139,115,85,0.18), transparent 60%);"></div>
+          </div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-4 left-0 md:-left-8 bg-cream border border-secondary p-4"
+               style="box-shadow:0 8px 32px rgba(139,115,85,0.16);">
+            <p class="font-body text-[10px] tracking-[0.12em] uppercase text-accent mb-1">Chứng nhận</p>
+            <p class="font-heading text-xl font-medium text-brand-dark">GOTS Organic</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40 pointer-events-none">
+        <p class="font-body text-[10px] tracking-[0.18em] uppercase">Cuộn xuống</p>
+        <div class="w-px h-8 bg-accent" style="animation: pulse 2s ease-in-out infinite;"></div>
+      </div>
+      <style>@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}</style>
+    </div>
+
+    <!-- FEATURED PRODUCTS -->
+    <div class="py-24 px-6 md:px-14">
+      <div class="container mx-auto">
+        <div class="flex items-end justify-between mb-12">
+          <div>
+            <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-3 flex items-center gap-3">
+              <span class="deco-line"></span>Bộ sưu tập
+            </p>
+            <h2 class="font-heading font-light text-brand-dark" style="font-size:clamp(2rem,4vw,2.8rem);">Nổi bật tuần này</h2>
+          </div>
+          <button onclick="navigateTo('shop')"
+                  class="hidden md:inline-flex items-center gap-2 font-body text-[11px] tracking-[0.1em] uppercase text-accent hover:text-brand-dark transition-colors duration-200 focus-visible:outline-none">
+            Xem tất cả
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Card 1 -->
+          <div class="product-card cursor-pointer"
+               onclick="showProduct({id:1,name:'Áo linen tối giản',price:'890.000',numPrice:890000,category:'ao',img:'520x680/D4C5B0/8B7355?text=Áo+Linen',badge:'Mới'})">
+            <div class="card-img-wrap aspect-[3/4] mb-4 relative bg-cream-dark">
+              <img src="https://placehold.co/520x680/D4C5B0/8B7355?text=Áo+Linen" alt="Áo linen" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 flex items-end p-4"
+                   style="background:rgba(26,26,26,0.04);">
+                <span class="btn-primary" style="font-size:10px;padding:9px 20px;">Xem chi tiết</span>
+              </div>
+              <span class="absolute top-3 left-3 font-body text-[10px] tracking-[0.1em] uppercase px-2 py-1"
+                    style="background:#8B7355;color:#F5F2ED;">Mới</span>
+            </div>
+            <p class="font-body text-[10px] tracking-[0.1em] uppercase text-secondary-dark mb-1">Áo</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Áo linen tối giản</h3>
+            <p class="font-body text-sm text-accent">890.000 ₫</p>
+          </div>
+
+          <!-- Card 2 (offset up on desktop) -->
+          <div class="product-card cursor-pointer md:mt-14"
+               onclick="showProduct({id:2,name:'Quần palazzo organic',price:'1.190.000',numPrice:1190000,category:'quan',img:'520x680/C4A882/6B5245?text=Quần+Palazzo'})">
+            <div class="card-img-wrap aspect-[3/4] mb-4 relative bg-cream-dark">
+              <img src="https://placehold.co/520x680/C4A882/6B5245?text=Quần+Palazzo" alt="Quần palazzo" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 flex items-end p-4" style="background:rgba(26,26,26,0.04);">
+                <span class="btn-primary" style="font-size:10px;padding:9px 20px;">Xem chi tiết</span>
+              </div>
+            </div>
+            <p class="font-body text-[10px] tracking-[0.1em] uppercase text-secondary-dark mb-1">Quần</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Quần palazzo organic</h3>
+            <p class="font-body text-sm text-accent">1.190.000 ₫</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="product-card cursor-pointer"
+               onclick="showProduct({id:3,name:'Túi tote bền vững',price:'650.000',numPrice:650000,category:'phukien',img:'520x680/B8A89A/4A3A2A?text=Túi+Tote',badge:'Bestseller'})">
+            <div class="card-img-wrap aspect-[3/4] mb-4 relative bg-cream-dark">
+              <img src="https://placehold.co/520x680/B8A89A/4A3A2A?text=Túi+Tote" alt="Túi tote" class="card-img w-full h-full object-cover">
+              <div class="card-overlay absolute inset-0 flex items-end p-4" style="background:rgba(26,26,26,0.04);">
+                <span class="btn-primary" style="font-size:10px;padding:9px 20px;">Xem chi tiết</span>
+              </div>
+              <span class="absolute top-3 left-3 font-body text-[10px] tracking-[0.1em] uppercase px-2 py-1"
+                    style="background:#1A1A1A;color:#F5F2ED;">Bestseller</span>
+            </div>
+            <p class="font-body text-[10px] tracking-[0.1em] uppercase text-secondary-dark mb-1">Phụ kiện</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Túi tote bền vững</h3>
+            <p class="font-body text-sm text-accent">650.000 ₫</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUSTAINABILITY SECTION (dark) -->
+    <div class="py-24 px-6 md:px-14" style="background:#1A1A1A;">
+      <div class="container mx-auto">
+        <div class="text-center mb-16">
+          <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4">Cam kết của chúng tôi</p>
+          <h2 class="font-heading font-light text-cream" style="font-size:clamp(2rem,4vw,2.8rem);">
+            Bền vững không chỉ là xu hướng
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-14">
+          <div class="text-center group">
+            <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
+                 style="border-color:rgba(139,115,85,0.4);"
+                 onmouseenter="this.style.borderColor='#8B7355'" onmouseleave="this.style.borderColor='rgba(139,115,85,0.4)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="1.3" stroke-linecap="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="font-heading text-2xl font-medium text-cream mb-3">Vải hữu cơ</h3>
+            <p class="font-body font-light text-[13.5px] leading-relaxed" style="color:rgba(245,242,237,0.55);">
+              100% cotton hữu cơ chứng nhận GOTS, không thuốc nhuộm độc hại, an toàn cho da và môi trường.
+            </p>
+          </div>
+          <div class="text-center group">
+            <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
+                 style="border-color:rgba(139,115,85,0.4);"
+                 onmouseenter="this.style.borderColor='#8B7355'" onmouseleave="this.style.borderColor='rgba(139,115,85,0.4)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="1.3" stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <h3 class="font-heading text-2xl font-medium text-cream mb-3">Sản xuất công bằng</h3>
+            <p class="font-body font-light text-[13.5px] leading-relaxed" style="color:rgba(245,242,237,0.55);">
+              Đối tác được kiểm định Fair Trade. Người thợ được trả lương xứng đáng trong điều kiện làm việc an toàn.
+            </p>
+          </div>
+          <div class="text-center group">
+            <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
+                 style="border-color:rgba(139,115,85,0.4);"
+                 onmouseenter="this.style.borderColor='#8B7355'" onmouseleave="this.style.borderColor='rgba(139,115,85,0.4)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="1.3" stroke-linecap="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3 class="font-heading text-2xl font-medium text-cream mb-3">Đóng gói tái chế</h3>
+            <p class="font-body font-light text-[13.5px] leading-relaxed" style="color:rgba(245,242,237,0.55);">
+              Toàn bộ bao bì từ vật liệu tái chế hoặc phân hủy sinh học. Không nhựa, không rác thải không cần thiết.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAND STORY SNIPPET -->
+    <div class="py-24 px-6 md:px-14">
+      <div class="container mx-auto grid md:grid-cols-2 gap-14 items-center">
+        <div class="relative">
+          <div class="aspect-[4/5] overflow-hidden">
+            <img src="https://placehold.co/560x700/EDE8E1/8B7355?text=Câu+chuyện" alt="Câu chuyện O'mely" class="w-full h-full object-cover">
+            <div class="absolute inset-0 pointer-events-none"
+                 style="background:linear-gradient(135deg,rgba(139,115,85,0.08),transparent 60%);"></div>
+          </div>
+          <div class="absolute -bottom-5 -right-5 hidden md:block select-none pointer-events-none">
+            <p class="font-heading font-light leading-none" style="font-size:9rem;color:rgba(212,197,176,0.35);">03</p>
+          </div>
+        </div>
+        <div class="md:pl-6">
+          <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4 flex items-center gap-3">
+            <span class="deco-line"></span>Về O'mely
+          </p>
+          <h2 class="font-heading font-light text-brand-dark mb-6 leading-tight" style="font-size:clamp(2rem,4vw,2.8rem);">
+            Được tạo ra<br>từ tình yêu<br>với trái đất
+          </h2>
+          <p class="font-body font-light text-[15px] leading-relaxed text-brand-dark/65 mb-4">
+            Năm 2021, O'mely ra đời từ một câu hỏi giản dị: "Tại sao chúng ta không thể mặc đẹp mà vẫn sống có trách nhiệm?"
+          </p>
+          <p class="font-body font-light text-[15px] leading-relaxed text-brand-dark/65 mb-10">
+            Ba năm sau, chúng tôi tự hào là thương hiệu thời trang bền vững được yêu thích tại Việt Nam với hơn 10.000 khách hàng tin tưởng.
+          </p>
+          <button onclick="navigateTo('about')" class="btn-outline">Đọc thêm về chúng tôi</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE BANNER -->
+    <div class="py-16 px-6 md:px-14 text-center border-y border-secondary/50" style="background:rgba(139,115,85,0.06);">
+      <p class="font-heading font-light text-brand-dark max-w-3xl mx-auto leading-relaxed"
+         style="font-size:clamp(1.4rem,3vw,2.2rem);">
+        "Thời trang tốt nhất là thời trang bạn cảm thấy tốt khi mặc — cả về ngoại hình lẫn lương tâm."
+      </p>
+      <p class="font-body text-[11px] tracking-[0.16em] uppercase text-accent mt-6">— Nguyễn Ly, Nhà sáng lập O'mely</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="background:#1A1A1A;" class="pt-16 pb-8 px-6 md:px-14">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+          <div class="col-span-2 md:col-span-1">
+            <p class="font-heading font-semibold text-2xl text-cream mb-4">O'mely</p>
+            <p class="font-body font-light text-[13px] leading-relaxed mb-6" style="color:rgba(245,242,237,0.45);">Thời trang bền vững cho cuộc sống có ý thức.</p>
+            <div class="flex gap-3">
+              <a href="#" aria-label="Facebook"
+                 class="w-8 h-8 flex items-center justify-center transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+                 style="border:1px solid rgba(245,242,237,0.18);"
+                 onmouseenter="this.style.borderColor='#8B7355'" onmouseleave="this.style.borderColor='rgba(245,242,237,0.18)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5F2ED" stroke-width="1.5" stroke-linecap="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram"
+                 class="w-8 h-8 flex items-center justify-center transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+                 style="border:1px solid rgba(245,242,237,0.18);"
+                 onmouseenter="this.style.borderColor='#8B7355'" onmouseleave="this.style.borderColor='rgba(245,242,237,0.18)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5F2ED" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div>
+            <p class="font-body text-[10px] tracking-[0.16em] uppercase text-accent mb-5">Khám phá</p>
+            <ul class="space-y-3">
+              <li><a href="#shop"  onclick="navigateTo('shop');return false;"  class="font-body font-light text-[13px] transition-colors duration-200 focus-visible:outline-none" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Cửa hàng</a></li>
+              <li><a href="#about" onclick="navigateTo('about');return false;" class="font-body font-light text-[13px] transition-colors duration-200 focus-visible:outline-none" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Về chúng tôi</a></li>
+              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200 focus-visible:outline-none" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Blog</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-body text-[10px] tracking-[0.16em] uppercase text-accent mb-5">Hỗ trợ</p>
+            <ul class="space-y-3">
+              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Hướng dẫn size</a></li>
+              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Chính sách đổi trả</a></li>
+              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Vận chuyển</a></li>
+              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Liên hệ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="font-body text-[10px] tracking-[0.16em] uppercase text-accent mb-5">Đăng ký nhận tin</p>
+            <p class="font-body font-light text-[13px] mb-4" style="color:rgba(245,242,237,0.45);">Nhận ưu đãi và cập nhật bộ sưu tập mới nhất.</p>
+            <div class="flex">
+              <input type="email" placeholder="Email của bạn"
+                     class="flex-1 px-3 py-2 font-body text-[12px] outline-none transition-colors duration-200"
+                     style="background:rgba(245,242,237,0.08);border:1px solid rgba(245,242,237,0.15);color:#F5F2ED;"
+                     onfocus="this.style.borderColor='#8B7355'" onblur="this.style.borderColor='rgba(245,242,237,0.15)'">
+              <button aria-label="Đăng ký"
+                      class="px-3 py-2 transition-colors duration-200 focus-visible:outline-none"
+                      style="background:#8B7355;"
+                      onmouseenter="this.style.background='rgba(139,115,85,0.8)'" onmouseleave="this.style.background='#8B7355'">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5F2ED" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="border-t flex flex-col md:flex-row justify-between items-center gap-3 pt-8" style="border-color:rgba(245,242,237,0.08);">
+          <p class="font-body font-light text-[12px]" style="color:rgba(245,242,237,0.25);">© 2024 O'mely. Mọi quyền được bảo lưu.</p>
+          <p class="font-body font-light text-[12px]" style="color:rgba(245,242,237,0.25);">Thiết kế bền vững — Sản xuất có trách nhiệm</p>
+        </div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: SHOP                                                    -->
+  <!-- ============================================================ -->
+  <section id="shop" class="page-section hidden">
+    <!-- Shop header -->
+    <div class="pt-36 pb-14 px-6 md:px-14 bg-cream-dark">
+      <div class="container mx-auto text-center">
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4">Bộ sưu tập</p>
+        <h1 class="font-heading font-light text-brand-dark mb-4" style="font-size:clamp(2.5rem,5vw,3.8rem);">Cửa hàng</h1>
+        <p class="font-body font-light text-[15px] text-brand-dark/60 max-w-md mx-auto">
+          Khám phá các thiết kế từ vật liệu hữu cơ, sản xuất có trách nhiệm.
+        </p>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="border-b border-secondary py-4 px-6 md:px-14 sticky top-[68px] z-10 bg-cream">
+      <div class="container mx-auto flex items-center gap-3 overflow-x-auto">
+        <span class="font-body text-[11px] tracking-[0.1em] uppercase text-secondary-dark mr-2 whitespace-nowrap flex-shrink-0">Lọc:</span>
+        <button class="filter-btn active" onclick="filterProducts('all',this)">Tất cả</button>
+        <button class="filter-btn" onclick="filterProducts('ao',this)">Áo</button>
+        <button class="filter-btn" onclick="filterProducts('quan',this)">Quần</button>
+        <button class="filter-btn" onclick="filterProducts('vay',this)">Váy</button>
+        <button class="filter-btn" onclick="filterProducts('phukien',this)">Phụ kiện</button>
+      </div>
+    </div>
+
+    <!-- Products grid -->
+    <div class="py-14 px-6 md:px-14">
+      <div class="container mx-auto">
+        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
+      </div>
+    </div>
+
+    <!-- Mini footer -->
+    <div style="background:#1A1A1A;" class="py-8 px-6 md:px-14">
+      <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+        <p class="font-heading font-semibold text-xl text-cream">O'mely</p>
+        <p class="font-body font-light text-[12px]" style="color:rgba(245,242,237,0.3);">© 2024 O'mely. Mọi quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: PRODUCT DETAIL                                         -->
+  <!-- ============================================================ -->
+  <section id="product" class="page-section hidden">
+    <div class="pt-28 pb-24 px-6 md:px-14">
+      <div class="container mx-auto">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 mb-10 font-body text-[11px] tracking-[0.08em] uppercase text-secondary-dark">
+          <a href="#home" onclick="navigateTo('home');return false;" class="hover:text-accent transition-colors duration-200">Trang chủ</a>
+          <span>/</span>
+          <a href="#shop" onclick="navigateTo('shop');return false;" class="hover:text-accent transition-colors duration-200">Cửa hàng</a>
+          <span>/</span>
+          <span id="product-breadcrumb" class="text-brand-dark">Sản phẩm</span>
+        </nav>
+
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
+          <!-- Images -->
+          <div>
+            <div class="aspect-[3/4] bg-cream-dark overflow-hidden mb-3">
+              <img id="product-main-img" src="" alt="Product" class="w-full h-full object-cover">
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="aspect-[3/4] bg-cream-dark overflow-hidden cursor-pointer border-2 border-transparent transition-colors duration-200"
+                   id="thumb-0" onclick="selectThumb(0)" style="" onmouseenter="highlightThumb(0)" onmouseleave="">
+                <img id="thumb-img-0" src="" alt="" class="w-full h-full object-cover">
+              </div>
+              <div class="aspect-[3/4] bg-cream-dark overflow-hidden cursor-pointer border-2 border-transparent transition-colors duration-200"
+                   id="thumb-1" onclick="selectThumb(1)" onmouseenter="highlightThumb(1)">
+                <img id="thumb-img-1" src="" alt="" class="w-full h-full object-cover">
+              </div>
+              <div class="aspect-[3/4] bg-cream-dark overflow-hidden cursor-pointer border-2 border-transparent transition-colors duration-200"
+                   id="thumb-2" onclick="selectThumb(2)" onmouseenter="highlightThumb(2)">
+                <img id="thumb-img-2" src="" alt="" class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="flex flex-col">
+            <p class="font-body text-[11px] tracking-[0.14em] uppercase text-accent mb-2" id="product-category-label">Danh mục</p>
+            <h1 class="font-heading font-medium text-brand-dark mb-3" id="product-name" style="font-size:clamp(1.8rem,3vw,2.4rem);">Tên sản phẩm</h1>
+            <p class="font-heading text-2xl text-accent mb-5" id="product-price">0 ₫</p>
+
+            <!-- Stars -->
+            <div class="flex items-center gap-2 mb-7">
+              <div class="flex gap-0.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#8B7355"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#8B7355"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#8B7355"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#8B7355"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#D4C5B0"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span class="font-body text-[11px] text-secondary-dark">4.0 (128 đánh giá)</span>
+            </div>
+
+            <!-- Size -->
+            <div class="mb-6">
+              <div class="flex items-center justify-between mb-3">
+                <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark">Chọn size</p>
+                <button class="font-body text-[11px] tracking-[0.06em] text-accent underline hover:no-underline transition-all duration-200">Hướng dẫn size</button>
+              </div>
+              <div class="flex gap-2">
+                <button class="size-btn" onclick="selectSize(this)">XS</button>
+                <button class="size-btn" onclick="selectSize(this)">S</button>
+                <button class="size-btn selected" onclick="selectSize(this)">M</button>
+                <button class="size-btn" onclick="selectSize(this)">L</button>
+                <button class="size-btn" onclick="selectSize(this)">XL</button>
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="mb-8">
+              <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark mb-3">Số lượng</p>
+              <div class="flex items-center">
+                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                <div class="w-12 h-[38px] border-y border-secondary flex items-center justify-center font-body text-sm" id="qty-display">1</div>
+                <button class="qty-btn" onclick="changeQty(1)">+</button>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="flex gap-3 mb-7">
+              <button class="btn-primary flex-1" onclick="addToCart()">Thêm vào giỏ hàng</button>
+              <button aria-label="Yêu thích"
+                      class="w-12 h-12 flex items-center justify-center border border-secondary hover:border-accent transition-colors duration-200 focus-visible:outline-none active:scale-95"
+                      style="transition:border-color 0.2s ease,transform 0.15s ease;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              </button>
+            </div>
+
+            <!-- Sustainability note -->
+            <div class="border border-secondary/60 p-4 mb-7 flex items-start gap-3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="1.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div>
+                <p class="font-body text-[11px] font-medium tracking-[0.08em] uppercase text-brand-dark mb-1">Sản phẩm bền vững</p>
+                <p class="font-body font-light text-[12px] text-brand-dark/55">Vật liệu hữu cơ, sản xuất công bằng và đóng gói tái chế.</p>
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="border-b border-secondary mb-5">
+              <div class="flex">
+                <button class="tab-btn active" onclick="switchTab('mo-ta',this)">Mô tả</button>
+                <button class="tab-btn" onclick="switchTab('chat-lieu',this)">Chất liệu</button>
+                <button class="tab-btn" onclick="switchTab('bao-quan',this)">Bảo quản</button>
+              </div>
+            </div>
+            <div id="mo-ta" class="tab-content active font-body font-light text-[14px] leading-relaxed text-brand-dark/65">
+              Thiết kế tối giản, thanh lịch với đường cắt may tinh tế. Phù hợp cho cả trang phục hàng ngày lẫn các dịp đặc biệt. Form dáng rộng thoải mái, dễ phối đồ.
+            </div>
+            <div id="chat-lieu" class="tab-content font-body font-light text-[14px] leading-relaxed text-brand-dark/65">
+              <ul class="space-y-2">
+                <li>• 100% cotton hữu cơ chứng nhận GOTS</li>
+                <li>• Thuốc nhuộm thiên nhiên, không formaldehyde</li>
+                <li>• Xuất xứ: Làng nghề dệt Hà Đông, Hà Nội</li>
+              </ul>
+            </div>
+            <div id="bao-quan" class="tab-content font-body font-light text-[14px] leading-relaxed text-brand-dark/65">
+              <ul class="space-y-2">
+                <li>• Giặt tay hoặc máy chế độ nhẹ, nước lạnh</li>
+                <li>• Không dùng chất tẩy trắng</li>
+                <li>• Phơi nơi thoáng mát, tránh ánh nắng trực tiếp</li>
+                <li>• Ủi mặt trái ở nhiệt độ thấp</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related products -->
+        <div class="mt-20 pt-14 border-t border-secondary">
+          <h2 class="font-heading font-light text-brand-dark mb-10" style="font-size:clamp(1.8rem,3vw,2.4rem);">Sản phẩm tương tự</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div class="product-card cursor-pointer" onclick="showProduct({id:4,name:'Áo blouse lụa',price:'1.290.000',numPrice:1290000,category:'ao',img:'400x533/C4A882/6B5245?text=Áo+Blouse'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="https://placehold.co/400x533/C4A882/6B5245?text=Áo+Blouse" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[10px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Áo</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Áo blouse lụa</h3>
+              <p class="font-body text-sm text-accent">1.290.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:5,name:'Quần culotte',price:'990.000',numPrice:990000,category:'quan',img:'400x533/D4C5B0/8B7355?text=Quần+Culotte'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="https://placehold.co/400x533/D4C5B0/8B7355?text=Quần+Culotte" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[10px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Quần</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Quần culotte</h3>
+              <p class="font-body text-sm text-accent">990.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:6,name:'Khăn lụa organic',price:'420.000',numPrice:420000,category:'phukien',img:'400x533/B8A89A/4A3A2A?text=Khăn+Lụa'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="https://placehold.co/400x533/B8A89A/4A3A2A?text=Khăn+Lụa" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[10px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Phụ kiện</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Khăn lụa organic</h3>
+              <p class="font-body text-sm text-accent">420.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:7,name:'Váy midi tối giản',price:'1.490.000',numPrice:1490000,category:'vay',img:'400x533/EDE8E1/8B7355?text=Váy+Midi',badge:'Mới'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="https://placehold.co/400x533/EDE8E1/8B7355?text=Váy+Midi" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[10px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Váy</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Váy midi tối giản</h3>
+              <p class="font-body text-sm text-accent">1.490.000 ₫</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: ABOUT                                                   -->
+  <!-- ============================================================ -->
+  <section id="about" class="page-section hidden">
+    <!-- About hero -->
+    <div class="relative min-h-[62vh] flex items-end overflow-hidden pt-20" style="background:#1A1A1A;">
+      <div class="absolute inset-0">
+        <img src="https://placehold.co/1440x620/2A2420/8B7355?text=O%27mely" alt="" class="w-full h-full object-cover" style="opacity:0.35;">
+        <div class="absolute inset-0" style="background:linear-gradient(to top,#1A1A1A 0%,rgba(26,26,26,0.55) 50%,transparent 100%);"></div>
+      </div>
+      <div class="container mx-auto px-6 md:px-14 pb-20 relative z-10">
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-5 flex items-center gap-3">
+          <span class="w-9 h-px bg-accent inline-block"></span>Câu chuyện của chúng tôi
+        </p>
+        <h1 class="font-heading font-light text-cream leading-tight max-w-2xl" style="font-size:clamp(2.5rem,6vw,4.8rem);">
+          Thời trang<br>với lương tâm
+        </h1>
+      </div>
+    </div>
+
+    <!-- Mission -->
+    <div class="py-24 px-6 md:px-14">
+      <div class="container mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4 flex items-center gap-3">
+            <span class="deco-line"></span>Sứ mệnh
+          </p>
+          <h2 class="font-heading font-light text-brand-dark mb-6 leading-tight" style="font-size:clamp(1.8rem,3.5vw,2.8rem);">
+            Chúng tôi tin rằng thời trang không nên có giá là trái đất
+          </h2>
+          <p class="font-body font-light text-[15px] leading-relaxed text-brand-dark/65 mb-4">
+            O'mely được thành lập năm 2021 với mục tiêu đơn giản: chứng minh rằng thời trang đẹp và thời trang bền vững không phải là hai khái niệm đối lập.
+          </p>
+          <p class="font-body font-light text-[15px] leading-relaxed text-brand-dark/65">
+            Mỗi thiết kế đều trải qua nghiên cứu kỹ lưỡng về vật liệu, quy trình sản xuất và tác động môi trường. Chúng tôi không chỉ tạo ra quần áo — chúng tôi tạo ra thay đổi.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-8 text-center" style="background:rgba(139,115,85,0.09);">
+            <p class="font-heading font-light text-accent mb-2" style="font-size:3.5rem;">10K+</p>
+            <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark/55">Khách hàng</p>
+          </div>
+          <div class="p-8 text-center bg-cream-dark mt-8">
+            <p class="font-heading font-light text-accent mb-2" style="font-size:3.5rem;">100%</p>
+            <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark/55">Vật liệu hữu cơ</p>
+          </div>
+          <div class="p-8 text-center bg-cream-dark">
+            <p class="font-heading font-light text-accent mb-2" style="font-size:3.5rem;">0</p>
+            <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark/55">Bao bì nhựa</p>
+          </div>
+          <div class="p-8 text-center -mt-8" style="background:rgba(139,115,85,0.09);">
+            <p class="font-heading font-light text-accent mb-2" style="font-size:3.5rem;">3+</p>
+            <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark/55">Năm hoạt động</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="py-24 px-6 md:px-14 bg-cream-dark">
+      <div class="container mx-auto max-w-2xl">
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4 flex items-center gap-3">
+          <span class="deco-line"></span>Hành trình
+        </p>
+        <h2 class="font-heading font-light text-brand-dark mb-14" style="font-size:clamp(2rem,4vw,2.8rem);">Từng bước của O'mely</h2>
+        <div class="border-l border-secondary ml-4 space-y-10 pl-10">
+          <div class="relative timeline-dot timeline-dot-dark">
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent mb-2">2021</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-2">Ra đời từ gara nhỏ</h3>
+            <p class="font-body font-light text-[14px] text-brand-dark/60 leading-relaxed">Nhà sáng lập Nguyễn Ly bắt đầu O'mely tại Hà Nội với 5 nhân viên và bộ sưu tập 12 mẫu đầu tiên.</p>
+          </div>
+          <div class="relative timeline-dot timeline-dot-dark">
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent mb-2">2022</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-2">Chứng nhận GOTS</h3>
+            <p class="font-body font-light text-[14px] text-brand-dark/60 leading-relaxed">Toàn bộ dây chuyền sản xuất đạt chứng nhận Global Organic Textile Standard. Mở rộng lên 30 nhân viên.</p>
+          </div>
+          <div class="relative timeline-dot timeline-dot-dark">
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent mb-2">2023</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-2">10.000 khách hàng</h3>
+            <p class="font-body font-light text-[14px] text-brand-dark/60 leading-relaxed">Cột mốc 10.000 khách hàng. Ra mắt chương trình Take-Back — thu hồi và tái chế trang phục cũ.</p>
+          </div>
+          <div class="relative timeline-dot timeline-dot-dark">
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent mb-2">2024</p>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-2">Mở rộng bộ sưu tập</h3>
+            <p class="font-body font-light text-[14px] text-brand-dark/60 leading-relaxed">Ra mắt dòng phụ kiện và bộ sưu tập thu đông với len hữu cơ từ Đà Lạt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three pillars -->
+    <div class="py-24 px-6 md:px-14">
+      <div class="container mx-auto">
+        <div class="text-center mb-14">
+          <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4">Giá trị cốt lõi</p>
+          <h2 class="font-heading font-light text-brand-dark" style="font-size:clamp(2rem,4vw,2.8rem);">Ba trụ cột của O'mely</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 border border-secondary">
+          <div class="p-10 border-b md:border-b-0 md:border-r border-secondary transition-colors duration-300 hover:bg-cream-dark">
+            <p class="font-body text-[11px] tracking-[0.2em] uppercase text-accent mb-5">People</p>
+            <h3 class="font-heading text-2xl font-medium text-brand-dark mb-4">Con người</h3>
+            <p class="font-body font-light text-[14px] leading-relaxed text-brand-dark/60">Người thợ thủ công là trái tim của O'mely. Chúng tôi đảm bảo mức lương công bằng và điều kiện làm việc an toàn cho tất cả đối tác.</p>
+          </div>
+          <div class="p-10 border-b md:border-b-0 md:border-r border-secondary transition-colors duration-300 hover:bg-cream-dark">
+            <p class="font-body text-[11px] tracking-[0.2em] uppercase text-accent mb-5">Planet</p>
+            <h3 class="font-heading text-2xl font-medium text-brand-dark mb-4">Hành tinh</h3>
+            <p class="font-body font-light text-[14px] leading-relaxed text-brand-dark/60">Từ nguồn vật liệu đến vận chuyển, chúng tôi giảm thiểu tối đa dấu chân carbon trong mỗi quyết định sản xuất.</p>
+          </div>
+          <div class="p-10 transition-colors duration-300 hover:bg-cream-dark">
+            <p class="font-body text-[11px] tracking-[0.2em] uppercase text-accent mb-5">Product</p>
+            <h3 class="font-heading text-2xl font-medium text-brand-dark mb-4">Sản phẩm</h3>
+            <p class="font-body font-light text-[14px] leading-relaxed text-brand-dark/60">Chúng tôi thiết kế để tồn tại lâu dài — không theo trend ngắn hạn. Mỗi sản phẩm O'mely được làm để đồng hành qua nhiều năm tháng.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div class="py-24 px-6 md:px-14 bg-cream-dark">
+      <div class="container mx-auto">
+        <div class="text-center mb-14">
+          <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4">Đội ngũ</p>
+          <h2 class="font-heading font-light text-brand-dark" style="font-size:clamp(2rem,4vw,2.8rem);">Những con người phía sau O'mely</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+          <div class="text-center">
+            <div class="aspect-square overflow-hidden mb-4 max-w-[200px] mx-auto">
+              <img src="https://placehold.co/200x200/D4C5B0/8B7355?text=NL" alt="Nguyễn Ly" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Nguyễn Ly</h3>
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent">Nhà sáng lập</p>
+          </div>
+          <div class="text-center">
+            <div class="aspect-square overflow-hidden mb-4 max-w-[200px] mx-auto">
+              <img src="https://placehold.co/200x200/C4A882/6B5245?text=TM" alt="Trần Minh" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Trần Minh</h3>
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent">Giám đốc sáng tạo</p>
+          </div>
+          <div class="text-center">
+            <div class="aspect-square overflow-hidden mb-4 max-w-[200px] mx-auto">
+              <img src="https://placehold.co/200x200/B8A89A/4A3A2A?text=PH" alt="Phạm Hương" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-heading text-xl font-medium text-brand-dark mb-1">Phạm Hương</h3>
+            <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent">Trưởng phòng bền vững</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="py-20 px-6 md:px-14 text-center">
+      <div class="container mx-auto max-w-xl">
+        <h2 class="font-heading font-light text-brand-dark mb-6" style="font-size:clamp(2rem,4vw,2.8rem);">Sẵn sàng mặc có trách nhiệm?</h2>
+        <p class="font-body font-light text-[15px] text-brand-dark/60 mb-10">Khám phá bộ sưu tập O'mely và bắt đầu hành trình thời trang bền vững của bạn.</p>
+        <button onclick="navigateTo('shop')" class="btn-primary">Mua sắm ngay</button>
+      </div>
+    </div>
+
+    <!-- Mini footer -->
+    <footer style="background:#1A1A1A;" class="pt-10 pb-8 px-6 md:px-14">
+      <div class="container mx-auto border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-3" style="border-color:rgba(245,242,237,0.08);">
+        <p class="font-heading font-semibold text-xl text-cream">O'mely</p>
+        <p class="font-body font-light text-[12px]" style="color:rgba(245,242,237,0.25);">© 2024 O'mely. Mọi quyền được bảo lưu.</p>
+        <p class="font-body font-light text-[12px]" style="color:rgba(245,242,237,0.25);">Thời trang bền vững</p>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div id="cart-sidebar"
+       class="fixed top-0 right-0 bottom-0 w-80 bg-cream z-[70] flex flex-col"
+       style="transform:translateX(100%);box-shadow:-8px 0 40px rgba(26,26,26,0.15);">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-secondary">
+      <h2 class="font-heading text-xl font-medium">Giỏ hàng</h2>
+      <button onclick="toggleCart()" aria-label="Đóng giỏ hàng"
+              class="hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-6">
+      <p id="cart-empty" class="font-body font-light text-[14px] text-brand-dark/45 text-center py-12">Giỏ hàng của bạn đang trống.</p>
+    </div>
+    <div class="px-6 py-6 border-t border-secondary">
+      <div class="flex justify-between items-center mb-5">
+        <span class="font-body text-[11px] tracking-[0.1em] uppercase">Tổng cộng</span>
+        <span class="font-heading text-xl text-accent" id="cart-total">0 ₫</span>
+      </div>
+      <button class="btn-primary w-full" onclick="alert('Tính năng thanh toán sắp ra mắt!')">Thanh toán</button>
+    </div>
+  </div>
+  <div id="cart-overlay" class="fixed inset-0 hidden z-[65]" style="background:rgba(26,26,26,0.2);" onclick="toggleCart()"></div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // === DATA ===
+    const PRODUCTS = [
+      {id:1,  name:'Áo linen tối giản',    price:'890.000',   numPrice:890000,   category:'ao',      img:'400x533/D4C5B0/8B7355?text=Áo+Linen',    badge:'Mới'},
+      {id:2,  name:'Quần palazzo organic', price:'1.190.000', numPrice:1190000,  category:'quan',    img:'400x533/C4A882/6B5245?text=Quần+Palazzo'},
+      {id:3,  name:'Túi tote bền vững',    price:'650.000',   numPrice:650000,   category:'phukien', img:'400x533/B8A89A/4A3A2A?text=Túi+Tote',    badge:'Bestseller'},
+      {id:4,  name:'Áo blouse lụa',        price:'1.290.000', numPrice:1290000,  category:'ao',      img:'400x533/C4A882/6B5245?text=Áo+Blouse'},
+      {id:5,  name:'Quần culotte',         price:'990.000',   numPrice:990000,   category:'quan',    img:'400x533/D4C5B0/8B7355?text=Quần+Culotte'},
+      {id:6,  name:'Khăn lụa organic',     price:'420.000',   numPrice:420000,   category:'phukien', img:'400x533/B8A89A/4A3A2A?text=Khăn+Lụa'},
+      {id:7,  name:'Váy midi tối giản',    price:'1.490.000', numPrice:1490000,  category:'vay',     img:'400x533/EDE8E1/8B7355?text=Váy+Midi',    badge:'Mới'},
+      {id:8,  name:'Áo sơ mi organic',     price:'750.000',   numPrice:750000,   category:'ao',      img:'400x533/EDE8E1/6B5245?text=Áo+Sơ+Mi'},
+      {id:9,  name:'Quần short linen',     price:'590.000',   numPrice:590000,   category:'quan',    img:'400x533/D4C5B0/4A3A2A?text=Quần+Short'},
+      {id:10, name:'Nón bucket organic',   price:'380.000',   numPrice:380000,   category:'phukien', img:'400x533/C4A882/8B7355?text=Nón+Bucket'},
+      {id:11, name:'Váy suông tối giản',   price:'1.350.000', numPrice:1350000,  category:'vay',     img:'400x533/B8A89A/6B5245?text=Váy+Suông'},
+      {id:12, name:'Áo crop linen',        price:'720.000',   numPrice:720000,   category:'ao',      img:'400x533/EDE8E1/8B7355?text=Áo+Crop',     badge:'Mới'},
+    ];
+
+    const CAT_LABEL = {ao:'Áo',quan:'Quần',phukien:'Phụ kiện',vay:'Váy'};
+
+    // === NAVIGATION ===
+    function navigateTo(page) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
+      const el = document.getElementById(page);
+      if (!el) return;
+      el.classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'instant'});
+      updateNavLinks(page);
+      if (page === 'shop') renderProducts('all');
+    }
+
+    function updateNavLinks(page) {
+      document.querySelectorAll('.nav-link[data-page]').forEach(l => {
+        l.classList.toggle('active', l.dataset.page === page);
+      });
+    }
+
+    window.addEventListener('hashchange', () => {
+      navigateTo(location.hash.slice(1) || 'home');
+    });
+
+    // === MOBILE MENU ===
+    let _mobileOpen = false;
+    function toggleMobileMenu() {
+      _mobileOpen = !_mobileOpen;
+      document.getElementById('mobile-menu').classList.toggle('open', _mobileOpen);
+      document.getElementById('mobile-overlay').classList.toggle('hidden', !_mobileOpen);
+    }
+
+    // === NAVBAR SCROLL ===
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, {passive:true});
+
+    // === PRODUCT GRID ===
+    function renderProducts(filter) {
+      const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+      document.getElementById('products-grid').innerHTML = filtered.map(p => `
+        <div class="product-card cursor-pointer" onclick='showProduct(${JSON.stringify(p)})'>
+          <div class="card-img-wrap aspect-[3/4] mb-3 relative" style="background:#EDE8E1;overflow:hidden;">
+            <img src="https://placehold.co/${p.img}" alt="${p.name}" class="card-img w-full h-full object-cover">
+            <div class="card-overlay absolute inset-0 flex items-end p-3" style="background:rgba(26,26,26,0.04);">
+              <span style="background:#1A1A1A;color:#F5F2ED;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;">Xem chi tiết</span>
+            </div>
+            ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#8B7355':'#1A1A1A'};color:#F5F2ED;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
+          </div>
+          <p style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#B8A89A;margin-bottom:2px;">${CAT_LABEL[p.category]||p.category}</p>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:#1A1A1A;margin-bottom:3px;">${p.name}</h3>
+          <p style="font-family:'Jost',sans-serif;font-size:13px;color:#8B7355;">${p.price} ₫</p>
+        </div>
+      `).join('');
+    }
+
+    function filterProducts(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(filter);
+    }
+
+    // === PRODUCT DETAIL ===
+    let _currentProduct = null;
+    let _currentQty = 1;
+
+    function showProduct(p) {
+      _currentProduct = p;
+      _currentQty = 1;
+
+      document.getElementById('product-name').textContent = p.name;
+      document.getElementById('product-price').textContent = p.price + ' ₫';
+      document.getElementById('product-category-label').textContent = CAT_LABEL[p.category] || p.category;
+      document.getElementById('product-breadcrumb').textContent = p.name;
+      document.getElementById('qty-display').textContent = '1';
+
+      const baseUrl = 'https://placehold.co/' + p.img;
+      const [dims, ...rest] = p.img.split('/');
+      const colorPart = rest.slice(0,2).join('/');
+      const colors = ['D4C5B0/8B7355','C4A882/6B5245','B8A89A/4A3A2A'];
+      const namePart = encodeURIComponent(p.name.split(' ').slice(0,2).join('+'));
+
+      document.getElementById('product-main-img').src = baseUrl;
+      document.getElementById('thumb-img-0').src = baseUrl;
+      document.getElementById('thumb-img-1').src = `https://placehold.co/160x213/${colors[1]}?text=${namePart}`;
+      document.getElementById('thumb-img-2').src = `https://placehold.co/160x213/${colors[2]}?text=${namePart}`;
+
+      // Highlight first thumb
+      ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
+        document.getElementById(id).style.borderColor = i===0 ? '#8B7355' : 'transparent';
+      });
+
+      // Reset size
+      document.querySelectorAll('.size-btn').forEach((b,i) => {
+        b.classList.toggle('selected', i===2);
+      });
+
+      // Reset tabs
+      document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+      document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
+
+      navigateTo('product');
+    }
+
+    function selectThumb(idx) {
+      ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
+        document.getElementById(id).style.borderColor = i===idx ? '#8B7355' : 'transparent';
+      });
+    }
+    function highlightThumb(idx) { /* handled by CSS hover */ }
+
+    // === TABS ===
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const t = document.getElementById(tabId);
+      if (t) t.classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
+    // === SIZE ===
+    function selectSize(btn) {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    // === QUANTITY ===
+    function changeQty(delta) {
+      _currentQty = Math.max(1, _currentQty + delta);
+      document.getElementById('qty-display').textContent = _currentQty;
+    }
+
+    // === CART ===
+    let _cart = [];
+    let _cartOpen = false;
+
+    function toggleCart() {
+      _cartOpen = !_cartOpen;
+      document.getElementById('cart-sidebar').style.transform = _cartOpen ? 'translateX(0)' : 'translateX(100%)';
+      document.getElementById('cart-overlay').classList.toggle('hidden', !_cartOpen);
+    }
+
+    function addToCart() {
+      if (!_currentProduct) return;
+      const size = document.querySelector('.size-btn.selected')?.textContent || 'M';
+      const existing = _cart.find(item => item.id === _currentProduct.id && item.size === size);
+      if (existing) { existing.qty += _currentQty; }
+      else { _cart.push({..._currentProduct, size, qty:_currentQty}); }
+      renderCart();
+      toggleCart();
+    }
+
+    function removeCartItem(idx) {
+      _cart.splice(idx, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const total = _cart.reduce((s,i) => s + i.numPrice * i.qty, 0);
+      const totalItems = _cart.reduce((s,i) => s + i.qty, 0);
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = totalItems;
+      badge.classList.toggle('hidden', totalItems === 0);
+      document.getElementById('cart-total').textContent = total.toLocaleString('vi-VN') + ' ₫';
+
+      const container = document.getElementById('cart-items');
+      const empty = document.getElementById('cart-empty');
+      if (_cart.length === 0) {
+        empty.classList.remove('hidden');
+        container.querySelectorAll('.cart-item').forEach(el => el.remove());
+      } else {
+        empty.classList.add('hidden');
+        container.innerHTML = '<p id="cart-empty" class="hidden"></p>' + _cart.map((item, i) => `
+          <div class="cart-item flex gap-3 mb-4 pb-4 border-b border-secondary">
+            <div class="w-14 flex-shrink-0" style="aspect-ratio:3/4;background:#EDE8E1;overflow:hidden;">
+              <img src="https://placehold.co/60x80/D4C5B0/8B7355" alt="${item.name}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-heading text-sm font-medium text-brand-dark leading-tight">${item.name}</p>
+              <p class="font-body text-[11px] text-secondary-dark mt-0.5">Size ${item.size} × ${item.qty}</p>
+              <p class="font-body text-sm text-accent mt-1">${(item.numPrice*item.qty).toLocaleString('vi-VN')} ₫</p>
+            </div>
+            <button onclick="removeCartItem(${i})" aria-label="Xóa"
+                    class="text-secondary-dark hover:text-brand-dark transition-colors duration-200 self-start flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    // === INIT ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const page = location.hash.slice(1) || 'home';
+      navigateTo(page);
+    });
+  </script>
+</body>
+</html>
