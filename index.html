@@ -282,6 +282,108 @@
     ::-webkit-scrollbar-track { background: #F5F2ED; }
     ::-webkit-scrollbar-thumb { background: #D4C5B0; border-radius: 2px; }
     ::-webkit-scrollbar-thumb:hover { background: #8B7355; }
+
+    /* === TOAST === */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9500;
+      background: #F5F2ED; border-left: 3px solid #8B7355;
+      padding: 14px 20px; box-shadow: 0 4px 24px rgba(26,26,26,0.14);
+      font-family: 'Jost', sans-serif; font-size: 13px; color: #1A1A1A;
+      display: flex; align-items: center; gap: 10px;
+      animation: toastIn 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes toastIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: none; } }
+
+    /* === USER DROPDOWN === */
+    .user-dropdown {
+      display: none; position: absolute; top: calc(100% + 10px); right: 0;
+      background: #F5F2ED; min-width: 176px;
+      box-shadow: 0 8px 32px rgba(26,26,26,0.12); z-index: 300;
+      border-top: 2px solid #8B7355;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: block; width: 100%; text-align: left;
+      padding: 11px 18px; font-family: 'Jost', sans-serif;
+      font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #1A1A1A; background: none; border: none; cursor: pointer;
+      text-decoration: none; transition: background-color 0.15s ease;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #EDE8E1; }
+
+    /* === CHECKOUT STEPS === */
+    .checkout-step { display: none; }
+    .checkout-step.active { display: block; }
+    .step-indicator-dot {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid #D4C5B0; display: flex;
+      align-items: center; justify-content: center;
+      font-family: 'Jost', sans-serif; font-size: 11px;
+      color: #B8A89A; transition: all 0.2s ease;
+    }
+    .step-indicator-dot.active { background: #1A1A1A; color: #F5F2ED; border-color: #1A1A1A; }
+    .step-indicator-dot.done   { background: #8B7355; color: #F5F2ED; border-color: #8B7355; }
+    .step-connector { flex: 1; height: 1px; background: #D4C5B0; margin: 0 8px; }
+    .step-connector.done { background: #8B7355; }
+
+    /* === AUTH VIEWS === */
+    .auth-view { display: none; }
+    .auth-view.active { display: block; }
+
+    /* === FORM INPUTS === */
+    .form-input {
+      width: 100%; padding: 12px 14px;
+      background: transparent; border: 1px solid #D4C5B0;
+      font-family: 'Jost', sans-serif; font-size: 14px; color: #1A1A1A;
+      outline: none; transition: border-color 0.2s ease;
+    }
+    .form-input:focus { border-color: #8B7355; }
+    .form-input::placeholder { color: #B8A89A; }
+    .form-label {
+      display: block; font-family: 'Jost', sans-serif;
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #8B7355; margin-bottom: 6px;
+    }
+
+    /* === SEARCH OVERLAY === */
+    #search-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      background: rgba(245,242,237,0.97); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      flex-direction: column; align-items: center;
+      padding-top: 120px;
+    }
+    #search-overlay.open { display: flex; }
+
+    /* === SCOPED POLICY / ACCOUNT TABS === */
+    .policy-tab-content { display: none; }
+    .policy-tab-content.active { display: block; }
+    .account-tab-content { display: none; }
+    .account-tab-content.active { display: block; }
+
+    /* === WISHLIST HEART === */
+    .wish-btn { background: none; border: none; cursor: pointer; padding: 6px; line-height: 1; }
+    .wish-btn svg { transition: fill 0.2s ease, stroke 0.2s ease; }
+    .wish-btn.active svg { fill: #8B7355; stroke: #8B7355; }
+
+    /* === PAYMENT RADIO === */
+    .pay-option {
+      border: 1px solid #D4C5B0; padding: 16px 18px;
+      cursor: pointer; transition: border-color 0.2s ease;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .pay-option.selected { border-color: #8B7355; }
+    .pay-radio {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 1.5px solid #D4C5B0; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s ease;
+    }
+    .pay-option.selected .pay-radio { border-color: #8B7355; }
+    .pay-option.selected .pay-radio::after {
+      content: ''; display: block; width: 8px; height: 8px;
+      border-radius: 50%; background: #8B7355;
+    }
   </style>
 </head>
 <body class="bg-cream">
@@ -299,7 +401,35 @@
       <a href="#about" class="nav-link" onclick="navigateTo('about');return false;" data-page="about">Về chúng tôi</a>
     </div>
 
-    <div class="flex items-center gap-5">
+    <div class="flex items-center gap-4">
+      <!-- Search -->
+      <button onclick="toggleSearch()" aria-label="Tìm kiếm"
+              class="hidden md:flex p-1 hover:opacity-60 transition-opacity duration-200 focus-visible:outline-none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+
+      <!-- Auth button -->
+      <div class="hidden md:block relative">
+        <!-- Logged out -->
+        <button id="btn-login" onclick="navigateTo('auth')"
+                class="font-body text-[11px] tracking-[0.12em] uppercase text-brand-dark hover:text-accent transition-colors duration-200">
+          Đăng nhập
+        </button>
+        <!-- Logged in -->
+        <button id="btn-user" onclick="toggleUserDropdown()" class="hidden items-center gap-2 hover:opacity-70 transition-opacity duration-200">
+          <div id="user-avatar" class="w-7 h-7 rounded-full bg-accent flex items-center justify-content text-cream font-body text-[11px] font-medium" style="display:flex;align-items:center;justify-content:center;">A</div>
+          <span id="user-name-nav" class="font-body text-[11px] tracking-[0.08em] uppercase text-brand-dark max-w-[90px] truncate"></span>
+        </button>
+        <div id="user-dropdown" class="user-dropdown">
+          <a href="#account" onclick="navigateTo('account');closeUserDropdown();return false;">Tài khoản</a>
+          <a href="#wishlist" onclick="navigateTo('wishlist');closeUserDropdown();return false;">Yêu thích</a>
+          <button onclick="doLogout()">Đăng xuất</button>
+        </div>
+      </div>
+
+      <!-- Cart -->
       <button onclick="toggleCart()" aria-label="Giỏ hàng"
               class="relative p-1 hover:opacity-60 transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
@@ -308,9 +438,11 @@
         </svg>
         <span id="cart-badge" class="cart-badge hidden">0</span>
       </button>
+
+      <!-- Hamburger -->
       <button onclick="toggleMobileMenu()" aria-label="Menu"
               class="md:hidden p-1 hover:opacity-60 transition-opacity duration-200 focus-visible:outline-none">
-        <svg id="ham-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
       </button>
@@ -622,10 +754,10 @@
           <div>
             <p class="font-body text-[10px] tracking-[0.16em] uppercase text-accent mb-5">Hỗ trợ</p>
             <ul class="space-y-3">
-              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Hướng dẫn size</a></li>
-              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Chính sách đổi trả</a></li>
-              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Vận chuyển</a></li>
-              <li><a href="#" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Liên hệ</a></li>
+              <li><a href="#size-guide" onclick="navigateTo('size-guide');return false;" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Hướng dẫn size</a></li>
+              <li><a href="#policy" onclick="navigateTo('policy');setTimeout(()=>openPolicyTab('returns',document.getElementById('ptab-returns')),50);return false;" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Chính sách đổi trả</a></li>
+              <li><a href="#policy" onclick="navigateTo('policy');setTimeout(()=>openPolicyTab('shipping',document.getElementById('ptab-shipping')),50);return false;" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Vận chuyển</a></li>
+              <li><a href="#policy" onclick="navigateTo('policy');setTimeout(()=>openPolicyTab('privacy',document.getElementById('ptab-privacy')),50);return false;" class="font-body font-light text-[13px] transition-colors duration-200" style="color:rgba(245,242,237,0.5);" onmouseenter="this.style.color='#F5F2ED'" onmouseleave="this.style.color='rgba(245,242,237,0.5)'">Chính sách bảo mật</a></li>
             </ul>
           </div>
           <div>
@@ -755,7 +887,7 @@
             <div class="mb-6">
               <div class="flex items-center justify-between mb-3">
                 <p class="font-body text-[11px] tracking-[0.1em] uppercase text-brand-dark">Chọn size</p>
-                <button class="font-body text-[11px] tracking-[0.06em] text-accent underline hover:no-underline transition-all duration-200">Hướng dẫn size</button>
+                <button onclick="navigateTo('size-guide')" class="font-body text-[11px] tracking-[0.06em] text-accent underline hover:no-underline transition-all duration-200">Hướng dẫn size</button>
               </div>
               <div class="flex gap-2">
                 <button class="size-btn" onclick="selectSize(this)">XS</button>
@@ -1048,10 +1180,543 @@
         <span class="font-body text-[11px] tracking-[0.1em] uppercase">Tổng cộng</span>
         <span class="font-heading text-xl text-accent" id="cart-total">0 ₫</span>
       </div>
-      <button class="btn-primary w-full" onclick="alert('Tính năng thanh toán sắp ra mắt!')">Thanh toán</button>
+      <button class="btn-primary w-full" onclick="goCheckout()">Thanh toán</button>
     </div>
   </div>
   <div id="cart-overlay" class="fixed inset-0 hidden z-[65]" style="background:rgba(26,26,26,0.2);" onclick="toggleCart()"></div>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: 404 NOT FOUND                                          -->
+  <!-- ============================================================ -->
+  <section id="not-found" class="page-section hidden min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center">
+    <p class="font-heading font-bold text-brand-dark mb-2" style="font-size:clamp(6rem,18vw,12rem);line-height:1;opacity:0.07;">404</p>
+    <p class="font-heading font-normal text-brand-dark mb-3" style="font-size:clamp(1.6rem,3vw,2.4rem);margin-top:-2rem;">Trang không tìm thấy</p>
+    <p class="font-body font-light text-[14px] text-brand-dark/55 max-w-sm mb-8">Trang bạn đang tìm có thể đã bị xóa hoặc địa chỉ không chính xác.</p>
+    <button class="btn-primary" onclick="navigateTo('home')">Về trang chủ</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: AUTH (Login / Register / Forgot)                       -->
+  <!-- ============================================================ -->
+  <section id="auth" class="page-section hidden min-h-screen bg-cream flex items-center justify-center px-4 pt-20 pb-16">
+    <div class="w-full max-w-md">
+      <!-- Login -->
+      <div id="auth-login" class="auth-view active">
+        <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>O'mely</p>
+        <h2 class="font-heading text-[2rem] font-normal text-brand-dark mb-1">Đăng nhập</h2>
+        <p class="font-body text-[13px] text-brand-dark/50 mb-8">Chào mừng trở lại.</p>
+        <form onsubmit="doLogin(event)" class="space-y-5">
+          <div>
+            <label class="form-label">Email</label>
+            <input id="login-email" type="email" class="form-input" placeholder="email@example.com" required>
+          </div>
+          <div>
+            <label class="form-label">Mật khẩu</label>
+            <input id="login-pass" type="password" class="form-input" placeholder="••••••••" required>
+          </div>
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" style="accent-color:#8B7355;">
+              <span class="font-body text-[12px] text-brand-dark/60">Nhớ tôi</span>
+            </label>
+            <button type="button" onclick="showAuthView('forgot')" class="font-body text-[12px] text-accent hover:underline transition-all">Quên mật khẩu?</button>
+          </div>
+          <button type="submit" class="btn-primary w-full mt-2">Đăng nhập</button>
+        </form>
+        <p class="font-body text-[13px] text-brand-dark/55 text-center mt-6">Chưa có tài khoản? <button onclick="showAuthView('register')" class="text-accent hover:underline">Đăng ký ngay</button></p>
+      </div>
+
+      <!-- Register -->
+      <div id="auth-register" class="auth-view">
+        <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>O'mely</p>
+        <h2 class="font-heading text-[2rem] font-normal text-brand-dark mb-1">Tạo tài khoản</h2>
+        <p class="font-body text-[13px] text-brand-dark/50 mb-8">Tham gia cộng đồng thời trang bền vững.</p>
+        <form onsubmit="doRegister(event)" class="space-y-5">
+          <div>
+            <label class="form-label">Họ và tên</label>
+            <input id="reg-name" type="text" class="form-input" placeholder="Nguyễn Văn A" required>
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input id="reg-email" type="email" class="form-input" placeholder="email@example.com" required>
+          </div>
+          <div>
+            <label class="form-label">Số điện thoại</label>
+            <input id="reg-phone" type="tel" class="form-input" placeholder="0901 234 567">
+          </div>
+          <div>
+            <label class="form-label">Mật khẩu</label>
+            <input id="reg-pass" type="password" class="form-input" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+          </div>
+          <button type="submit" class="btn-primary w-full mt-2">Tạo tài khoản</button>
+        </form>
+        <p class="font-body text-[13px] text-brand-dark/55 text-center mt-6">Đã có tài khoản? <button onclick="showAuthView('login')" class="text-accent hover:underline">Đăng nhập</button></p>
+      </div>
+
+      <!-- Forgot -->
+      <div id="auth-forgot" class="auth-view">
+        <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>O'mely</p>
+        <h2 class="font-heading text-[2rem] font-normal text-brand-dark mb-1">Quên mật khẩu</h2>
+        <p class="font-body text-[13px] text-brand-dark/50 mb-8">Nhập email để nhận hướng dẫn đặt lại mật khẩu.</p>
+        <form onsubmit="doForgot(event)" class="space-y-5">
+          <div>
+            <label class="form-label">Email</label>
+            <input id="forgot-email" type="email" class="form-input" placeholder="email@example.com" required>
+          </div>
+          <div id="forgot-success" class="hidden py-3 px-4 border-l-2 border-accent">
+            <p class="font-body text-[13px] text-brand-dark/70">Nếu email tồn tại, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu.</p>
+          </div>
+          <button type="submit" class="btn-primary w-full">Gửi yêu cầu</button>
+        </form>
+        <p class="font-body text-[13px] text-brand-dark/55 text-center mt-6"><button onclick="showAuthView('login')" class="text-accent hover:underline">← Quay lại đăng nhập</button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: CHECKOUT                                                -->
+  <!-- ============================================================ -->
+  <section id="checkout" class="page-section hidden min-h-screen bg-cream pt-24 pb-20 px-6 md:px-14">
+    <!-- Step indicator -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <div class="flex items-center justify-center gap-0 max-w-xs mx-auto">
+        <div id="step-dot-1" class="step-indicator-dot active">1</div>
+        <div id="step-line-1" class="step-connector"></div>
+        <div id="step-dot-2" class="step-indicator-dot">2</div>
+        <div id="step-line-2" class="step-connector"></div>
+        <div id="step-dot-3" class="step-indicator-dot">3</div>
+      </div>
+      <div class="flex justify-between max-w-xs mx-auto mt-2">
+        <span class="font-body text-[10px] tracking-[0.1em] uppercase text-brand-dark/50">Địa chỉ</span>
+        <span class="font-body text-[10px] tracking-[0.1em] uppercase text-brand-dark/50">Thanh toán</span>
+        <span class="font-body text-[10px] tracking-[0.1em] uppercase text-brand-dark/50">Xác nhận</span>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+
+      <!-- STEP 1: Address -->
+      <div id="checkout-step-1" class="checkout-step active">
+        <div class="md:grid md:grid-cols-5 md:gap-12">
+          <div class="md:col-span-3">
+            <h2 class="font-heading text-[1.8rem] font-normal text-brand-dark mb-8">Địa chỉ giao hàng</h2>
+            <form id="form-address" onsubmit="nextCheckoutStep(event)" class="space-y-5">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                  <label class="form-label">Họ và tên *</label>
+                  <input id="co-name" type="text" class="form-input" placeholder="Nguyễn Văn A" required>
+                </div>
+                <div>
+                  <label class="form-label">Số điện thoại *</label>
+                  <input id="co-phone" type="tel" class="form-input" placeholder="0901 234 567" required>
+                </div>
+                <div>
+                  <label class="form-label">Email</label>
+                  <input id="co-email" type="email" class="form-input" placeholder="email@example.com">
+                </div>
+                <div class="col-span-2">
+                  <label class="form-label">Địa chỉ *</label>
+                  <input id="co-address" type="text" class="form-input" placeholder="Số nhà, tên đường, phường/xã" required>
+                </div>
+                <div>
+                  <label class="form-label">Tỉnh / Thành phố *</label>
+                  <select id="co-city" class="form-input" required style="background:transparent;">
+                    <option value="">Chọn tỉnh/TP</option>
+                    <option>TP. Hồ Chí Minh</option>
+                    <option>Hà Nội</option>
+                    <option>Đà Nẵng</option>
+                    <option>Hải Phòng</option>
+                    <option>Cần Thơ</option>
+                    <option>Bình Dương</option>
+                    <option>Đồng Nai</option>
+                    <option>Tỉnh / TP khác</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Quận / Huyện</label>
+                  <input id="co-district" type="text" class="form-input" placeholder="Quận / Huyện">
+                </div>
+                <div class="col-span-2">
+                  <label class="form-label">Ghi chú</label>
+                  <textarea id="co-note" class="form-input" rows="2" placeholder="Ghi chú cho người giao hàng (tùy chọn)" style="resize:none;"></textarea>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-4">
+                <button type="button" onclick="navigateTo('shop')" class="btn-outline">← Tiếp tục mua sắm</button>
+                <button type="submit" class="btn-primary flex-1">Tiếp theo →</button>
+              </div>
+            </form>
+          </div>
+          <div class="md:col-span-2 mt-10 md:mt-0">
+            <div class="bg-cream-dark p-5">
+              <p class="font-body text-[10px] tracking-[0.18em] uppercase text-accent mb-4">Đơn hàng</p>
+              <div id="checkout-summary-1" class="space-y-3 mb-4"></div>
+              <div class="border-t border-secondary pt-3 flex justify-between">
+                <span class="font-body text-[12px] uppercase tracking-[0.1em] text-brand-dark/60">Tổng cộng</span>
+                <span id="checkout-total-1" class="font-heading text-lg text-brand-dark font-semibold"></span>
+              </div>
+              <p class="font-body text-[11px] text-brand-dark/45 mt-3">Phí vận chuyển sẽ được tính ở bước tiếp theo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Payment -->
+      <div id="checkout-step-2" class="checkout-step">
+        <div class="md:grid md:grid-cols-5 md:gap-12">
+          <div class="md:col-span-3">
+            <h2 class="font-heading text-[1.8rem] font-normal text-brand-dark mb-8">Phương thức thanh toán</h2>
+            <div class="space-y-3 mb-8">
+              <div id="pay-cod" class="pay-option selected" onclick="selectPayment('cod')">
+                <div class="pay-radio"></div>
+                <div>
+                  <p class="font-body text-[13px] font-medium text-brand-dark">Thanh toán khi nhận hàng (COD)</p>
+                  <p class="font-body text-[11px] text-brand-dark/50 mt-0.5">Thanh toán tiền mặt khi nhận hàng</p>
+                </div>
+              </div>
+              <div id="pay-bank" class="pay-option" onclick="selectPayment('bank')">
+                <div class="pay-radio"></div>
+                <div>
+                  <p class="font-body text-[13px] font-medium text-brand-dark">Chuyển khoản ngân hàng</p>
+                  <p class="font-body text-[11px] text-brand-dark/50 mt-0.5">Vietcombank · MB Bank · BIDV</p>
+                </div>
+              </div>
+            </div>
+            <div id="bank-info" class="hidden bg-cream-dark p-4 mb-6">
+              <p class="font-body text-[11px] tracking-[0.1em] uppercase text-accent mb-3">Thông tin chuyển khoản</p>
+              <p class="font-body text-[13px] text-brand-dark">Ngân hàng: <strong>Vietcombank</strong></p>
+              <p class="font-body text-[13px] text-brand-dark">STK: <strong>1234 5678 9012</strong></p>
+              <p class="font-body text-[13px] text-brand-dark">Chủ TK: <strong>CONG TY O'MELY</strong></p>
+              <p class="font-body text-[11px] text-brand-dark/50 mt-2">Nội dung: [Họ tên] + [SĐT]</p>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="prevCheckoutStep()" class="btn-outline">← Quay lại</button>
+              <button onclick="placeOrder()" class="btn-primary flex-1">Đặt hàng</button>
+            </div>
+          </div>
+          <div class="md:col-span-2 mt-10 md:mt-0">
+            <div class="bg-cream-dark p-5">
+              <p class="font-body text-[10px] tracking-[0.18em] uppercase text-accent mb-4">Đơn hàng</p>
+              <div id="checkout-summary-2" class="space-y-3 mb-4"></div>
+              <div class="border-t border-secondary pt-3 space-y-2">
+                <div class="flex justify-between">
+                  <span class="font-body text-[12px] text-brand-dark/60">Tạm tính</span>
+                  <span id="checkout-subtotal" class="font-body text-[13px] text-brand-dark"></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="font-body text-[12px] text-brand-dark/60">Vận chuyển</span>
+                  <span class="font-body text-[13px] text-accent">Miễn phí</span>
+                </div>
+                <div class="flex justify-between pt-2 border-t border-secondary">
+                  <span class="font-body text-[12px] uppercase tracking-[0.1em] text-brand-dark/60">Tổng cộng</span>
+                  <span id="checkout-total-2" class="font-heading text-lg text-brand-dark font-semibold"></span>
+                </div>
+              </div>
+              <div id="checkout-address-review" class="mt-4 pt-4 border-t border-secondary">
+                <p class="font-body text-[10px] tracking-[0.14em] uppercase text-accent mb-2">Giao đến</p>
+                <p id="checkout-address-text" class="font-body text-[12px] text-brand-dark/70 leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Confirmation -->
+      <div id="checkout-step-3" class="checkout-step">
+        <div class="max-w-xl mx-auto text-center py-8">
+          <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-2">Đặt hàng thành công</p>
+          <h2 class="font-heading text-[2rem] font-normal text-brand-dark mb-2">Cảm ơn bạn!</h2>
+          <p id="order-number-display" class="font-body text-[13px] text-brand-dark/50 mb-6"></p>
+          <div id="order-summary-final" class="text-left bg-cream-dark p-5 mb-6 space-y-3"></div>
+          <div id="order-address-final" class="text-left bg-cream-dark p-5 mb-8">
+            <p class="font-body text-[10px] tracking-[0.14em] uppercase text-accent mb-2">Giao đến</p>
+            <p id="order-address-text" class="font-body text-[13px] text-brand-dark/70 leading-relaxed"></p>
+          </div>
+          <button class="btn-primary" onclick="navigateTo('shop')">Tiếp tục mua sắm</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: SIZE GUIDE                                              -->
+  <!-- ============================================================ -->
+  <section id="size-guide" class="page-section hidden bg-cream pt-28 pb-20 px-6 md:px-14">
+    <div class="max-w-3xl mx-auto">
+      <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>Hỗ trợ</p>
+      <h1 class="font-heading text-[2.2rem] font-normal text-brand-dark mb-3">Hướng dẫn chọn size</h1>
+      <p class="font-body text-[14px] text-brand-dark/55 mb-10 max-w-lg">Mỗi sản phẩm O'mely được thiết kế với fit thoải mái. Tham khảo bảng size bên dưới để chọn đúng nhất.</p>
+
+      <!-- Size table -->
+      <div class="overflow-x-auto mb-10">
+        <table class="w-full border-collapse font-body text-[13px]">
+          <thead>
+            <tr style="border-bottom:2px solid #D4C5B0;">
+              <th class="text-left py-3 pr-6 font-medium tracking-[0.1em] uppercase text-[10px] text-accent">Size</th>
+              <th class="text-center py-3 px-4 font-medium tracking-[0.1em] uppercase text-[10px] text-accent">Ngực (cm)</th>
+              <th class="text-center py-3 px-4 font-medium tracking-[0.1em] uppercase text-[10px] text-accent">Eo (cm)</th>
+              <th class="text-center py-3 px-4 font-medium tracking-[0.1em] uppercase text-[10px] text-accent">Hông (cm)</th>
+              <th class="text-center py-3 px-4 font-medium tracking-[0.1em] uppercase text-[10px] text-accent">Chiều cao (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #EDE8E1;" class="hover:bg-cream-dark transition-colors duration-150">
+              <td class="py-3 pr-6 font-medium text-brand-dark">XS</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">78 – 82</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">60 – 64</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">84 – 88</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">155 – 160</td>
+            </tr>
+            <tr style="border-bottom:1px solid #EDE8E1;" class="hover:bg-cream-dark transition-colors duration-150">
+              <td class="py-3 pr-6 font-medium text-brand-dark">S</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">82 – 86</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">64 – 68</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">88 – 92</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">158 – 163</td>
+            </tr>
+            <tr style="border-bottom:1px solid #EDE8E1;" class="hover:bg-cream-dark transition-colors duration-150">
+              <td class="py-3 pr-6 font-medium text-brand-dark">M</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">86 – 90</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">68 – 72</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">92 – 96</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">160 – 165</td>
+            </tr>
+            <tr style="border-bottom:1px solid #EDE8E1;" class="hover:bg-cream-dark transition-colors duration-150">
+              <td class="py-3 pr-6 font-medium text-brand-dark">L</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">90 – 94</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">72 – 76</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">96 – 100</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">163 – 168</td>
+            </tr>
+            <tr class="hover:bg-cream-dark transition-colors duration-150">
+              <td class="py-3 pr-6 font-medium text-brand-dark">XL</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">94 – 100</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">76 – 82</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">100 – 106</td>
+              <td class="text-center py-3 px-4 text-brand-dark/70">165 – 172</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- How to measure -->
+      <div class="grid md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-cream-dark p-5">
+          <p class="font-body text-[10px] tracking-[0.18em] uppercase text-accent mb-2">Đo vòng ngực</p>
+          <p class="font-body text-[13px] text-brand-dark/65 leading-relaxed">Đo quanh phần đầy nhất của ngực, song song với mặt đất. Giữ thước dây thoải mái.</p>
+        </div>
+        <div class="bg-cream-dark p-5">
+          <p class="font-body text-[10px] tracking-[0.18em] uppercase text-accent mb-2">Đo vòng eo</p>
+          <p class="font-body text-[13px] text-brand-dark/65 leading-relaxed">Đo quanh phần nhỏ nhất của eo, thường ngay trên rốn. Thở ra tự nhiên khi đo.</p>
+        </div>
+        <div class="bg-cream-dark p-5">
+          <p class="font-body text-[10px] tracking-[0.18em] uppercase text-accent mb-2">Đo vòng hông</p>
+          <p class="font-body text-[13px] text-brand-dark/65 leading-relaxed">Đo quanh phần đầy nhất của hông và mông, giữ thước song song với mặt đất.</p>
+        </div>
+      </div>
+
+      <div class="border-l-2 border-accent pl-5 mb-10">
+        <p class="font-body text-[12px] text-brand-dark/60 leading-relaxed"><strong class="text-brand-dark/80">Lưu ý:</strong> Vải linen và lụa tự nhiên có thể co nhẹ sau lần giặt đầu tiên (1–2%). O'mely đã tính đến độ co này trong thiết kế. Nếu số đo nằm giữa hai size, chúng tôi khuyên nên chọn size lớn hơn.</p>
+      </div>
+
+      <button class="btn-outline" onclick="navigateTo('shop')">← Quay lại mua sắm</button>
+    </div>
+    <!-- Mini footer -->
+    <div class="mt-16 pt-8 border-t border-secondary text-center">
+      <p class="font-body text-[11px] text-brand-dark/35">© 2025 O'mely. Thời trang có trách nhiệm.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: POLICY                                                  -->
+  <!-- ============================================================ -->
+  <section id="policy" class="page-section hidden bg-cream pt-28 pb-20 px-6 md:px-14">
+    <div class="max-w-3xl mx-auto">
+      <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>Hỗ trợ</p>
+      <h1 class="font-heading text-[2.2rem] font-normal text-brand-dark mb-10">Chính sách</h1>
+
+      <!-- Policy tabs (scoped) -->
+      <div class="flex border-b border-secondary mb-8">
+        <button id="ptab-shipping" class="tab-btn active" onclick="openPolicyTab('shipping', this)" style="border-bottom-color:transparent;">Vận chuyển</button>
+        <button id="ptab-returns" class="tab-btn" onclick="openPolicyTab('returns', this)" style="border-bottom-color:transparent;">Đổi trả</button>
+        <button id="ptab-privacy" class="tab-btn" onclick="openPolicyTab('privacy', this)" style="border-bottom-color:transparent;">Bảo mật</button>
+      </div>
+
+      <div id="pcontent-shipping" class="policy-tab-content active space-y-5">
+        <h3 class="font-heading text-[1.3rem] font-normal text-brand-dark">Chính sách vận chuyển</h3>
+        <p class="font-body text-[14px] text-brand-dark/65 leading-relaxed">O'mely giao hàng toàn quốc qua đơn vị vận chuyển uy tín. Thời gian giao hàng từ <strong class="text-brand-dark/80">2–5 ngày làm việc</strong> tùy khu vực.</p>
+        <div class="space-y-3">
+          <div class="flex justify-between py-3 border-b border-secondary">
+            <span class="font-body text-[13px] text-brand-dark/70">TP. Hồ Chí Minh & Hà Nội</span>
+            <span class="font-body text-[13px] font-medium text-brand-dark">2–3 ngày</span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-secondary">
+            <span class="font-body text-[13px] text-brand-dark/70">Các tỉnh thành khác</span>
+            <span class="font-body text-[13px] font-medium text-brand-dark">3–5 ngày</span>
+          </div>
+          <div class="flex justify-between py-3 border-b border-secondary">
+            <span class="font-body text-[13px] text-brand-dark/70">Phí vận chuyển</span>
+            <span class="font-body text-[13px] font-medium text-accent">Miễn phí đơn từ 500.000 ₫</span>
+          </div>
+          <div class="flex justify-between py-3">
+            <span class="font-body text-[13px] text-brand-dark/70">Đơn dưới 500.000 ₫</span>
+            <span class="font-body text-[13px] font-medium text-brand-dark">30.000 ₫</span>
+          </div>
+        </div>
+        <p class="font-body text-[13px] text-brand-dark/55 leading-relaxed">Đơn hàng được xử lý trong vòng 1 ngày làm việc sau khi xác nhận. Bạn sẽ nhận email/SMS thông báo khi đơn được giao cho đơn vị vận chuyển.</p>
+      </div>
+
+      <div id="pcontent-returns" class="policy-tab-content space-y-5">
+        <h3 class="font-heading text-[1.3rem] font-normal text-brand-dark">Chính sách đổi trả</h3>
+        <p class="font-body text-[14px] text-brand-dark/65 leading-relaxed">Chúng tôi chấp nhận đổi/trả trong vòng <strong class="text-brand-dark/80">14 ngày</strong> kể từ ngày nhận hàng nếu sản phẩm đáp ứng điều kiện bên dưới.</p>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <span class="text-accent mt-0.5">✓</span>
+            <p class="font-body text-[13px] text-brand-dark/65">Sản phẩm chưa qua sử dụng, còn nguyên tem nhãn</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-accent mt-0.5">✓</span>
+            <p class="font-body text-[13px] text-brand-dark/65">Không có dấu hiệu giặt, ngâm, hay hư hỏng do người dùng</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-accent mt-0.5">✓</span>
+            <p class="font-body text-[13px] text-brand-dark/65">Còn đầy đủ hộp/túi đóng gói ban đầu</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span style="color:#B8A89A;" class="mt-0.5">✗</span>
+            <p class="font-body text-[13px] text-brand-dark/65">Đồ lót, phụ kiện tóc không được đổi trả vì lý do vệ sinh</p>
+          </div>
+        </div>
+        <p class="font-body text-[13px] text-brand-dark/55 leading-relaxed">Để yêu cầu đổi trả, liên hệ chúng tôi qua email <span class="text-accent">hello@omely.vn</span> kèm ảnh sản phẩm và số đơn hàng. Chúng tôi sẽ phản hồi trong vòng 24 giờ.</p>
+      </div>
+
+      <div id="pcontent-privacy" class="policy-tab-content space-y-5">
+        <h3 class="font-heading text-[1.3rem] font-normal text-brand-dark">Chính sách bảo mật</h3>
+        <p class="font-body text-[14px] text-brand-dark/65 leading-relaxed">O'mely cam kết bảo vệ thông tin cá nhân của bạn. Chúng tôi thu thập và sử dụng dữ liệu một cách minh bạch, có trách nhiệm.</p>
+        <div class="space-y-4">
+          <div>
+            <p class="font-body text-[12px] tracking-[0.12em] uppercase text-brand-dark/70 mb-2">Thông tin chúng tôi thu thập</p>
+            <p class="font-body text-[13px] text-brand-dark/60 leading-relaxed">Họ tên, địa chỉ email, số điện thoại, địa chỉ giao hàng khi bạn đặt hàng hoặc tạo tài khoản.</p>
+          </div>
+          <div>
+            <p class="font-body text-[12px] tracking-[0.12em] uppercase text-brand-dark/70 mb-2">Cách chúng tôi sử dụng</p>
+            <p class="font-body text-[13px] text-brand-dark/60 leading-relaxed">Xử lý đơn hàng, giao tiếp với khách hàng, cải thiện sản phẩm và dịch vụ. Chúng tôi không bán thông tin của bạn cho bên thứ ba.</p>
+          </div>
+          <div>
+            <p class="font-body text-[12px] tracking-[0.12em] uppercase text-brand-dark/70 mb-2">Quyền của bạn</p>
+            <p class="font-body text-[13px] text-brand-dark/60 leading-relaxed">Bạn có thể yêu cầu xem, chỉnh sửa hoặc xóa dữ liệu cá nhân bất kỳ lúc nào bằng cách liên hệ <span class="text-accent">hello@omely.vn</span>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <button class="btn-outline" onclick="navigateTo('home')">← Về trang chủ</button>
+      </div>
+    </div>
+    <!-- Mini footer -->
+    <div class="mt-16 pt-8 border-t border-secondary text-center">
+      <p class="font-body text-[11px] text-brand-dark/35">© 2025 O'mely. Thời trang có trách nhiệm.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: ACCOUNT                                                 -->
+  <!-- ============================================================ -->
+  <section id="account" class="page-section hidden bg-cream pt-28 pb-20 px-6 md:px-14">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex items-center justify-between mb-10">
+        <div>
+          <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-2 flex items-center gap-3"><span class="deco-line"></span>Tài khoản</p>
+          <h1 class="font-heading text-[2rem] font-normal text-brand-dark">Xin chào, <span id="account-greeting">bạn</span>!</h1>
+        </div>
+        <button onclick="doLogout()" class="btn-outline text-xs">Đăng xuất</button>
+      </div>
+
+      <!-- Account tabs (scoped) -->
+      <div class="flex border-b border-secondary mb-8">
+        <button id="atab-info"    class="tab-btn active" onclick="openAccountTab('info', this)">Thông tin</button>
+        <button id="atab-orders"  class="tab-btn" onclick="openAccountTab('orders', this)">Đơn hàng</button>
+        <button id="atab-address" class="tab-btn" onclick="openAccountTab('address', this)">Địa chỉ</button>
+      </div>
+
+      <!-- Info tab -->
+      <div id="acontent-info" class="account-tab-content active">
+        <form onsubmit="saveAccountInfo(event)" class="space-y-5 max-w-md">
+          <div>
+            <label class="form-label">Họ và tên</label>
+            <input id="acc-name" type="text" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input id="acc-email" type="email" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">Số điện thoại</label>
+            <input id="acc-phone" type="tel" class="form-input">
+          </div>
+          <button type="submit" class="btn-primary">Lưu thay đổi</button>
+        </form>
+      </div>
+
+      <!-- Orders tab -->
+      <div id="acontent-orders" class="account-tab-content">
+        <div id="account-orders-list"></div>
+      </div>
+
+      <!-- Address tab -->
+      <div id="acontent-address" class="account-tab-content">
+        <div id="account-address-content"></div>
+      </div>
+    </div>
+    <!-- Mini footer -->
+    <div class="mt-16 pt-8 border-t border-secondary text-center">
+      <p class="font-body text-[11px] text-brand-dark/35">© 2025 O'mely. Thời trang có trách nhiệm.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PAGE: WISHLIST                                                -->
+  <!-- ============================================================ -->
+  <section id="wishlist" class="page-section hidden bg-cream pt-28 pb-20 px-6 md:px-14">
+    <div class="max-w-5xl mx-auto">
+      <p class="font-body text-[10px] tracking-[0.28em] uppercase text-accent mb-3 flex items-center gap-3"><span class="deco-line"></span>Tài khoản</p>
+      <h1 class="font-heading text-[2rem] font-normal text-brand-dark mb-10">Yêu thích</h1>
+      <div id="wishlist-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+    </div>
+    <!-- Mini footer -->
+    <div class="mt-16 pt-8 border-t border-secondary text-center">
+      <p class="font-body text-[11px] text-brand-dark/35">© 2025 O'mely. Thời trang có trách nhiệm.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SEARCH OVERLAY                                                -->
+  <!-- ============================================================ -->
+  <div id="search-overlay">
+    <button onclick="toggleSearch()" aria-label="Đóng tìm kiếm"
+            class="absolute top-6 right-8 p-2 hover:opacity-50 transition-opacity duration-200">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="w-full max-w-2xl px-4">
+      <div class="relative">
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8A89A" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="search-input" type="text" placeholder="Tìm kiếm sản phẩm..."
+               class="w-full pl-12 pr-4 py-4 bg-transparent border-b-2 border-brand-dark font-body text-[18px] text-brand-dark outline-none placeholder-secondary-dark"
+               oninput="doSearch(this.value)">
+      </div>
+      <div id="search-results" class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+      <p id="search-empty" class="hidden font-body text-[14px] text-brand-dark/45 text-center mt-10">Không tìm thấy sản phẩm phù hợp.</p>
+    </div>
+  </div>
 
   <!-- ===== JAVASCRIPT ===== -->
   <script>
@@ -1073,15 +1738,32 @@
 
     const CAT_LABEL = {ao:'Áo',quan:'Quần',phukien:'Phụ kiện',vay:'Váy'};
 
+    // === STATE ===
+    let _user = null;         // null = chưa login | {name,email,phone}
+    let _authRedirect = null; // page to redirect after login
+    let _checkoutStep = 1;
+    let _checkoutData = {};
+    let _orders = [];
+    let _wishlist = [];       // array of product ids
+    let _searchOpen = false;
+    let _selectedPayment = 'cod';
+
     // === NAVIGATION ===
     function navigateTo(page) {
+      if ((page === 'account' || page === 'wishlist') && !_user) {
+        _authRedirect = page;
+        page = 'auth';
+      }
       document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
       const el = document.getElementById(page);
-      if (!el) return;
+      if (!el) { navigateTo('not-found'); return; }
       el.classList.remove('hidden');
       window.scrollTo({top:0,behavior:'instant'});
       updateNavLinks(page);
       if (page === 'shop') renderProducts('all');
+      if (page === 'wishlist') renderWishlist();
+      if (page === 'account') renderAccount();
+      if (page === 'checkout') initCheckout();
     }
 
     function updateNavLinks(page) {
@@ -1091,7 +1773,8 @@
     }
 
     window.addEventListener('hashchange', () => {
-      navigateTo(location.hash.slice(1) || 'home');
+      const p = location.hash.slice(1);
+      navigateTo(p || 'home');
     });
 
     // === MOBILE MENU ===
@@ -1107,10 +1790,138 @@
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
     }, {passive:true});
 
+    // === TOAST ===
+    function showToast(msg, icon) {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerHTML = `${icon||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B7355" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'}<span>${msg}</span>`;
+      document.body.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0'; t.style.transform = 'translateY(12px)';
+        t.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        setTimeout(() => t.remove(), 300);
+      }, 2500);
+    }
+
+    // === AUTH ===
+    function showAuthView(view) {
+      document.querySelectorAll('.auth-view').forEach(v => v.classList.remove('active'));
+      const el = document.getElementById('auth-' + view);
+      if (el) el.classList.add('active');
+      if (view === 'forgot') document.getElementById('forgot-success').classList.add('hidden');
+    }
+
+    function doLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const name = email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+      _user = { name, email, phone: '' };
+      updateAuthUI();
+      showToast('Đăng nhập thành công!');
+      navigateTo(_authRedirect || 'home');
+      _authRedirect = null;
+    }
+
+    function doRegister(e) {
+      e.preventDefault();
+      _user = {
+        name:  document.getElementById('reg-name').value.trim(),
+        email: document.getElementById('reg-email').value.trim(),
+        phone: document.getElementById('reg-phone').value.trim(),
+      };
+      updateAuthUI();
+      showToast('Tạo tài khoản thành công!');
+      navigateTo(_authRedirect || 'home');
+      _authRedirect = null;
+    }
+
+    function doForgot(e) {
+      e.preventDefault();
+      document.getElementById('forgot-success').classList.remove('hidden');
+    }
+
+    function doLogout() {
+      _user = null;
+      updateAuthUI();
+      closeUserDropdown();
+      showToast('Đã đăng xuất.');
+      navigateTo('home');
+    }
+
+    function updateAuthUI() {
+      const btnLogin = document.getElementById('btn-login');
+      const btnUser  = document.getElementById('btn-user');
+      const avatar   = document.getElementById('user-avatar');
+      const nameNav  = document.getElementById('user-name-nav');
+      if (_user) {
+        btnLogin.classList.add('hidden');
+        btnUser.classList.remove('hidden');
+        btnUser.style.display = 'flex';
+        avatar.textContent = _user.name.charAt(0).toUpperCase();
+        nameNav.textContent = _user.name.split(' ')[0];
+      } else {
+        btnLogin.classList.remove('hidden');
+        btnUser.classList.add('hidden');
+        btnUser.style.display = 'none';
+      }
+    }
+
+    function toggleUserDropdown() {
+      document.getElementById('user-dropdown').classList.toggle('open');
+    }
+    function closeUserDropdown() {
+      document.getElementById('user-dropdown').classList.remove('open');
+    }
+    document.addEventListener('click', e => {
+      const btn = document.getElementById('btn-user');
+      const dd  = document.getElementById('user-dropdown');
+      if (btn && dd && !btn.contains(e.target) && !dd.contains(e.target)) {
+        dd.classList.remove('open');
+      }
+    });
+
+    // === SEARCH ===
+    function toggleSearch() {
+      _searchOpen = !_searchOpen;
+      document.getElementById('search-overlay').classList.toggle('open', _searchOpen);
+      if (_searchOpen) {
+        const inp = document.getElementById('search-input');
+        inp.value = '';
+        document.getElementById('search-results').innerHTML = '';
+        document.getElementById('search-empty').classList.add('hidden');
+        setTimeout(() => inp.focus(), 100);
+      }
+    }
+
+    function doSearch(query) {
+      const q = query.trim().toLowerCase();
+      const res  = document.getElementById('search-results');
+      const empty = document.getElementById('search-empty');
+      if (!q) { res.innerHTML = ''; empty.classList.add('hidden'); return; }
+      const matches = PRODUCTS.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        (CAT_LABEL[p.category]||'').toLowerCase().includes(q)
+      );
+      empty.classList.toggle('hidden', matches.length > 0);
+      res.innerHTML = matches.map(p => `
+        <div class="cursor-pointer group" onclick="toggleSearch();showProduct(${JSON.stringify(p)})">
+          <div class="aspect-[3/4] overflow-hidden mb-2" style="background:#EDE8E1;">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <p class="font-heading text-[0.9rem] font-medium text-brand-dark leading-snug">${p.name}</p>
+          <p class="font-body text-[12px] text-accent">${p.price} ₫</p>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && _searchOpen) toggleSearch();
+    });
+
     // === PRODUCT GRID ===
-    function renderProducts(filter) {
-      const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
-      document.getElementById('products-grid').innerHTML = filtered.map(p => `
+    function productCardHTML(p) {
+      const wishlisted = isWishlisted(p.id);
+      return `
         <div class="product-card cursor-pointer" onclick='showProduct(${JSON.stringify(p)})'>
           <div class="card-img-wrap aspect-[3/4] mb-3 relative" style="background:#EDE8E1;overflow:hidden;">
             <img src="${p.img}" alt="${p.name}" class="card-img w-full h-full object-cover">
@@ -1118,18 +1929,62 @@
               <span style="background:#1A1A1A;color:#F5F2ED;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;">Xem chi tiết</span>
             </div>
             ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#8B7355':'#1A1A1A'};color:#F5F2ED;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
+            <button class="wish-btn${wishlisted?' active':''}" style="position:absolute;top:6px;right:6px;"
+                    onclick="event.stopPropagation();toggleWishlist(${p.id})" aria-label="Yêu thích">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="${wishlisted?'#8B7355':'none'}" stroke="${wishlisted?'#8B7355':'rgba(26,26,26,0.5)'}" stroke-width="1.5" stroke-linecap="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
           </div>
           <p style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#B8A89A;margin-bottom:2px;">${CAT_LABEL[p.category]||p.category}</p>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:#1A1A1A;margin-bottom:3px;">${p.name}</h3>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500;color:#1A1A1A;margin-bottom:3px;">${p.name}</h3>
           <p style="font-family:'Jost',sans-serif;font-size:13px;color:#8B7355;">${p.price} ₫</p>
         </div>
-      `).join('');
+      `;
+    }
+
+    function renderProducts(filter) {
+      const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+      document.getElementById('products-grid').innerHTML = filtered.map(productCardHTML).join('');
     }
 
     function filterProducts(filter, btn) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderProducts(filter);
+    }
+
+    // === WISHLIST ===
+    function isWishlisted(id) { return _wishlist.includes(id); }
+
+    function toggleWishlist(id) {
+      if (!_user) { _authRedirect = 'wishlist'; navigateTo('auth'); return; }
+      const idx = _wishlist.indexOf(id);
+      if (idx === -1) {
+        _wishlist.push(id);
+        showToast('Đã thêm vào yêu thích', '<svg width="14" height="14" viewBox="0 0 24 24" fill="#8B7355" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>');
+      } else {
+        _wishlist.splice(idx, 1);
+        showToast('Đã bỏ khỏi yêu thích');
+      }
+      // Re-render grids if visible
+      const shop = document.getElementById('shop');
+      if (shop && !shop.classList.contains('hidden')) renderProducts(document.querySelector('.filter-btn.active')?.dataset?.filter || 'all');
+      const wl = document.getElementById('wishlist');
+      if (wl && !wl.classList.contains('hidden')) renderWishlist();
+    }
+
+    function renderWishlist() {
+      const grid = document.getElementById('wishlist-grid');
+      const items = PRODUCTS.filter(p => _wishlist.includes(p.id));
+      if (items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-16">
+          <p class="font-heading text-[1.5rem] font-normal text-brand-dark/30 mb-3">Chưa có sản phẩm yêu thích</p>
+          <button class="btn-primary" onclick="navigateTo('shop')">Khám phá cửa hàng</button>
+        </div>`;
+      } else {
+        grid.innerHTML = items.map(productCardHTML).join('');
+      }
     }
 
     // === PRODUCT DETAIL ===
@@ -1147,25 +2002,20 @@
       document.getElementById('qty-display').textContent = '1';
 
       const baseUrl = p.img;
-
       document.getElementById('product-main-img').src = baseUrl;
       document.getElementById('thumb-img-0').src = baseUrl;
       document.getElementById('thumb-img-1').src = baseUrl;
       document.getElementById('thumb-img-2').src = baseUrl;
 
-      // Highlight first thumb
       ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
         document.getElementById(id).style.borderColor = i===0 ? '#8B7355' : 'transparent';
       });
+      document.querySelectorAll('.size-btn').forEach((b,i) => b.classList.toggle('selected', i===2));
 
-      // Reset size
-      document.querySelectorAll('.size-btn').forEach((b,i) => {
-        b.classList.toggle('selected', i===2);
-      });
-
-      // Reset tabs
-      document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
-      document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
+      // Scoped tab reset for product page
+      const prodSection = document.getElementById('product');
+      prodSection.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+      prodSection.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
 
       navigateTo('product');
     }
@@ -1175,15 +2025,118 @@
         document.getElementById(id).style.borderColor = i===idx ? '#8B7355' : 'transparent';
       });
     }
-    function highlightThumb(idx) { /* handled by CSS hover */ }
+    function highlightThumb(idx) { }
 
-    // === TABS ===
+    // === TABS (scoped to product page) ===
     function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const productEl = document.getElementById('product');
+      productEl.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      productEl.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       const t = document.getElementById(tabId);
       if (t) t.classList.add('active');
       if (btn) btn.classList.add('active');
+    }
+
+    // === POLICY TABS (scoped) ===
+    function openPolicyTab(tabId, btn) {
+      document.querySelectorAll('.policy-tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('#policy .tab-btn').forEach(b => {
+        b.classList.remove('active'); b.style.borderBottomColor = 'transparent';
+      });
+      const t = document.getElementById('pcontent-' + tabId);
+      if (t) t.classList.add('active');
+      if (btn) { btn.classList.add('active'); btn.style.borderBottomColor = '#8B7355'; }
+    }
+    // Init policy tab active state
+    document.addEventListener('DOMContentLoaded', () => {
+      const ptab = document.getElementById('ptab-shipping');
+      if (ptab) ptab.style.borderBottomColor = '#8B7355';
+    });
+
+    // === ACCOUNT TABS (scoped) ===
+    function openAccountTab(tabId, btn) {
+      document.querySelectorAll('.account-tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('#account .tab-btn').forEach(b => b.classList.remove('active'));
+      const t = document.getElementById('acontent-' + tabId);
+      if (t) t.classList.add('active');
+      if (btn) btn.classList.add('active');
+      if (tabId === 'orders') renderAccountOrders();
+      if (tabId === 'address') renderAccountAddress();
+    }
+
+    function renderAccount() {
+      if (!_user) return;
+      document.getElementById('account-greeting').textContent = _user.name.split(' ').pop();
+      document.getElementById('acc-name').value  = _user.name  || '';
+      document.getElementById('acc-email').value = _user.email || '';
+      document.getElementById('acc-phone').value = _user.phone || '';
+      // Reset to info tab
+      openAccountTab('info', document.getElementById('atab-info'));
+    }
+
+    function saveAccountInfo(e) {
+      e.preventDefault();
+      _user.name  = document.getElementById('acc-name').value.trim();
+      _user.email = document.getElementById('acc-email').value.trim();
+      _user.phone = document.getElementById('acc-phone').value.trim();
+      updateAuthUI();
+      document.getElementById('account-greeting').textContent = _user.name.split(' ').pop();
+      showToast('Đã lưu thông tin!');
+    }
+
+    function renderAccountOrders() {
+      const container = document.getElementById('account-orders-list');
+      if (_orders.length === 0) {
+        container.innerHTML = `<div class="text-center py-12">
+          <p class="font-heading text-[1.4rem] font-normal text-brand-dark/30 mb-3">Chưa có đơn hàng</p>
+          <button class="btn-primary" onclick="navigateTo('shop')">Mua sắm ngay</button>
+        </div>`;
+        return;
+      }
+      container.innerHTML = _orders.map(o => `
+        <div class="border border-secondary p-5 mb-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <p class="font-body text-[11px] tracking-[0.12em] uppercase text-accent mb-1">${o.number}</p>
+              <p class="font-body text-[12px] text-brand-dark/50">${o.date}</p>
+            </div>
+            <span class="font-body text-[10px] tracking-[0.1em] uppercase text-accent border border-accent px-3 py-1">Đang xử lý</span>
+          </div>
+          <div class="space-y-2 mb-3">
+            ${o.items.map(i => `
+              <div class="flex justify-between font-body text-[13px]">
+                <span class="text-brand-dark/70">${i.name} × ${i.qty} (${i.size})</span>
+                <span class="text-brand-dark">${(i.numPrice*i.qty).toLocaleString('vi-VN')} ₫</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="border-t border-secondary pt-3 flex justify-between">
+            <span class="font-body text-[11px] uppercase tracking-[0.1em] text-brand-dark/50">Tổng</span>
+            <span class="font-heading font-semibold text-brand-dark">${o.total.toLocaleString('vi-VN')} ₫</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAccountAddress() {
+      const container = document.getElementById('account-address-content');
+      if (!_checkoutData.name) {
+        container.innerHTML = `<div class="text-center py-12">
+          <p class="font-heading text-[1.4rem] font-normal text-brand-dark/30 mb-3">Chưa có địa chỉ lưu</p>
+          <p class="font-body text-[13px] text-brand-dark/45 mb-6">Địa chỉ sẽ được lưu sau khi bạn đặt hàng.</p>
+          <button class="btn-outline" onclick="navigateTo('shop')">Đến cửa hàng</button>
+        </div>`;
+        return;
+      }
+      container.innerHTML = `
+        <div class="border border-secondary p-5 max-w-sm">
+          <p class="font-body text-[10px] tracking-[0.14em] uppercase text-accent mb-3">Địa chỉ mặc định</p>
+          <p class="font-body text-[14px] font-medium text-brand-dark mb-1">${_checkoutData.name}</p>
+          <p class="font-body text-[13px] text-brand-dark/65">${_checkoutData.phone}</p>
+          <p class="font-body text-[13px] text-brand-dark/65">${_checkoutData.address}</p>
+          <p class="font-body text-[13px] text-brand-dark/65">${_checkoutData.district ? _checkoutData.district + ', ' : ''}${_checkoutData.city}</p>
+        </div>
+      `;
     }
 
     // === SIZE ===
@@ -1215,7 +2168,7 @@
       if (existing) { existing.qty += _currentQty; }
       else { _cart.push({..._currentProduct, size, qty:_currentQty}); }
       renderCart();
-      toggleCart();
+      showToast('Đã thêm vào giỏ hàng');
     }
 
     function removeCartItem(idx) {
@@ -1241,7 +2194,7 @@
         container.innerHTML = '<p id="cart-empty" class="hidden"></p>' + _cart.map((item, i) => `
           <div class="cart-item flex gap-3 mb-4 pb-4 border-b border-secondary">
             <div class="w-14 flex-shrink-0" style="aspect-ratio:3/4;background:#EDE8E1;overflow:hidden;">
-              <img src="https://placehold.co/60x80/D4C5B0/8B7355" alt="${item.name}" class="w-full h-full object-cover">
+              <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover" style="object-position:top;">
             </div>
             <div class="flex-1 min-w-0">
               <p class="font-heading text-sm font-medium text-brand-dark leading-tight">${item.name}</p>
@@ -1259,10 +2212,141 @@
       }
     }
 
+    // === CHECKOUT ===
+    function goCheckout() {
+      if (_cartOpen) toggleCart();
+      navigateTo('checkout');
+    }
+
+    function initCheckout() {
+      _checkoutStep = 1;
+      _selectedPayment = 'cod';
+      renderCheckoutStep();
+      renderCheckoutSummary();
+      // Pre-fill if logged in
+      if (_user) {
+        const n = document.getElementById('co-name');
+        const e = document.getElementById('co-email');
+        const p = document.getElementById('co-phone');
+        if (n && !n.value) n.value = _user.name || '';
+        if (e && !e.value) e.value = _user.email || '';
+        if (p && !p.value) p.value = _user.phone || '';
+      }
+    }
+
+    function renderCheckoutStep() {
+      [1,2,3].forEach(i => {
+        document.getElementById(`checkout-step-${i}`).classList.toggle('active', i === _checkoutStep);
+        const dot = document.getElementById(`step-dot-${i}`);
+        dot.classList.remove('active','done');
+        if (i === _checkoutStep) dot.classList.add('active');
+        else if (i < _checkoutStep) dot.classList.add('done');
+      });
+      [1,2].forEach(i => {
+        const line = document.getElementById(`step-line-${i}`);
+        line.classList.toggle('done', i < _checkoutStep);
+      });
+    }
+
+    function renderCheckoutSummary() {
+      const total = _cart.reduce((s,i) => s + i.numPrice * i.qty, 0);
+      const itemsHTML = _cart.map(i => `
+        <div class="flex gap-3 items-start">
+          <div class="w-10 flex-shrink-0" style="aspect-ratio:3/4;overflow:hidden;background:#D4C5B0;">
+            <img src="${i.img}" alt="${i.name}" class="w-full h-full object-cover" style="object-position:top;">
+          </div>
+          <div class="flex-1">
+            <p class="font-body text-[12px] text-brand-dark leading-snug">${i.name}</p>
+            <p class="font-body text-[11px] text-brand-dark/45">Size ${i.size} × ${i.qty}</p>
+          </div>
+          <span class="font-body text-[12px] text-brand-dark whitespace-nowrap">${(i.numPrice*i.qty).toLocaleString('vi-VN')} ₫</span>
+        </div>
+      `).join('');
+      ['checkout-summary-1','checkout-summary-2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = itemsHTML;
+      });
+      const totalStr = total.toLocaleString('vi-VN') + ' ₫';
+      ['checkout-total-1','checkout-total-2','checkout-subtotal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = totalStr;
+      });
+    }
+
+    function nextCheckoutStep(e) {
+      if (e) e.preventDefault();
+      // Save address data
+      _checkoutData = {
+        name:     document.getElementById('co-name').value.trim(),
+        phone:    document.getElementById('co-phone').value.trim(),
+        email:    document.getElementById('co-email').value.trim(),
+        address:  document.getElementById('co-address').value.trim(),
+        city:     document.getElementById('co-city').value,
+        district: document.getElementById('co-district').value.trim(),
+        note:     document.getElementById('co-note').value.trim(),
+      };
+      const addrText = `${_checkoutData.name} · ${_checkoutData.phone}\n${_checkoutData.address}${_checkoutData.district?', '+_checkoutData.district:''}, ${_checkoutData.city}`;
+      const addrEl = document.getElementById('checkout-address-text');
+      if (addrEl) addrEl.textContent = addrText;
+      _checkoutStep = 2;
+      renderCheckoutStep();
+      renderCheckoutSummary();
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    function prevCheckoutStep() {
+      _checkoutStep = Math.max(1, _checkoutStep - 1);
+      renderCheckoutStep();
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    function selectPayment(method) {
+      _selectedPayment = method;
+      ['cod','bank'].forEach(m => {
+        document.getElementById('pay-' + m).classList.toggle('selected', m === method);
+      });
+      document.getElementById('bank-info').classList.toggle('hidden', method !== 'bank');
+    }
+
+    function placeOrder() {
+      const total = _cart.reduce((s,i) => s + i.numPrice * i.qty, 0);
+      const orderNum = '#OM' + Math.floor(100000 + Math.random() * 900000);
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric'});
+      const order = {
+        number: orderNum, date: dateStr, total,
+        items: _cart.map(i => ({...i})),
+        address: _checkoutData, payment: _selectedPayment,
+      };
+      _orders.unshift(order);
+
+      // Render confirmation
+      document.getElementById('order-number-display').textContent = `Mã đơn hàng: ${orderNum} · ${dateStr}`;
+      document.getElementById('order-summary-final').innerHTML = order.items.map(i => `
+        <div class="flex justify-between font-body text-[13px]">
+          <span class="text-brand-dark/70">${i.name} (${i.size}) × ${i.qty}</span>
+          <span class="text-brand-dark">${(i.numPrice*i.qty).toLocaleString('vi-VN')} ₫</span>
+        </div>
+      `).join('') + `<div class="border-t border-secondary mt-3 pt-3 flex justify-between">
+        <span class="font-body text-[11px] uppercase tracking-[0.1em] text-brand-dark/50">Tổng</span>
+        <span class="font-heading font-semibold text-brand-dark">${total.toLocaleString('vi-VN')} ₫</span>
+      </div>`;
+      document.getElementById('order-address-text').textContent =
+        `${_checkoutData.name} · ${_checkoutData.phone}\n${_checkoutData.address}${_checkoutData.district?', '+_checkoutData.district:''}, ${_checkoutData.city}`;
+
+      _cart = [];
+      renderCart();
+      _checkoutStep = 3;
+      renderCheckoutStep();
+      window.scrollTo({top:0,behavior:'instant'});
+      showToast('Đơn hàng đã được đặt thành công!');
+    }
+
     // === INIT ===
     document.addEventListener('DOMContentLoaded', () => {
       const page = location.hash.slice(1) || 'home';
       navigateTo(page);
+      updateAuthUI();
     });
   </script>
 </body>
