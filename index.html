@@ -450,13 +450,6 @@
       <!-- Right: Nav link + Search + Auth + Cart -->
       <div class="flex items-center gap-4 ml-auto">
 
-        <!-- About link (desktop) -->
-        <a href="#about" onclick="navigateTo('about');return false;"
-           class="nav-link hidden md:inline-block" data-page="about">Về chúng tôi</a>
-
-        <!-- Divider -->
-        <div class="hidden md:block w-px h-[18px]" style="background:#E2E2E2;"></div>
-
         <!-- Search -->
         <button onclick="toggleSearch()" aria-label="Tìm kiếm"
                 class="hidden md:flex p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
@@ -464,6 +457,13 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
+
+        <!-- Divider -->
+        <div class="hidden md:block w-px h-[18px]" style="background:#E2E2E2;"></div>
+
+        <!-- About link (desktop) -->
+        <a href="#about" onclick="navigateTo('about');return false;"
+           class="nav-link hidden md:inline-block" data-page="about">Về chúng tôi</a>
 
         <!-- Divider -->
         <div class="hidden md:block w-px h-[18px]" style="background:#E2E2E2;"></div>
