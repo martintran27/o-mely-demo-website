@@ -382,36 +382,81 @@
       content: ''; display: block; width: 8px; height: 8px;
       border-radius: 50%; background: #9E3D3D;
     }
+
+    /* === CATEGORY PILLS BAR === */
+    .pill-btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px; font-weight: 400;
+      padding: 7px 18px; border-radius: 999px;
+      border: 1.5px solid #E2E2E2; background: #F8F8F8;
+      color: #1A1A1A; cursor: pointer;
+      white-space: nowrap; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .pill-btn:hover { background: #ECECEC; border-color: #C8C8C8; }
+    .pill-btn.pill-active { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+    .pill-btn.pill-dark  { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+    .pill-search-wrap {
+      flex: 1; min-width: 160px; max-width: 300px;
+      display: flex; align-items: center; gap: 8px;
+      background: #F8F8F8; border: 1.5px solid #E2E2E2;
+      border-radius: 999px; padding: 7px 16px; flex-shrink: 0; cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+    .pill-search-wrap:hover { border-color: #9E3D3D; }
+
+    /* === HERO CTA + NAV ARROWS === */
+    .hero-pill-cta {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: #FFFFFF; color: #1A1A1A; border: none;
+      font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 500;
+      padding: 13px 13px 13px 30px; border-radius: 999px; cursor: pointer;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .hero-pill-cta:hover { background: #F5F5F5; transform: scale(1.02); }
+    .hero-nav-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #FFFFFF;
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .hero-nav-btn:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.8); }
   </style>
 </head>
 <body class="bg-white">
 
   <!-- ===== NAVBAR ===== -->
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white" style="border-bottom:1px solid #E2E2E2; height:72px;">
-    <div class="flex items-center justify-between h-full px-6 md:px-10">
+    <div class="flex items-center h-full px-6 md:px-10 relative">
 
-      <!-- Left: Hamburger + Logo -->
-      <div class="flex items-center gap-5">
-        <button onclick="toggleMobileMenu()" aria-label="Menu"
-                class="p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
-            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
-        <a href="#home" onclick="navigateTo('home');return false;"
-           class="font-heading font-semibold text-brand-dark hover:opacity-70 transition-opacity duration-200 focus-visible:outline-none"
-           style="font-size:1.45rem; letter-spacing:0.04em;">O'mely<sup style="font-size:0.42em; vertical-align:super; font-family:'Jost',sans-serif; letter-spacing:0;">™</sup></a>
-      </div>
+      <!-- Left: Hamburger only -->
+      <button onclick="toggleMobileMenu()" aria-label="Menu"
+              class="p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
 
-      <!-- Center: Nav links (desktop only) -->
-      <div class="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
-        <a href="#home"  class="nav-link" onclick="navigateTo('home');return false;"  data-page="home">Trang chủ</a>
-        <a href="#shop"  class="nav-link" onclick="navigateTo('shop');return false;"  data-page="shop">Cửa hàng</a>
-        <a href="#about" class="nav-link" onclick="navigateTo('about');return false;" data-page="about">Về chúng tôi</a>
-      </div>
+      <!-- Center: Logo (absolute) -->
+      <a href="#home" onclick="navigateTo('home');return false;"
+         class="absolute left-1/2 -translate-x-1/2 font-heading font-semibold text-brand-dark hover:opacity-70 transition-opacity duration-200 focus-visible:outline-none"
+         style="font-size:1.45rem; letter-spacing:0.04em;">O'mely<sup style="font-size:0.42em; vertical-align:super; font-family:'Jost',sans-serif; letter-spacing:0;">™</sup></a>
 
-      <!-- Right: Search | Divider | Auth | Divider | Cart -->
-      <div class="flex items-center gap-4">
+      <!-- Right: Nav link + Search + Auth + Cart -->
+      <div class="flex items-center gap-4 ml-auto">
+
+        <!-- About link (desktop) -->
+        <a href="#about" onclick="navigateTo('about');return false;"
+           class="nav-link hidden md:inline-block" data-page="about">Về chúng tôi</a>
+
+        <!-- Divider -->
+        <div class="hidden md:block w-px h-[18px]" style="background:#E2E2E2;"></div>
+
         <!-- Search -->
         <button onclick="toggleSearch()" aria-label="Tìm kiếm"
                 class="hidden md:flex p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
@@ -482,111 +527,74 @@
   <!-- ============================================================ -->
   <section id="home" class="page-section">
 
-    <!-- ===== HORIZONTAL PRODUCT SHOWCASE (Promax style) ===== -->
-    <div style="padding-top:72px; border-bottom:1px solid #E2E2E2;">
-      <div class="grid grid-cols-2 md:grid-cols-4" style="border-top:1px solid #E2E2E2;">
-
-        <!-- Product 1 -->
-        <div class="cursor-pointer overflow-hidden group" style="border-right:1px solid #E2E2E2;"
-             onclick="showProduct({id:1,name:'Áo linen tối giản',price:'890.000',numPrice:890000,category:'ao',img:'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=533&fit=crop&q=80',badge:'Mới'})">
-          <div class="px-5 pt-5 pb-4">
-            <h3 class="font-body font-semibold leading-tight text-brand-dark mb-1" style="font-size:1.05rem;">Áo linen<br>tối giản</h3>
-            <p class="font-body text-sm" style="color:#9A9A9A;">Áo</p>
-          </div>
-          <div class="overflow-hidden" style="background:#F2F2F2;">
-            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=520&h=680&fit=crop&q=80"
-                 alt="Áo linen"
-                 class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                 style="aspect-ratio:3/4;">
-          </div>
+    <!-- ===== CATEGORY PILLS BAR ===== -->
+    <div style="padding-top:72px; background:#FFFFFF; border-bottom:1px solid #E2E2E2;">
+      <div class="flex items-center gap-2 px-6 md:px-10 py-3 overflow-x-auto">
+        <button class="pill-btn pill-active" onclick="navigateTo('shop')">
+          Áo
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <button class="pill-btn" onclick="navigateTo('shop')">Mới nhất</button>
+        <button class="pill-btn" onclick="navigateTo('shop')">Bestseller</button>
+        <div class="pill-search-wrap" onclick="toggleSearch()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A9A9A" stroke-width="1.8" stroke-linecap="round" class="flex-shrink-0">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span class="font-body text-[13px] text-secondary-dark select-none">Tìm kiếm...</span>
         </div>
-
-        <!-- Product 2 -->
-        <div class="cursor-pointer overflow-hidden group" style="border-right:1px solid #E2E2E2;"
-             onclick="showProduct({id:2,name:'Áo blouse lụa',price:'1.290.000',numPrice:1290000,category:'ao',img:'https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=400&h=533&fit=crop&q=80'})">
-          <div class="px-5 pt-5 pb-4">
-            <h3 class="font-body font-semibold leading-tight text-brand-dark mb-1" style="font-size:1.05rem;">Áo blouse<br>lụa</h3>
-            <p class="font-body text-sm" style="color:#9A9A9A;">Áo</p>
-          </div>
-          <div class="overflow-hidden" style="background:#F2F2F2;">
-            <img src="https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=520&h=680&fit=crop&q=80"
-                 alt="Áo blouse lụa"
-                 class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                 style="aspect-ratio:3/4;">
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="cursor-pointer overflow-hidden group" style="border-right:1px solid #E2E2E2;"
-             onclick="showProduct({id:3,name:'Áo sơ mi organic',price:'750.000',numPrice:750000,category:'ao',img:'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=400&h=533&fit=crop&q=80',badge:'Bestseller'})">
-          <div class="px-5 pt-5 pb-4">
-            <h3 class="font-body font-semibold leading-tight text-brand-dark mb-1" style="font-size:1.05rem;">Áo sơ mi<br>organic</h3>
-            <p class="font-body text-sm" style="color:#9A9A9A;">Áo</p>
-          </div>
-          <div class="overflow-hidden" style="background:#F2F2F2;">
-            <img src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=520&h=680&fit=crop&q=80"
-                 alt="Áo sơ mi organic"
-                 class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                 style="aspect-ratio:3/4;">
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="cursor-pointer overflow-hidden group"
-             onclick="showProduct({id:4,name:'Áo crop linen',price:'720.000',numPrice:720000,category:'ao',img:'https://images.unsplash.com/photo-1551163943-3f7e43fe1e1e?w=400&h=533&fit=crop&q=80',badge:'Mới'})">
-          <div class="px-5 pt-5 pb-4">
-            <h3 class="font-body font-semibold leading-tight text-brand-dark mb-1" style="font-size:1.05rem;">Áo crop<br>linen</h3>
-            <p class="font-body text-sm" style="color:#9A9A9A;">Áo</p>
-          </div>
-          <div class="overflow-hidden" style="background:#F2F2F2;">
-            <img src="https://images.unsplash.com/photo-1551163943-3f7e43fe1e1e?w=520&h=680&fit=crop&q=80"
-                 alt="Áo crop linen"
-                 class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                 style="aspect-ratio:3/4;">
-          </div>
-        </div>
-
+        <button class="pill-btn pill-dark" onclick="navigateTo('shop')">Mới</button>
+        <button class="pill-btn" onclick="navigateTo('shop')">Sale</button>
       </div>
     </div>
 
-    <!-- ===== EDITORIAL SECTION (Promax big-type style) ===== -->
-    <div class="flex flex-col md:flex-row md:items-end px-6 md:px-10 py-14 md:py-20" style="border-bottom:1px solid #E2E2E2;">
+    <!-- ===== HERO SECTION (WiPK inspired) ===== -->
+    <div class="relative overflow-hidden" style="height:calc(100vh - 126px); min-height:480px; max-height:860px;">
+      <!-- Background image -->
+      <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1440&h=900&fit=crop&q=80"
+           alt="O'mely — Bộ sưu tập áo"
+           class="absolute inset-0 w-full h-full object-cover">
+      <!-- Dark gradient overlay: stronger left for text readability -->
+      <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(18,18,18,0.80) 0%,rgba(18,18,18,0.44) 50%,rgba(18,18,18,0.08) 100%);"></div>
 
-      <!-- Left: Massive bold type -->
-      <div class="flex-1 mb-10 md:mb-0">
-        <h1 style="font-family:'Jost',sans-serif; font-weight:900; line-height:0.88; text-transform:uppercase; letter-spacing:-0.025em; font-size:clamp(3.8rem,10vw,9.5rem);">
-          <span style="color:#1A1A1A;">BỘ SƯU TẬP</span><br>
-          <span style="color:#CCCCCC;">THU ĐÔNG</span><br>
-          <span style="color:#1A1A1A;">O'MELY</span>
-        </h1>
-      </div>
+      <!-- Content -->
+      <div class="absolute inset-0 flex flex-col px-10 md:px-16 py-10">
 
-      <!-- Right: Certifications + CTA + description -->
-      <div class="md:flex flex-col items-end gap-7 md:ml-14 md:pb-1 hidden" style="max-width:380px;">
-        <!-- Cert logos row -->
-        <div class="flex items-center gap-8">
-          <span class="font-body font-medium tracking-[0.22em] uppercase" style="font-size:0.7rem; color:#9A9A9A;">GOTS</span>
-          <span class="font-body font-medium tracking-[0.22em] uppercase" style="font-size:0.7rem; color:#9A9A9A;">Fair Trade</span>
-          <span class="font-body font-medium tracking-[0.22em] uppercase" style="font-size:0.7rem; color:#9A9A9A;">OEKO-TEX</span>
+        <!-- Main text (vertically centered) -->
+        <div class="flex-1 flex flex-col justify-center">
+          <h1 class="font-heading text-white h1"
+              style="font-size:clamp(4.5rem,9vw,9rem); font-weight:500; line-height:0.92; letter-spacing:-0.01em;">
+            O'mely.
+          </h1>
+          <div class="flex items-start gap-3 mt-6 h2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.5" stroke-linecap="round" class="flex-shrink-0 mt-1">
+              <line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/>
+            </svg>
+            <p class="font-body font-light" style="font-size:0.95rem; color:rgba(255,255,255,0.7); max-width:380px; line-height:1.7;">
+              Thời trang bền vững lấy cảm hứng từ vẻ đẹp tự nhiên của Việt Nam. Mỗi chiếc áo đều mang cam kết với con người và hành tinh.
+            </p>
+          </div>
         </div>
 
-        <!-- CTA -->
-        <button onclick="navigateTo('shop')"
-                class="flex items-center gap-3 font-body font-semibold uppercase tracking-[0.18em] text-brand-dark hover:opacity-50 transition-opacity duration-200"
-                style="font-size:0.8rem;">
-          KHÁM PHÁ BỘ SƯU TẬP
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
+        <!-- Nav arrows (right, vertically centered) -->
+        <div class="absolute right-8 md:right-14 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-3">
+          <button class="hero-nav-btn" aria-label="Trước">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="hero-nav-btn" aria-label="Tiếp theo">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
 
-        <!-- Description -->
-        <p class="font-body leading-relaxed text-right" style="font-size:0.9rem; color:#9A9A9A;">
-          Thời trang bền vững lấy cảm hứng từ vẻ đẹp tự nhiên của Việt Nam, mỗi sản phẩm đều mang cam kết với con người và hành tinh.
-        </p>
-      </div>
+        <!-- CTA pill button (bottom center) -->
+        <div class="flex justify-center pb-4 h3">
+          <button onclick="navigateTo('shop')" class="hero-pill-cta">
+            Khám phá bộ sưu tập
+            <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#1A1A1A;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </div>
+          </button>
+        </div>
 
-      <!-- Mobile CTA -->
-      <div class="md:hidden">
-        <button onclick="navigateTo('shop')" class="btn-primary">Khám phá bộ sưu tập</button>
       </div>
     </div>
 
