@@ -16,8 +16,8 @@
             cream:    '#FFFFFF',
             'cream-dark': '#F2F2F2',
             'brand-dark': '#1A1A1A',
-            accent:   '#9E3D3D',
-            'accent-light': '#B06060',
+            accent:   '#761717',
+            'accent-light': '#8B1A1A',
             secondary: '#E2E2E2',
             'secondary-dark': '#9A9A9A',
           },
@@ -102,9 +102,9 @@
       transition: background-color 0.25s ease, transform 0.15s ease;
       text-decoration: none;
     }
-    .btn-primary:hover  { background-color: #9E3D3D; }
+    .btn-primary:hover  { background-color: #761717; }
     .btn-primary:active { transform: scale(0.97); }
-    .btn-primary:focus-visible { outline: 2px solid #9E3D3D; outline-offset: 3px; }
+    .btn-primary:focus-visible { outline: 2px solid #761717; outline-offset: 3px; }
 
     .btn-outline {
       display: inline-flex;
@@ -125,7 +125,7 @@
     }
     .btn-outline:hover  { background-color: #1A1A1A; color: #FFFFFF; }
     .btn-outline:active { transform: scale(0.97); }
-    .btn-outline:focus-visible { outline: 2px solid #9E3D3D; outline-offset: 3px; }
+    .btn-outline:focus-visible { outline: 2px solid #761717; outline-offset: 3px; }
 
     /* === NAV LINKS === */
     .nav-link {
@@ -143,13 +143,13 @@
       position: absolute;
       bottom: -3px; left: 0;
       width: 0; height: 1px;
-      background-color: #9E3D3D;
+      background-color: #761717;
       transition: width 0.3s ease;
     }
     .nav-link:hover::after,
     .nav-link.active::after { width: 100%; }
-    .nav-link.active         { color: #9E3D3D; }
-    .nav-link:focus-visible  { outline: 2px solid #9E3D3D; outline-offset: 4px; }
+    .nav-link.active         { color: #761717; }
+    .nav-link:focus-visible  { outline: 2px solid #761717; outline-offset: 4px; }
 
     /* === PRODUCT CARDS === */
     .product-card { transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -180,7 +180,7 @@
       color: #FFFFFF;
       border-color: #1A1A1A;
     }
-    .filter-btn:focus-visible { outline: 2px solid #9E3D3D; outline-offset: 2px; }
+    .filter-btn:focus-visible { outline: 2px solid #761717; outline-offset: 2px; }
 
     /* === SIZE BUTTONS === */
     .size-btn {
@@ -192,9 +192,9 @@
       cursor: pointer;
       transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     }
-    .size-btn:hover { border-color: #9E3D3D; }
+    .size-btn:hover { border-color: #761717; }
     .size-btn.selected { background-color: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
-    .size-btn:focus-visible { outline: 2px solid #9E3D3D; outline-offset: 2px; }
+    .size-btn:focus-visible { outline: 2px solid #761717; outline-offset: 2px; }
 
     /* === TABS === */
     .tab-btn {
@@ -210,7 +210,7 @@
       color: #9A9A9A;
       transition: color 0.2s ease, border-color 0.2s ease;
     }
-    .tab-btn.active { color: #1A1A1A; border-bottom-color: #9E3D3D; }
+    .tab-btn.active { color: #1A1A1A; border-bottom-color: #761717; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
@@ -259,7 +259,7 @@
       position: absolute;
       left: -29px; top: 4px;
       width: 11px; height: 11px;
-      border: 2px solid #9E3D3D;
+      border: 2px solid #761717;
       border-radius: 50%;
       background: #FFFFFF;
     }
@@ -270,7 +270,7 @@
     /* === DECORATIVE === */
     .deco-line {
       width: 36px; height: 1px;
-      background-color: #9E3D3D;
+      background-color: #761717;
       display: inline-block;
       flex-shrink: 0;
     }
@@ -279,12 +279,12 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: #FFFFFF; }
     ::-webkit-scrollbar-thumb { background: #E2E2E2; border-radius: 2px; }
-    ::-webkit-scrollbar-thumb:hover { background: #9E3D3D; }
+    ::-webkit-scrollbar-thumb:hover { background: #761717; }
 
     /* === TOAST === */
     .toast {
       position: fixed; bottom: 28px; right: 28px; z-index: 9500;
-      background: #FFFFFF; border-left: 3px solid #9E3D3D;
+      background: #FFFFFF; border-left: 3px solid #761717;
       padding: 14px 20px; box-shadow: 0 4px 24px rgba(26,26,26,0.14);
       font-family: 'Jost', sans-serif; font-size: 13px; color: #1A1A1A;
       display: flex; align-items: center; gap: 10px;
@@ -297,7 +297,7 @@
       display: none; position: absolute; top: calc(100% + 10px); right: 0;
       background: #FFFFFF; min-width: 176px;
       box-shadow: 0 8px 32px rgba(26,26,26,0.12); z-index: 300;
-      border-top: 2px solid #9E3D3D;
+      border-top: 2px solid #761717;
     }
     .user-dropdown.open { display: block; }
     .user-dropdown a, .user-dropdown button {
@@ -320,9 +320,9 @@
       color: #9A9A9A; transition: all 0.2s ease;
     }
     .step-indicator-dot.active { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
-    .step-indicator-dot.done   { background: #9E3D3D; color: #FFFFFF; border-color: #9E3D3D; }
+    .step-indicator-dot.done   { background: #761717; color: #FFFFFF; border-color: #761717; }
     .step-connector { flex: 1; height: 1px; background: #E2E2E2; margin: 0 8px; }
-    .step-connector.done { background: #9E3D3D; }
+    .step-connector.done { background: #761717; }
 
     /* === AUTH VIEWS === */
     .auth-view { display: none; }
@@ -335,12 +335,12 @@
       font-family: 'Jost', sans-serif; font-size: 14px; color: #1A1A1A;
       outline: none; transition: border-color 0.2s ease;
     }
-    .form-input:focus { border-color: #9E3D3D; }
+    .form-input:focus { border-color: #761717; }
     .form-input::placeholder { color: #9A9A9A; }
     .form-label {
       display: block; font-family: 'Jost', sans-serif;
       font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #9E3D3D; margin-bottom: 6px;
+      color: #761717; margin-bottom: 6px;
     }
 
     /* === SEARCH OVERLAY === */
@@ -362,7 +362,7 @@
     /* === WISHLIST HEART === */
     .wish-btn { background: none; border: none; cursor: pointer; padding: 6px; line-height: 1; }
     .wish-btn svg { transition: fill 0.2s ease, stroke 0.2s ease; }
-    .wish-btn.active svg { fill: #9E3D3D; stroke: #9E3D3D; }
+    .wish-btn.active svg { fill: #761717; stroke: #761717; }
 
     /* === PAYMENT RADIO === */
     .pay-option {
@@ -370,17 +370,17 @@
       cursor: pointer; transition: border-color 0.2s ease;
       display: flex; align-items: center; gap: 12px;
     }
-    .pay-option.selected { border-color: #9E3D3D; }
+    .pay-option.selected { border-color: #761717; }
     .pay-radio {
       width: 18px; height: 18px; border-radius: 50%;
       border: 1.5px solid #E2E2E2; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       transition: border-color 0.2s ease;
     }
-    .pay-option.selected .pay-radio { border-color: #9E3D3D; }
+    .pay-option.selected .pay-radio { border-color: #761717; }
     .pay-option.selected .pay-radio::after {
       content: ''; display: block; width: 8px; height: 8px;
-      border-radius: 50%; background: #9E3D3D;
+      border-radius: 50%; background: #761717;
     }
 
     /* === CATEGORY PILLS BAR === */
@@ -395,8 +395,8 @@
       transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
     .pill-btn:hover { background: #ECECEC; border-color: #C8C8C8; }
-    .pill-btn.pill-active { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
-    .pill-btn.pill-dark  { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+    .pill-btn.pill-active { background: #8B1A1A; color: #FFFFFF; border-color: #8B1A1A; }
+    .pill-btn.pill-dark  { background: #8B1A1A; color: #FFFFFF; border-color: #8B1A1A; }
     .pill-search-wrap {
       flex: 1; min-width: 160px; max-width: 300px;
       display: flex; align-items: center; gap: 8px;
@@ -404,7 +404,7 @@
       border-radius: 999px; padding: 7px 16px; flex-shrink: 0; cursor: pointer;
       transition: border-color 0.2s ease;
     }
-    .pill-search-wrap:hover { border-color: #9E3D3D; }
+    .pill-search-wrap:hover { border-color: #761717; }
 
     /* === HERO CTA + NAV ARROWS === */
     .hero-pill-cta {
@@ -599,7 +599,7 @@
     </div>
 
     <!-- SUSTAINABILITY SECTION (dark) -->
-    <div class="py-24 px-6 md:px-14" style="background:#1A1A1A;">
+    <div class="py-24 px-6 md:px-14" style="background:#6D1111;">
       <div class="container mx-auto">
         <div class="text-center mb-16">
           <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4">Cam kết của chúng tôi</p>
@@ -610,9 +610,9 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-14">
           <div class="text-center group">
             <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
-                 style="border-color:rgba(158,61,61,0.4);"
-                 onmouseenter="this.style.borderColor='#9E3D3D'" onmouseleave="this.style.borderColor='rgba(158,61,61,0.4)'">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="1.3" stroke-linecap="round">
+                 style="border-color:rgba(255,255,255,0.35);"
+                 onmouseenter="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.35)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.3" stroke-linecap="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               </svg>
             </div>
@@ -623,9 +623,9 @@
           </div>
           <div class="text-center group">
             <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
-                 style="border-color:rgba(158,61,61,0.4);"
-                 onmouseenter="this.style.borderColor='#9E3D3D'" onmouseleave="this.style.borderColor='rgba(158,61,61,0.4)'">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="1.3" stroke-linecap="round">
+                 style="border-color:rgba(255,255,255,0.35);"
+                 onmouseenter="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.35)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.3" stroke-linecap="round">
                 <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
                 <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
@@ -638,9 +638,9 @@
           </div>
           <div class="text-center group">
             <div class="w-14 h-14 rounded-full border flex items-center justify-center mx-auto mb-6 transition-colors duration-300"
-                 style="border-color:rgba(158,61,61,0.4);"
-                 onmouseenter="this.style.borderColor='#9E3D3D'" onmouseleave="this.style.borderColor='rgba(158,61,61,0.4)'">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="1.3" stroke-linecap="round">
+                 style="border-color:rgba(255,255,255,0.35);"
+                 onmouseenter="this.style.borderColor='rgba(255,255,255,0.7)'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.35)'">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.3" stroke-linecap="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
@@ -695,7 +695,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer style="background:#1A1A1A;" class="pt-16 pb-8 px-6 md:px-14">
+    <footer style="background:#520D0D;" class="pt-16 pb-8 px-6 md:px-14">
       <div class="container mx-auto">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           <div class="col-span-2 md:col-span-1">
@@ -705,13 +705,13 @@
               <a href="#" aria-label="Facebook"
                  class="w-8 h-8 flex items-center justify-center transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                  style="border:1px solid rgba(255,255,255,0.18);"
-                 onmouseenter="this.style.borderColor='#9E3D3D'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.18)'">
+                 onmouseenter="this.style.borderColor='#761717'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.18)'">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
               </a>
               <a href="#" aria-label="Instagram"
                  class="w-8 h-8 flex items-center justify-center transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                  style="border:1px solid rgba(255,255,255,0.18);"
-                 onmouseenter="this.style.borderColor='#9E3D3D'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.18)'">
+                 onmouseenter="this.style.borderColor='#761717'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.18)'">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               </a>
             </div>
@@ -740,11 +740,11 @@
               <input type="email" placeholder="Email của bạn"
                      class="flex-1 px-3 py-2 font-body text-[12px] outline-none transition-colors duration-200"
                      style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#FFFFFF;"
-                     onfocus="this.style.borderColor='#9E3D3D'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                     onfocus="this.style.borderColor='#761717'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
               <button aria-label="Đăng ký"
                       class="px-3 py-2 transition-colors duration-200 focus-visible:outline-none"
-                      style="background:#9E3D3D;"
-                      onmouseenter="this.style.background='rgba(158,61,61,0.8)'" onmouseleave="this.style.background='#9E3D3D'">
+                      style="background:#6D1111;"
+                      onmouseenter="this.style.background='rgba(158,61,61,0.8)'" onmouseleave="this.style.background='#761717'">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
@@ -853,10 +853,10 @@
             <!-- Stars -->
             <div class="flex items-center gap-2 mb-7">
               <div class="flex gap-0.5">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="#9E3D3D"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="#9E3D3D"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="#9E3D3D"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="#9E3D3D"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#761717"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#761717"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#761717"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#761717"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#E2E2E2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               </div>
               <span class="font-body text-[11px] text-secondary-dark">4.0 (128 đánh giá)</span>
@@ -899,7 +899,7 @@
 
             <!-- Sustainability note -->
             <div class="border border-secondary/60 p-4 mb-7 flex items-start gap-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="1.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#761717" stroke-width="1.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               <div>
                 <p class="font-body text-[11px] font-medium tracking-[0.08em] uppercase text-brand-dark mb-1">Sản phẩm bền vững</p>
                 <p class="font-body font-light text-[12px] text-brand-dark/55">Vật liệu hữu cơ, sản xuất công bằng và đóng gói tái chế.</p>
@@ -1154,7 +1154,7 @@
     </div>
 
     <!-- Mini footer -->
-    <footer style="background:#1A1A1A;" class="pt-10 pb-8 px-6 md:px-14">
+    <footer style="background:#520D0D;" class="pt-10 pb-8 px-6 md:px-14">
       <div class="container mx-auto border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-3" style="border-color:rgba(255,255,255,0.08);">
         <p class="font-heading font-semibold text-xl text-cream">O'mely</p>
         <p class="font-body font-light text-[12px]" style="color:rgba(255,255,255,0.25);">© 2026 O'mely. Mọi quyền được bảo lưu.</p>
@@ -1192,11 +1192,11 @@
   <!-- ============================================================ -->
   <!-- PAGE: 404 NOT FOUND                                          -->
   <!-- ============================================================ -->
-  <section id="not-found" class="page-section hidden min-h-screen flex flex-col items-center justify-center bg-cream px-6 text-center">
-    <p class="font-heading font-bold text-brand-dark mb-2" style="font-size:clamp(6rem,18vw,12rem);line-height:1;opacity:0.07;">404</p>
-    <p class="font-heading font-normal text-brand-dark mb-3" style="font-size:clamp(1.6rem,3vw,2.4rem);margin-top:-2rem;">Trang không tìm thấy</p>
-    <p class="font-body font-light text-[14px] text-brand-dark/55 max-w-sm mb-8">Trang bạn đang tìm có thể đã bị xóa hoặc địa chỉ không chính xác.</p>
-    <button class="btn-primary" onclick="navigateTo('home')">Về trang chủ</button>
+  <section id="not-found" class="page-section hidden min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
+    <p class="font-heading font-bold mb-2" style="font-size:clamp(6rem,18vw,12rem);line-height:1;color:#8B1A1A;opacity:0.15;">404</p>
+    <p class="font-heading font-normal mb-3" style="font-size:clamp(1.6rem,3vw,2.4rem);margin-top:-2rem;color:#8B1A1A;">Trang không tìm thấy</p>
+    <p class="font-body font-light text-[14px] max-w-sm mb-8" style="color:rgba(26,26,26,0.55);">Trang bạn đang tìm có thể đã bị xóa hoặc địa chỉ không chính xác.</p>
+    <button onclick="navigateTo('home')" style="background:#8B1A1A;color:#FFFFFF;padding:14px 36px;letter-spacing:0.12em;font-family:'Jost',sans-serif;font-weight:500;font-size:11px;text-transform:uppercase;border:none;cursor:pointer;">Về trang chủ</button>
   </section>
 
   <!-- ============================================================ -->
@@ -1247,7 +1247,7 @@
           </div>
           <div class="flex items-center justify-between">
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" style="accent-color:#9E3D3D;">
+              <input type="checkbox" style="accent-color:#761717;">
               <span class="font-body text-[12px] text-brand-dark/60">Nhớ tôi</span>
             </label>
             <button type="button" onclick="showAuthView('forgot')" class="font-body text-[12px] text-accent hover:underline transition-all">Quên mật khẩu?</button>
@@ -1466,7 +1466,7 @@
       <div id="checkout-step-3" class="checkout-step">
         <div class="max-w-xl mx-auto text-center py-8">
           <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="1.5" stroke-linecap="round">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#761717" stroke-width="1.5" stroke-linecap="round">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
           </div>
@@ -1883,7 +1883,7 @@
     function showToast(msg, icon) {
       const t = document.createElement('div');
       t.className = 'toast';
-      t.innerHTML = `${icon||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9E3D3D" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'}<span>${msg}</span>`;
+      t.innerHTML = `${icon||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#761717" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>'}<span>${msg}</span>`;
       document.body.appendChild(t);
       setTimeout(() => {
         t.style.opacity = '0'; t.style.transform = 'translateY(12px)';
@@ -2017,17 +2017,17 @@
             <div class="card-overlay absolute inset-0 flex items-end p-3" style="background:rgba(26,26,26,0.04);">
               <span style="background:#1A1A1A;color:#FFFFFF;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;">Xem chi tiết</span>
             </div>
-            ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#9E3D3D':'#1A1A1A'};color:#FFFFFF;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
+            ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#761717':'#1A1A1A'};color:#FFFFFF;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
             <button class="wish-btn${wishlisted?' active':''}" style="position:absolute;top:6px;right:6px;"
                     onclick="event.stopPropagation();toggleWishlist(${p.id})" aria-label="Yêu thích">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="${wishlisted?'#9E3D3D':'none'}" stroke="${wishlisted?'#9E3D3D':'rgba(26,26,26,0.5)'}" stroke-width="1.5" stroke-linecap="round">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="${wishlisted?'#761717':'none'}" stroke="${wishlisted?'#761717':'rgba(26,26,26,0.5)'}" stroke-width="1.5" stroke-linecap="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
             </button>
           </div>
           <p style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9A9A9A;margin-bottom:2px;">${CAT_LABEL[p.category]||p.category}</p>
           <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500;color:#1A1A1A;margin-bottom:3px;">${p.name}</h3>
-          <p style="font-family:'Jost',sans-serif;font-size:13px;color:#9E3D3D;">${p.price} ₫</p>
+          <p style="font-family:'Jost',sans-serif;font-size:13px;color:#761717;">${p.price} ₫</p>
         </div>
       `;
     }
@@ -2051,7 +2051,7 @@
       const idx = _wishlist.indexOf(id);
       if (idx === -1) {
         _wishlist.push(id);
-        showToast('Đã thêm vào yêu thích', '<svg width="14" height="14" viewBox="0 0 24 24" fill="#9E3D3D" stroke="#9E3D3D" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>');
+        showToast('Đã thêm vào yêu thích', '<svg width="14" height="14" viewBox="0 0 24 24" fill="#761717" stroke="#761717" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>');
       } else {
         _wishlist.splice(idx, 1);
         showToast('Đã bỏ khỏi yêu thích');
@@ -2097,7 +2097,7 @@
       document.getElementById('thumb-img-2').src = baseUrl;
 
       ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
-        document.getElementById(id).style.borderColor = i===0 ? '#9E3D3D' : 'transparent';
+        document.getElementById(id).style.borderColor = i===0 ? '#761717' : 'transparent';
       });
       document.querySelectorAll('.size-btn').forEach((b,i) => b.classList.toggle('selected', i===2));
 
@@ -2111,7 +2111,7 @@
 
     function selectThumb(idx) {
       ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
-        document.getElementById(id).style.borderColor = i===idx ? '#9E3D3D' : 'transparent';
+        document.getElementById(id).style.borderColor = i===idx ? '#761717' : 'transparent';
       });
     }
     function highlightThumb(idx) { }
@@ -2134,12 +2134,12 @@
       });
       const t = document.getElementById('pcontent-' + tabId);
       if (t) t.classList.add('active');
-      if (btn) { btn.classList.add('active'); btn.style.borderBottomColor = '#9E3D3D'; }
+      if (btn) { btn.classList.add('active'); btn.style.borderBottomColor = '#761717'; }
     }
     // Init policy tab active state
     document.addEventListener('DOMContentLoaded', () => {
       const ptab = document.getElementById('ptab-shipping');
-      if (ptab) ptab.style.borderBottomColor = '#9E3D3D';
+      if (ptab) ptab.style.borderBottomColor = '#761717';
     });
 
     // === ACCOUNT TABS (scoped) ===
