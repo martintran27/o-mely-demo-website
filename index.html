@@ -1168,7 +1168,7 @@
        class="fixed top-0 right-0 bottom-0 w-80 bg-cream z-[70] flex flex-col"
        style="transform:translateX(100%);box-shadow:-8px 0 40px rgba(26,26,26,0.15);">
     <div class="flex items-center justify-between px-6 py-5 border-b border-secondary">
-      <h2 class="font-heading text-xl font-medium">Giỏ hàng</h2>
+      <h2 class="font-heading text-xl font-medium text-accent">Giỏ hàng</h2>
       <button onclick="toggleCart()" aria-label="Đóng giỏ hàng"
               class="hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
@@ -1177,14 +1177,14 @@
       </button>
     </div>
     <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-6">
-      <p id="cart-empty" class="font-body font-light text-[14px] text-brand-dark/45 text-center py-12">Giỏ hàng của bạn đang trống.</p>
+      <p id="cart-empty" class="font-body font-light text-[14px] text-center py-12" style="color:rgba(118,23,23,0.45)">Giỏ hàng của bạn đang trống.</p>
     </div>
     <div class="px-6 py-6 border-t border-secondary">
       <div class="flex justify-between items-center mb-5">
-        <span class="font-body text-[11px] tracking-[0.1em] uppercase">Tổng cộng</span>
+        <span class="font-body text-[11px] tracking-[0.1em] uppercase text-accent">Tổng cộng</span>
         <span class="font-heading text-xl text-accent" id="cart-total">0 ₫</span>
       </div>
-      <button class="btn-primary w-full" onclick="goCheckout()">Thanh toán</button>
+      <button class="btn-primary w-full" onclick="goCheckout()" style="background-color:#761717;">Thanh toán</button>
     </div>
   </div>
   <div id="cart-overlay" class="fixed inset-0 hidden z-[65]" style="background:rgba(26,26,26,0.2);" onclick="toggleCart()"></div>
