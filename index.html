@@ -762,19 +762,19 @@
   <!-- PAGE: SHOP                                                    -->
   <!-- ============================================================ -->
   <section id="shop" class="page-section hidden">
-    <!-- Shop header (dark editorial) -->
-    <div class="relative overflow-hidden" style="padding-top:72px; background:#1A1A1A; min-height:280px; display:flex; align-items:flex-end;">
+    <!-- Shop header -->
+    <div class="relative overflow-hidden" style="padding-top:72px; background:#761717; min-height:280px; display:flex; align-items:flex-end;">
       <div class="absolute inset-0" style="padding-top:72px;">
         <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1440&h=400&fit=crop&q=80" alt=""
              class="w-full h-full object-cover" style="opacity:0.22;">
-        <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(26,26,26,0.6) 0%,#1A1A1A 100%);"></div>
+        <div class="absolute inset-0" style="background:#761717; opacity:0.78;"></div>
       </div>
       <div class="relative z-10 container mx-auto px-6 md:px-14 pb-14 pt-10 text-center w-full">
-        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-accent mb-4 flex items-center justify-center gap-3">
-          <span class="deco-line"></span>Bộ sưu tập<span class="deco-line"></span>
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-cream mb-4 flex items-center justify-center gap-3">
+          <span class="deco-line" style="background:#FFFFFF;"></span>Bộ sưu tập<span class="deco-line" style="background:#FFFFFF;"></span>
         </p>
         <h1 class="font-heading font-light text-cream mb-4" style="font-size:clamp(2.5rem,5vw,3.8rem);">Áo</h1>
-        <p class="font-body font-light text-[15px] max-w-md mx-auto" style="color:rgba(255,255,255,0.55);">
+        <p class="font-body font-light text-[15px] max-w-md mx-auto" style="color:rgba(255,255,255,0.84);">
           5 thiết kế áo từ vật liệu hữu cơ, tối giản và bền vững.
         </p>
       </div>
@@ -783,7 +783,7 @@
     <!-- Product count bar -->
     <div class="border-b border-secondary py-4 px-6 md:px-14">
       <div class="container mx-auto">
-        <span class="font-body text-[11px] tracking-[0.1em] uppercase text-secondary-dark">5 sản phẩm</span>
+        <span class="font-body text-[11px] tracking-[0.1em] uppercase text-accent">5 sản phẩm</span>
       </div>
     </div>
 
@@ -795,7 +795,7 @@
     </div>
 
     <!-- Mini footer -->
-    <div style="background:#1A1A1A;" class="py-8 px-6 md:px-14">
+    <div style="background:#761717;" class="py-8 px-6 md:px-14">
       <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
         <p class="font-heading font-semibold text-xl text-cream">O'mely</p>
         <p class="font-body font-light text-[12px]" style="color:rgba(255,255,255,0.3);">© 2026 O'mely. Mọi quyền được bảo lưu.</p>
@@ -2017,7 +2017,7 @@
             <div class="card-overlay absolute inset-0 flex items-end p-3" style="background:rgba(26,26,26,0.04);">
               <span style="background:#1A1A1A;color:#FFFFFF;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;">Xem chi tiết</span>
             </div>
-            ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#761717':'#1A1A1A'};color:#FFFFFF;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
+            ${p.badge ? `<span style="position:absolute;top:8px;left:8px;background:${p.badge==='Mới'?'#9e3d3d':'#1A1A1A'};color:#FFFFFF;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;">${p.badge}</span>` : ''}
             <button class="wish-btn${wishlisted?' active':''}" style="position:absolute;top:6px;right:6px;"
                     onclick="event.stopPropagation();toggleWishlist(${p.id})" aria-label="Yêu thích">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="${wishlisted?'#761717':'none'}" stroke="${wishlisted?'#761717':'rgba(26,26,26,0.5)'}" stroke-width="1.5" stroke-linecap="round">
@@ -2025,9 +2025,9 @@
               </svg>
             </button>
           </div>
-          <p style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9A9A9A;margin-bottom:2px;">${CAT_LABEL[p.category]||p.category}</p>
+          <p style="font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#761717;margin-bottom:2px;">${CAT_LABEL[p.category]||p.category}</p>
           <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500;color:#1A1A1A;margin-bottom:3px;">${p.name}</h3>
-          <p style="font-family:'Jost',sans-serif;font-size:13px;color:#761717;">${p.price} ₫</p>
+          <p style="font-family:'Jost',sans-serif;font-size:13px;color:#9e3d3d;">${p.price} ₫</p>
         </div>
       `;
     }
