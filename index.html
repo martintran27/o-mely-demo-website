@@ -353,27 +353,6 @@
     }
     #search-overlay.open { display: flex; }
 
-    /* === VIRTUAL COORDINATION MODAL === */
-    #coord-modal {
-      display: none; position: fixed; inset: 0; z-index: 8500;
-      background: rgba(26,26,26,0.55); backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      align-items: center; justify-content: center; padding: 16px;
-    }
-    #coord-modal.open { display: flex; }
-    #coord-modal-panel {
-      background: #FFFFFF; width: 100%; max-width: 900px;
-      max-height: 90vh; overflow-y: auto; position: relative;
-      box-shadow: 0 24px 80px rgba(26,26,26,0.2);
-    }
-    .coord-item-card {
-      border: 2px solid #E2E2E2; cursor: pointer;
-      transition: border-color .2s ease, background .2s ease;
-      padding: 10px 8px 8px; text-align: center;
-    }
-    .coord-item-card:hover { border-color: #9A9A9A; }
-    .coord-item-card.selected { border-color: #761717; background: rgba(118,23,23,0.04); }
-
     /* === SCOPED POLICY / ACCOUNT TABS === */
     .policy-tab-content { display: none; }
     .policy-tab-content.active { display: block; }
@@ -490,16 +469,6 @@
           </svg>
         </button>
 
-        <!-- Virtual Coordination -->
-        <button onclick="toggleCoordModal()" aria-label="Phối đồ"
-                class="hidden md:flex p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#761717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a2 2 0 0 1 2 2c0 1.5-2 3-2 3s-2-1.5-2-3a2 2 0 0 1 2-2z"/>
-            <path d="M12 7v4"/>
-            <path d="M3 18h18l-2-7H5z"/>
-          </svg>
-        </button>
-
         <!-- Divider -->
         <div class="hidden md:block w-px h-[18px]" style="background:#E2E2E2;"></div>
 
@@ -556,7 +525,6 @@
     <nav class="flex flex-col gap-7">
       <a href="#home"  class="nav-link text-base" style="color:#761717;" onclick="navigateTo('home');toggleMobileMenu();return false;">Trang chủ</a>
       <a href="#shop"  class="nav-link text-base" style="color:#761717;" onclick="navigateTo('shop');toggleMobileMenu();return false;">Cửa hàng</a>
-      <a href="#" class="nav-link text-base" style="color:#761717;" onclick="toggleCoordModal();toggleMobileMenu();return false;">Phối đồ</a>
       <a href="#about" class="nav-link text-base" style="color:#761717;" onclick="navigateTo('about');toggleMobileMenu();return false;">Về chúng tôi</a>
     </nav>
     <div class="mt-auto">
@@ -1883,106 +1851,6 @@
     </div>
   </div>
 
-  <!-- ===== VIRTUAL COORDINATION MODAL ===== -->
-  <div id="coord-modal" onclick="handleCoordBackdrop(event)">
-    <div id="coord-modal-panel">
-
-      <!-- Header -->
-      <div class="flex items-center justify-between px-6 md:px-10 py-5 border-b" style="border-color:#E2E2E2;">
-        <div>
-          <p class="font-body text-[10px] tracking-[0.2em] uppercase mb-1" style="color:#761717;">O'mely Studio</p>
-          <h2 class="font-heading font-medium text-[1.35rem]" style="color:#1A1A1A;">Phối đồ ảo</h2>
-        </div>
-        <button onclick="toggleCoordModal()" aria-label="Đóng"
-                class="p-1 hover:opacity-50 transition-opacity duration-200 focus-visible:outline-none">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Body: 2-col desktop, stacked mobile -->
-      <div class="flex flex-col md:flex-row">
-
-        <!-- LEFT: Preview board -->
-        <div class="flex-shrink-0 md:w-1/2 flex flex-col items-center justify-center px-8 py-10" style="background:#F9F6F4; min-height:380px;">
-          <p class="font-body text-[10px] tracking-[0.18em] uppercase mb-6" style="color:#9A9A9A;">Gợi ý phối đồ</p>
-          <div class="flex items-end justify-center gap-6 w-full" style="max-width:340px;">
-            <div class="flex-1" style="max-width:160px;">
-              <img id="coord-preview-top"
-                   src="assets/virtual%20coordination-demofeature/ao-blazer.png"
-                   alt="Áo đã chọn"
-                   class="w-full object-contain" style="max-height:280px;">
-            </div>
-            <div class="flex-shrink-0" style="width:110px;">
-              <img id="coord-preview-bag"
-                   src="assets/virtual%20coordination-demofeature/tui-den.png"
-                   alt="Túi đã chọn"
-                   class="w-full object-contain" style="max-height:200px;">
-            </div>
-          </div>
-          <p class="font-body text-[12px] mt-6" style="color:#9A9A9A;">
-            <span id="coord-label-top">Blazer</span>&nbsp;+&nbsp;<span id="coord-label-bag">Túi đen</span>
-          </p>
-        </div>
-
-        <!-- RIGHT: Pickers -->
-        <div class="flex-1 px-6 md:px-8 py-8">
-
-          <!-- Áo -->
-          <p class="font-body text-[10px] tracking-[0.18em] uppercase mb-4" style="color:#761717;">Áo</p>
-          <div id="coord-tops-grid" class="grid grid-cols-3 gap-3 mb-8">
-
-            <div class="coord-item-card selected" id="coord-top-blazer"
-                 onclick="selectCoordTop('blazer','Blazer','ao-blazer.png',this)">
-              <img src="assets/virtual%20coordination-demofeature/item-blazer.png"
-                   alt="Blazer" class="w-full object-contain mb-2" style="height:90px;">
-              <p class="font-body text-[11px]" style="color:#1A1A1A;">Blazer</p>
-            </div>
-
-            <div class="coord-item-card" id="coord-top-cardigan"
-                 onclick="selectCoordTop('cardigan','Cardigan','ao-cardigan.png',this)">
-              <img src="assets/virtual%20coordination-demofeature/item-cardigan.png"
-                   alt="Cardigan" class="w-full object-contain mb-2" style="height:90px;">
-              <p class="font-body text-[11px]" style="color:#1A1A1A;">Cardigan</p>
-            </div>
-
-            <div class="coord-item-card" id="coord-top-tweed"
-                 onclick="selectCoordTop('tweed','Tweed','ao-tweed.png',this)">
-              <img src="assets/virtual%20coordination-demofeature/item-tweed.png"
-                   alt="Tweed" class="w-full object-contain mb-2" style="height:90px;">
-              <p class="font-body text-[11px]" style="color:#1A1A1A;">Tweed</p>
-            </div>
-
-          </div>
-
-          <!-- Túi -->
-          <p class="font-body text-[10px] tracking-[0.18em] uppercase mb-4" style="color:#761717;">Túi</p>
-          <div id="coord-bags-grid" class="grid grid-cols-3 gap-3">
-
-            <div class="coord-item-card selected" id="coord-bag-den"
-                 onclick="selectCoordBag('den','Túi đen','tui-den.png',this)">
-              <img src="assets/virtual%20coordination-demofeature/item-tui-%C4%91en.png"
-                   alt="Túi đen" class="w-full object-contain mb-2" style="height:90px;">
-              <p class="font-body text-[11px]" style="color:#1A1A1A;">Đen</p>
-            </div>
-
-            <div class="coord-item-card" id="coord-bag-hong"
-                 onclick="selectCoordBag('hong','Túi hồng','tui-hong.png',this)">
-              <img src="assets/virtual%20coordination-demofeature/item-tui-h%E1%BB%93ng.png"
-                   alt="Túi hồng" class="w-full object-contain mb-2" style="height:90px;">
-              <p class="font-body text-[11px]" style="color:#1A1A1A;">Hồng</p>
-            </div>
-
-          </div>
-
-        </div>
-      </div><!-- end body -->
-
-    </div><!-- end panel -->
-  </div>
-  <!-- ===== END COORD MODAL ===== -->
-
   <!-- ===== JAVASCRIPT ===== -->
   <script>
     // === DATA ===
@@ -2005,9 +1873,6 @@
     let _wishlist = [];       // array of product ids
     let _searchOpen = false;
     let _selectedPayment = 'cod';
-    let _coordOpen = false;
-    let _coordTop = { key: 'blazer',  label: 'Blazer',   file: 'ao-blazer.png' };
-    let _coordBag = { key: 'den',     label: 'Túi đen',  file: 'tui-den.png'   };
 
     // === NAVIGATION ===
     function navigateTo(page) {
@@ -2177,50 +2042,7 @@
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && _searchOpen) toggleSearch();
-      if (e.key === 'Escape' && _coordOpen)  toggleCoordModal();
     });
-
-    // === VIRTUAL COORDINATION MODAL ===
-    const COORD_BASE = 'assets/virtual%20coordination-demofeature/';
-
-    function toggleCoordModal() {
-      _coordOpen = !_coordOpen;
-      document.getElementById('coord-modal').classList.toggle('open', _coordOpen);
-      if (_coordOpen) {
-        _coordTop = { key: 'blazer', label: 'Blazer',  file: 'ao-blazer.png' };
-        _coordBag = { key: 'den',    label: 'Túi đen', file: 'tui-den.png'   };
-        document.querySelectorAll('#coord-tops-grid .coord-item-card').forEach(c => c.classList.remove('selected'));
-        document.querySelectorAll('#coord-bags-grid .coord-item-card').forEach(c => c.classList.remove('selected'));
-        document.getElementById('coord-top-blazer').classList.add('selected');
-        document.getElementById('coord-bag-den').classList.add('selected');
-        updateCoordPreview();
-      }
-    }
-
-    function handleCoordBackdrop(e) {
-      if (e.target === document.getElementById('coord-modal')) toggleCoordModal();
-    }
-
-    function selectCoordTop(key, label, file, cardEl) {
-      _coordTop = { key, label, file };
-      document.querySelectorAll('#coord-tops-grid .coord-item-card').forEach(c => c.classList.remove('selected'));
-      cardEl.classList.add('selected');
-      updateCoordPreview();
-    }
-
-    function selectCoordBag(key, label, file, cardEl) {
-      _coordBag = { key, label, file };
-      document.querySelectorAll('#coord-bags-grid .coord-item-card').forEach(c => c.classList.remove('selected'));
-      cardEl.classList.add('selected');
-      updateCoordPreview();
-    }
-
-    function updateCoordPreview() {
-      document.getElementById('coord-preview-top').src = COORD_BASE + _coordTop.file;
-      document.getElementById('coord-preview-bag').src = COORD_BASE + _coordBag.file;
-      document.getElementById('coord-label-top').textContent = _coordTop.label;
-      document.getElementById('coord-label-bag').textContent = _coordBag.label;
-    }
 
     // === PRODUCT GRID ===
     function productCardHTML(p) {
