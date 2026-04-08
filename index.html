@@ -364,6 +364,17 @@
     .wish-btn svg { transition: fill 0.2s ease, stroke 0.2s ease; }
     .wish-btn.active svg { fill: #761717; stroke: #761717; }
 
+    /* === OUTFIT BUILDER === */
+    .outfit-chip {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 11px; letter-spacing: 0.08em;
+      padding: 8px 16px; border: 1px solid #E2E2E2;
+      background: transparent; color: #1A1A1A;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .outfit-chip:hover { border-color: #9E3D3D; }
+    .outfit-chip.selected { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+
     /* === PAYMENT RADIO === */
     .pay-option {
       border: 1px solid #E2E2E2; padding: 16px 18px;
@@ -907,6 +918,28 @@
               <div>
                 <p class="font-body text-[11px] font-medium tracking-[0.08em] uppercase text-brand-dark mb-1">Sản phẩm bền vững</p>
                 <p class="font-body font-light text-[12px] text-brand-dark/55">Vật liệu hữu cơ, sản xuất công bằng và đóng gói tái chế.</p>
+              </div>
+            </div>
+
+            <!-- Outfit builder — only for MIA Dress -->
+            <div id="outfit-builder" class="mb-7 pt-6 border-t border-secondary" style="display:none;">
+              <div class="flex items-center gap-3 mb-5">
+                <span class="deco-line"></span>
+                <p class="font-body text-[10px] tracking-[0.18em] uppercase" style="color:#9A9A9A;">Thử phối đồ</p>
+              </div>
+              <div class="mb-4">
+                <p class="font-body text-[11px] tracking-[0.1em] uppercase mb-2" style="color:#1A1A1A;">Phụ kiện</p>
+                <div class="flex gap-2">
+                  <button class="outfit-chip" onclick="selectOutfitBag('vai',this)">Túi vai</button>
+                  <button class="outfit-chip" onclick="selectOutfitBag('mini',this)">Mini bag</button>
+                </div>
+              </div>
+              <div>
+                <p class="font-body text-[11px] tracking-[0.1em] uppercase mb-2" style="color:#1A1A1A;">Bối cảnh</p>
+                <div class="flex gap-2">
+                  <button class="outfit-chip" onclick="selectOutfitScene('cafe',this)">Cafe</button>
+                  <button class="outfit-chip" onclick="selectOutfitScene('pho',this)">Phố đi bộ</button>
+                </div>
               </div>
             </div>
 
@@ -2110,6 +2143,13 @@
       prodSection.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
       prodSection.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
 
+      // Outfit builder: chỉ hiện với MIA Dress (id=4)
+      _outfitBag = null;
+      _outfitScene = null;
+      const outfitBuilder = document.getElementById('outfit-builder');
+      outfitBuilder.style.display = p.id === 4 ? '' : 'none';
+      outfitBuilder.querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
+
       navigateTo('product');
     }
 
@@ -2230,6 +2270,45 @@
           <p class="font-body text-[13px] text-brand-dark/65">${_checkoutData.district ? _checkoutData.district + ', ' : ''}${_checkoutData.city}</p>
         </div>
       `;
+    }
+
+    // === OUTFIT BUILDER ===
+    let _outfitBag = null;
+    let _outfitScene = null;
+
+    function selectOutfitBag(id, btn) {
+      if (_outfitBag === id) {
+        _outfitBag = null;
+        btn.classList.remove('selected');
+      } else {
+        _outfitBag = id;
+        btn.closest('.flex').querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      updateOutfitPreview();
+    }
+
+    function selectOutfitScene(id, btn) {
+      if (_outfitScene === id) {
+        _outfitScene = null;
+        btn.classList.remove('selected');
+      } else {
+        _outfitScene = id;
+        btn.closest('.flex').querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      updateOutfitPreview();
+    }
+
+    function updateOutfitPreview() {
+      const mainImg = document.getElementById('product-main-img');
+      if (_outfitBag && _outfitScene) {
+        mainImg.src = `assets/outfit_mia_${_outfitBag}_${_outfitScene}.jpg`;
+        document.getElementById('thumb-img-0').src = mainImg.src;
+      } else {
+        mainImg.src = _currentProduct.img;
+        document.getElementById('thumb-img-0').src = _currentProduct.img;
+      }
     }
 
     // === SIZE ===
