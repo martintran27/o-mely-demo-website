@@ -364,16 +364,24 @@
     .wish-btn svg { transition: fill 0.2s ease, stroke 0.2s ease; }
     .wish-btn.active svg { fill: #761717; stroke: #761717; }
 
-    /* === OUTFIT BUILDER === */
-    .outfit-chip {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      font-size: 11px; letter-spacing: 0.08em;
-      padding: 8px 16px; border: 1px solid #E2E2E2;
-      background: transparent; color: #1A1A1A;
-      cursor: pointer; transition: border-color 0.2s, background 0.2s, color 0.2s;
+    /* === PHỐI ĐỒ POPUP === */
+    #phoi-do-popup {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 280px; background: #FFFFFF;
+      border: 1px solid #E2E2E2; box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+      z-index: 9999;
+      transform: translateY(16px); opacity: 0;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      pointer-events: none;
     }
-    .outfit-chip:hover { border-color: #9E3D3D; }
-    .outfit-chip.selected { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+    #phoi-do-popup.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .pdo-item {
+      width: 56px; height: 56px; object-fit: cover; flex-shrink: 0;
+      border: 2px solid transparent; cursor: pointer;
+      transition: border-color 0.18s;
+    }
+    .pdo-item:hover { border-color: #B06060; }
+    .pdo-item.selected { border-color: #9E3D3D; }
 
     /* === PAYMENT RADIO === */
     .pay-option {
@@ -921,26 +929,16 @@
               </div>
             </div>
 
-            <!-- Outfit builder — only for MIA Dress -->
-            <div id="outfit-builder" class="mb-7 pt-6 border-t border-secondary" style="display:none;">
-              <div class="flex items-center gap-3 mb-5">
-                <span class="deco-line"></span>
-                <p class="font-body text-[10px] tracking-[0.18em] uppercase" style="color:#9A9A9A;">Thử phối đồ</p>
-              </div>
-              <div class="mb-4">
-                <p class="font-body text-[11px] tracking-[0.1em] uppercase mb-2" style="color:#1A1A1A;">Phụ kiện</p>
-                <div class="flex gap-2">
-                  <button class="outfit-chip" onclick="selectOutfitBag('vai',this)">Túi vai</button>
-                  <button class="outfit-chip" onclick="selectOutfitBag('mini',this)">Mini bag</button>
-                </div>
-              </div>
-              <div>
-                <p class="font-body text-[11px] tracking-[0.1em] uppercase mb-2" style="color:#1A1A1A;">Bối cảnh</p>
-                <div class="flex gap-2">
-                  <button class="outfit-chip" onclick="selectOutfitScene('cafe',this)">Cafe</button>
-                  <button class="outfit-chip" onclick="selectOutfitScene('pho',this)">Phố đi bộ</button>
-                </div>
-              </div>
+            <!-- Phối đồ button — only for MIA Dress -->
+            <div id="phoi-do-wrap" class="mb-7" style="display:none;">
+              <button onclick="openPhoiDo()"
+                class="w-full h-11 flex items-center justify-center gap-2 border font-body text-[11px] tracking-[0.1em] uppercase transition-colors duration-200"
+                style="border-color:#9E3D3D; color:#9E3D3D; background:transparent;"
+                onmouseenter="this.style.background='#9E3D3D';this.style.color='#fff';"
+                onmouseleave="this.style.background='transparent';this.style.color='#9E3D3D';">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9"/><path d="M16 3l2 2-8 8"/><circle cx="19" cy="5" r="3" fill="currentColor" stroke="none"/></svg>
+                Thử phối đồ
+              </button>
             </div>
 
             <!-- Tabs -->
@@ -2143,12 +2141,10 @@
       prodSection.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
       prodSection.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
 
-      // Outfit builder: chỉ hiện với MIA Dress (id=4)
-      _outfitBag = null;
-      _outfitScene = null;
-      const outfitBuilder = document.getElementById('outfit-builder');
-      outfitBuilder.style.display = p.id === 4 ? '' : 'none';
-      outfitBuilder.querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
+      // Phối đồ: chỉ hiện với MIA Dress (id=4)
+      _selectedOutfitId = null;
+      closePhoiDo();
+      document.getElementById('phoi-do-wrap').style.display = p.id === 4 ? '' : 'none';
 
       navigateTo('product');
     }
@@ -2272,43 +2268,50 @@
       `;
     }
 
-    // === OUTFIT BUILDER ===
-    let _outfitBag = null;
-    let _outfitScene = null;
+    // === PHỐI ĐỒ POPUP ===
+    const OUTFIT_ITEMS = [
+      { id: 'blazer',   label: 'Blazer',   thumb: 'assets/virtual coordination-demofeature/item-blazer.png',    main: 'assets/virtual coordination-demofeature/ao-blazer.png' },
+      { id: 'cardigan', label: 'Cardigan', thumb: 'assets/virtual coordination-demofeature/item-cardigan.png',  main: 'assets/virtual coordination-demofeature/ao-cardigan.png' },
+      { id: 'tweed',    label: 'Tweed',    thumb: 'assets/virtual coordination-demofeature/item-tweed.png',     main: 'assets/virtual coordination-demofeature/ao-tweed.png' },
+      { id: 'tui-den',  label: 'Túi đen',  thumb: 'assets/virtual coordination-demofeature/item-tui-đen.png',  main: 'assets/virtual coordination-demofeature/tui-den.png' },
+      { id: 'tui-hong', label: 'Túi hồng', thumb: 'assets/virtual coordination-demofeature/item-tui-hồng.png', main: 'assets/virtual coordination-demofeature/tui-hong.png' },
+    ];
+    let _selectedOutfitId = null;
 
-    function selectOutfitBag(id, btn) {
-      if (_outfitBag === id) {
-        _outfitBag = null;
-        btn.classList.remove('selected');
-      } else {
-        _outfitBag = id;
-        btn.closest('.flex').querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-      }
-      updateOutfitPreview();
+    function openPhoiDo() {
+      const container = document.getElementById('phoi-do-items');
+      container.innerHTML = '';
+      OUTFIT_ITEMS.forEach(item => {
+        const img = document.createElement('img');
+        img.src = item.thumb;
+        img.alt = item.label;
+        img.title = item.label;
+        img.className = 'pdo-item' + (_selectedOutfitId === item.id ? ' selected' : '');
+        img.onclick = () => selectOutfitItem(item.id);
+        container.appendChild(img);
+      });
+      // Auto-select first if none selected
+      const active = OUTFIT_ITEMS.find(i => i.id === _selectedOutfitId) || OUTFIT_ITEMS[0];
+      document.getElementById('phoi-do-preview').src = active.main;
+      if (!_selectedOutfitId) selectOutfitItem(active.id);
+      document.getElementById('phoi-do-popup').classList.add('open');
     }
 
-    function selectOutfitScene(id, btn) {
-      if (_outfitScene === id) {
-        _outfitScene = null;
-        btn.classList.remove('selected');
-      } else {
-        _outfitScene = id;
-        btn.closest('.flex').querySelectorAll('.outfit-chip').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-      }
-      updateOutfitPreview();
+    function closePhoiDo() {
+      const popup = document.getElementById('phoi-do-popup');
+      if (popup) popup.classList.remove('open');
     }
 
-    function updateOutfitPreview() {
-      const mainImg = document.getElementById('product-main-img');
-      if (_outfitBag && _outfitScene) {
-        mainImg.src = `assets/outfit_mia_${_outfitBag}_${_outfitScene}.jpg`;
-        document.getElementById('thumb-img-0').src = mainImg.src;
-      } else {
-        mainImg.src = _currentProduct.img;
-        document.getElementById('thumb-img-0').src = _currentProduct.img;
-      }
+    function selectOutfitItem(id) {
+      _selectedOutfitId = id;
+      const item = OUTFIT_ITEMS.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('phoi-do-preview').src = item.main;
+      document.getElementById('product-main-img').src = item.main;
+      document.getElementById('thumb-img-0').src = item.main;
+      document.querySelectorAll('.pdo-item').forEach((el, i) => {
+        el.classList.toggle('selected', OUTFIT_ITEMS[i].id === id);
+      });
     }
 
     // === SIZE ===
@@ -2521,5 +2524,22 @@
       updateAuthUI();
     });
   </script>
+
+  <!-- === PHỐI ĐỒ POPUP === -->
+  <div id="phoi-do-popup" role="dialog" aria-label="Thử phối đồ">
+    <div class="flex items-center justify-between px-4 py-3 border-b" style="border-color:#E2E2E2;">
+      <span class="font-body text-[10px] tracking-[0.18em] uppercase" style="color:#9A9A9A;">Thử phối đồ</span>
+      <button onclick="closePhoiDo()" class="w-6 h-6 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="overflow-hidden" style="height:200px; background:#F8F8F8;">
+      <img id="phoi-do-preview" src="" alt="" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+    <div class="px-4 pt-3 pb-4">
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-3" style="color:#9A9A9A;">Chọn phụ kiện</p>
+      <div class="flex gap-2 flex-wrap" id="phoi-do-items"></div>
+    </div>
+  </div>
 </body>
 </html>
