@@ -1822,7 +1822,7 @@
   <script>
     // === DATA ===
     const PRODUCTS = [
-      {id:1, name:'Sienna',      price:'300.000',   numPrice:300000,  category:'ao', img:'assets/product_sienna.jpg',  badge:'Mới'},
+      {id:1, name:'Sienna',      price:'300.000',   numPrice:300000,  category:'ao', img:'assets/product_sienna.jpg',  badge:'Mới', imgStyle:'transform:scale(1.5);object-position:center 10%;transform-origin:center top;'},
       {id:2, name:'Kai Shirt',   price:'385.000',   numPrice:385000,  category:'ao', img:'assets/product_kai.jpg'},
       {id:3, name:'Liam Shirt',  price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_liam.jpg'},
       {id:4, name:'MIA Dress',   price:'420.000',   numPrice:420000,  category:'ao', img:'assets/product_mia.jpg',  badge:'Bestseller'},
@@ -2017,7 +2017,7 @@
       return `
         <div class="product-card cursor-pointer" onclick='showProduct(${JSON.stringify(p)})'>
           <div class="card-img-wrap aspect-[3/4] mb-3 relative" style="background:#F2F2F2;overflow:hidden;">
-            <img src="${p.img}" alt="${p.name}" class="card-img w-full h-full object-cover">
+            <img src="${p.img}" alt="${p.name}" class="card-img w-full h-full object-cover" style="${p.imgStyle||''}">
             <div class="card-overlay absolute inset-0 flex items-end p-3" style="background:rgba(26,26,26,0.04);">
               <span style="background:#1A1A1A;color:#FFFFFF;font-family:'Be Vietnam Pro',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;">Xem chi tiết</span>
             </div>
