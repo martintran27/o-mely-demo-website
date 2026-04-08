@@ -364,29 +364,6 @@
     .wish-btn svg { transition: fill 0.2s ease, stroke 0.2s ease; }
     .wish-btn.active svg { fill: #761717; stroke: #761717; }
 
-    /* === OUTFIT SUGGESTION CARDS === */
-    .outfit-card {
-      border: 1px solid #E2E2E2;
-      border-left: 2px solid #9E3D3D;
-      padding: 14px 16px;
-      transition: background-color 0.2s ease;
-    }
-    .outfit-card:hover { background-color: #F8F8F8; }
-    .outfit-type {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      font-size: 9px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: #9E3D3D; margin-bottom: 4px;
-    }
-    .outfit-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem; font-weight: 500; color: #1A1A1A; margin-bottom: 3px;
-    }
-    .outfit-note {
-      font-family: 'Be Vietnam Pro', sans-serif;
-      font-size: 12px; font-weight: 300;
-      color: rgba(26,26,26,0.55); line-height: 1.5;
-    }
-
     /* === PAYMENT RADIO === */
     .pay-option {
       border: 1px solid #E2E2E2; padding: 16px 18px;
@@ -959,24 +936,38 @@
                 <li>• Ủi mặt trái ở nhiệt độ thấp</li>
               </ul>
             </div>
-            <!-- Gợi ý phối đồ -->
-            <div class="mt-10 pt-8 border-t border-secondary" id="outfit-section">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="deco-line"></span>
-                <p class="font-body text-[10px] tracking-[0.18em] uppercase" style="color:#9A9A9A;">Gợi ý phối đồ</p>
-              </div>
-              <p class="font-body font-light text-[12px] mb-5" style="color:rgba(26,26,26,0.45);line-height:1.7;">
-                Các gợi ý dưới đây là cảm hứng phối đồ tham khảo — không phải sản phẩm O'mely.
-              </p>
-              <div id="outfit-cards" class="flex flex-col gap-3"></div>
-            </div>
           </div>
         </div>
 
-        <!-- Từ bộ sưu tập — dynamic -->
+        <!-- Related products -->
         <div class="mt-20 pt-14 border-t border-secondary">
-          <h2 class="font-heading font-light text-brand-dark mb-10" style="font-size:clamp(1.8rem,3vw,2.4rem);">Từ bộ sưu tập</h2>
-          <div id="related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"></div>
+          <h2 class="font-heading font-light text-brand-dark mb-10" style="font-size:clamp(1.8rem,3vw,2.4rem);">Sản phẩm tương tự</h2>
+          <div id="related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div class="product-card cursor-pointer" onclick="showProduct({id:2,name:'Kai Shirt',price:'385.000',numPrice:385000,category:'ao',img:'assets/product_kai.jpg'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="assets/product_kai.jpg" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[12px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Áo</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Kai Shirt</h3>
+              <p class="font-body text-sm text-accent">385.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:3,name:'Liam Shirt',price:'399.000',numPrice:399000,category:'ao',img:'assets/product_liam.jpg'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="assets/product_liam.jpg" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[12px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Áo</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Liam Shirt</h3>
+              <p class="font-body text-sm text-accent">399.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:4,name:'MIA Dress',price:'420.000',numPrice:420000,category:'ao',img:'assets/product_mia.jpg',badge:'Bestseller'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="assets/product_mia.jpg" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[12px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Áo</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">MIA Dress</h3>
+              <p class="font-body text-sm text-accent">420.000 ₫</p>
+            </div>
+            <div class="product-card cursor-pointer" onclick="showProduct({id:5,name:'Noah Polo',price:'399.000',numPrice:399000,category:'ao',img:'assets/product_noah.jpg'})">
+              <div class="card-img-wrap aspect-[3/4] mb-3 bg-cream-dark"><img src="assets/product_noah.jpg" alt="" class="card-img w-full h-full object-cover"></div>
+              <p class="font-body text-[12px] tracking-[0.08em] uppercase text-secondary-dark mb-0.5">Áo</p>
+              <h3 class="font-heading text-lg font-medium text-brand-dark">Noah Polo</h3>
+              <p class="font-body text-sm text-accent">399.000 ₫</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1831,36 +1822,11 @@
   <script>
     // === DATA ===
     const PRODUCTS = [
-      {id:1, name:'Sienna',     price:'300.000', numPrice:300000, category:'ao', img:'assets/product_sienna.jpg', badge:'Mới',
-       outfits:[
-         {type:'Quần', name:'Quần tây xám nhạt',      note:'Tone trung tính, thanh lịch'},
-         {type:'Giày', name:'Giày oxford nâu da bò',   note:'Chất liệu da thật, cổ điển'},
-         {type:'Túi',  name:'Túi tote vải canvas kem', note:'Nhẹ nhàng, phù hợp đi làm'},
-       ]},
-      {id:2, name:'Kai Shirt',  price:'385.000', numPrice:385000, category:'ao', img:'assets/product_kai.jpg',
-       outfits:[
-         {type:'Quần', name:'Quần jeans xanh đậm',     note:'Tương phản nhẹ, phong cách trẻ'},
-         {type:'Giày', name:'Giày sneaker trắng',       note:'Thoải mái, đa năng'},
-         {type:'Túi',  name:'Túi đeo chéo da đen nhỏ', note:'Gọn gàng, hiện đại'},
-       ]},
-      {id:3, name:'Liam Shirt', price:'399.000', numPrice:399000, category:'ao', img:'assets/product_liam.jpg',
-       outfits:[
-         {type:'Quần', name:'Quần kaki be sáng',        note:'Tone ấm, hài hoà'},
-         {type:'Giày', name:'Giày loafer da lộn xám',   note:'Bán trang trọng, linh hoạt'},
-         {type:'Túi',  name:'Túi clutch da màu cognac', note:'Điểm nhấn ấm tông nâu đỏ'},
-       ]},
-      {id:4, name:'MIA Dress',  price:'420.000', numPrice:420000, category:'ao', img:'assets/product_mia.jpg', badge:'Bestseller',
-       outfits:[
-         {type:'Giày', name:'Giày mule gót thấp màu kem',  note:'Tối giản, duyên dáng'},
-         {type:'Túi',  name:'Túi xách mini da nâu',        note:'Nhỏ gọn, thanh lịch'},
-         {type:'Khăn', name:'Khăn lụa in hoạ tiết nhỏ',   note:'Phụ kiện điểm nhấn tinh tế'},
-       ]},
-      {id:5, name:'Noah Polo',  price:'399.000', numPrice:399000, category:'ao', img:'assets/product_noah.jpg',
-       outfits:[
-         {type:'Quần', name:'Quần shorts vải kaki trắng', note:'Nhẹ nhàng, mùa hè'},
-         {type:'Giày', name:'Giày espadrille be nhạt',    note:'Thư giãn, thoáng mát'},
-         {type:'Túi',  name:'Túi đan lát ratan tự nhiên', note:'Chất liệu thiên nhiên, tự nhiên'},
-       ]},
+      {id:1, name:'Sienna',      price:'300.000',   numPrice:300000,  category:'ao', img:'assets/product_sienna.jpg',  badge:'Mới'},
+      {id:2, name:'Kai Shirt',   price:'385.000',   numPrice:385000,  category:'ao', img:'assets/product_kai.jpg'},
+      {id:3, name:'Liam Shirt',  price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_liam.jpg'},
+      {id:4, name:'MIA Dress',   price:'420.000',   numPrice:420000,  category:'ao', img:'assets/product_mia.jpg',  badge:'Bestseller'},
+      {id:5, name:'Noah Polo',   price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_noah.jpg'},
     ];
 
     const CAT_LABEL = {ao:'Áo'};
@@ -2143,26 +2109,6 @@
       const prodSection = document.getElementById('product');
       prodSection.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
       prodSection.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
-
-      // Outfit suggestions (Part A)
-      const outfitCards = document.getElementById('outfit-cards');
-      if (p.outfits && p.outfits.length) {
-        outfitCards.innerHTML = p.outfits.map(o => `
-          <div class="outfit-card">
-            <p class="outfit-type">${o.type}</p>
-            <p class="outfit-name">${o.name}</p>
-            <p class="outfit-note">${o.note}</p>
-          </div>
-        `).join('');
-        document.getElementById('outfit-section').style.display = '';
-      } else {
-        outfitCards.innerHTML = '';
-        document.getElementById('outfit-section').style.display = 'none';
-      }
-
-      // Related products (Part B)
-      document.getElementById('related-grid').innerHTML =
-        PRODUCTS.filter(r => r.id !== p.id).map(productCardHTML).join('');
 
       navigateTo('product');
     }
