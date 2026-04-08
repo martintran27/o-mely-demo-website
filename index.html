@@ -365,16 +365,25 @@
     .wish-btn.active svg { fill: #761717; stroke: #761717; }
 
     /* === PHỐI ĐỒ POPUP === */
+    #phoi-do-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      z-index: 9998;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    #phoi-do-backdrop.open { opacity: 1; pointer-events: auto; }
     #phoi-do-popup {
-      position: fixed; bottom: 24px; right: 24px;
-      width: 280px; background: #FFFFFF;
-      border: 1px solid #E2E2E2; box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -48%) scale(0.97); opacity: 0;
+      width: 300px; background: #FFFFFF;
+      border: 1px solid #E2E2E2; box-shadow: 0 16px 60px rgba(0,0,0,0.18);
       z-index: 9999;
-      transform: translateY(16px); opacity: 0;
-      transition: transform 0.22s ease, opacity 0.22s ease;
+      transition: transform 0.24s ease, opacity 0.24s ease;
       pointer-events: none;
     }
-    #phoi-do-popup.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    #phoi-do-popup.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
     .pdo-item {
       width: 56px; height: 56px; object-fit: cover; flex-shrink: 0;
       border: 2px solid transparent; cursor: pointer;
@@ -2295,11 +2304,12 @@
       document.getElementById('phoi-do-preview').src = active.main;
       if (!_selectedOutfitId) selectOutfitItem(active.id);
       document.getElementById('phoi-do-popup').classList.add('open');
+      document.getElementById('phoi-do-backdrop').classList.add('open');
     }
 
     function closePhoiDo() {
-      const popup = document.getElementById('phoi-do-popup');
-      if (popup) popup.classList.remove('open');
+      document.getElementById('phoi-do-popup')?.classList.remove('open');
+      document.getElementById('phoi-do-backdrop')?.classList.remove('open');
     }
 
     function selectOutfitItem(id) {
@@ -2526,6 +2536,7 @@
   </script>
 
   <!-- === PHỐI ĐỒ POPUP === -->
+  <div id="phoi-do-backdrop" onclick="closePhoiDo()"></div>
   <div id="phoi-do-popup" role="dialog" aria-label="Thử phối đồ">
     <div class="flex items-center justify-between px-4 py-3 border-b" style="border-color:#E2E2E2;">
       <span class="font-body text-[10px] tracking-[0.18em] uppercase" style="color:#9A9A9A;">Thử phối đồ</span>
