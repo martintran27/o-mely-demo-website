@@ -883,8 +883,20 @@
         <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
           <!-- Images -->
           <div>
-            <div class="aspect-[3/4] bg-cream-dark overflow-hidden mb-3">
-              <img id="product-main-img" src="" alt="Product" class="w-full h-full object-cover">
+            <div class="relative mb-3">
+              <div class="aspect-[3/4] bg-cream-dark overflow-hidden">
+                <img id="product-main-img" src="" alt="Product" class="w-full h-full object-cover">
+              </div>
+              <div id="phoi-do-wrap" style="display:none; position:absolute; bottom:14px; left:50%; transform:translateX(-50%); white-space:nowrap; z-index:10;">
+                <button onclick="openPhoiDo()"
+                  class="flex items-center gap-2 font-body text-[11px] tracking-[0.08em] uppercase transition-all duration-200"
+                  style="background:rgba(26,26,26,0.82); color:#fff; padding:9px 18px; border:none; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);"
+                  onmouseenter="this.style.background='rgba(158,61,61,0.92)'"
+                  onmouseleave="this.style.background='rgba(26,26,26,0.82)'">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4"/><path d="M16 11l2 2 4-4"/></svg>
+                  Thử phối đồ
+                </button>
+              </div>
             </div>
             <div class="grid grid-cols-3 gap-2">
               <div class="aspect-[3/4] bg-cream-dark overflow-hidden cursor-pointer border-2 border-transparent transition-colors duration-200"
@@ -962,18 +974,6 @@
                 <p class="font-body text-[11px] font-medium tracking-[0.08em] uppercase text-brand-dark mb-1">Sản phẩm bền vững</p>
                 <p class="font-body font-light text-[12px] text-brand-dark/55">Vật liệu hữu cơ, sản xuất công bằng và đóng gói tái chế.</p>
               </div>
-            </div>
-
-            <!-- Phối đồ button — only for MIA Dress -->
-            <div id="phoi-do-wrap" class="mb-7" style="display:none;">
-              <button onclick="openPhoiDo()"
-                class="w-full h-11 flex items-center justify-center gap-2 border font-body text-[11px] tracking-[0.1em] uppercase transition-colors duration-200"
-                style="border-color:#9E3D3D; color:#9E3D3D; background:transparent;"
-                onmouseenter="this.style.background='#9E3D3D';this.style.color='#fff';"
-                onmouseleave="this.style.background='transparent';this.style.color='#9E3D3D';">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9"/><path d="M16 3l2 2-8 8"/><circle cx="19" cy="5" r="3" fill="currentColor" stroke="none"/></svg>
-                Thử phối đồ
-              </button>
             </div>
 
             <!-- Tabs -->
