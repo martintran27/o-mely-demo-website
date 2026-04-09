@@ -898,7 +898,7 @@
                 </button>
               </div>
             </div>
-            <div class="grid grid-cols-3 gap-2">
+            <div id="thumb-grid" class="grid grid-cols-3 gap-2">
               <div class="aspect-[3/4] bg-cream-dark overflow-hidden cursor-pointer border-2 border-transparent transition-colors duration-200"
                    id="thumb-0" onclick="selectThumb(0)" style="" onmouseenter="highlightThumb(0)" onmouseleave="">
                 <img id="thumb-img-0" src="" alt="" class="w-full h-full object-cover">
@@ -1888,11 +1888,11 @@
   <script>
     // === DATA ===
     const PRODUCTS = [
-      {id:1, name:'Sienna',      price:'300.000',   numPrice:300000,  category:'ao', img:'assets/product_sienna.jpg',  badge:'Mới'},
-      {id:2, name:'Kai Shirt',   price:'385.000',   numPrice:385000,  category:'ao', img:'assets/product_kai.jpg'},
-      {id:3, name:'Liam Shirt',  price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_liam.jpg'},
-      {id:4, name:'MIA Dress',   price:'420.000',   numPrice:420000,  category:'ao', img:'assets/product_mia.jpg',  badge:'Bestseller'},
-      {id:5, name:'Noah Polo',   price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_noah.jpg'},
+      {id:1, name:'Sienna',      price:'300.000',   numPrice:300000,  category:'ao', img:'assets/product_sienna.jpg',  badge:'Mới',       subImgs:['assets/sub-product1_sienna.jpg','assets/sub-product2_sianna.jpg']},
+      {id:2, name:'Kai Shirt',   price:'385.000',   numPrice:385000,  category:'ao', img:'assets/product_kai.jpg',                                            subImgs:['assets/sub-product1_kai.jpg']},
+      {id:3, name:'Liam Shirt',  price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_liam.jpg',                                           subImgs:['assets/sub-product1_liam.jpg','assets/sub-product2_liam.jpg']},
+      {id:4, name:'MIA Dress',   price:'420.000',   numPrice:420000,  category:'ao', img:'assets/product_mia.jpg',  badge:'Bestseller',                       subImgs:['assets/sub-product1_mia.jpg','assets/sub-product2_mia.jpg']},
+      {id:5, name:'Noah Polo',   price:'399.000',   numPrice:399000,  category:'ao', img:'assets/product_noah.jpg',                                           subImgs:['assets/sub-product1_noal.jpg','assets/sub-product2_noal.jpg']},
     ];
 
     const CAT_LABEL = {ao:'Áo'};
@@ -2161,10 +2161,21 @@
       document.getElementById('qty-display').textContent = '1';
 
       const baseUrl = p.img;
+      const subs = p.subImgs || [];
+      const allImgs = [baseUrl, ...subs]; // [main, sub1?, sub2?]
+
       document.getElementById('product-main-img').src = baseUrl;
-      document.getElementById('thumb-img-0').src = baseUrl;
-      document.getElementById('thumb-img-1').src = baseUrl;
-      document.getElementById('thumb-img-2').src = baseUrl;
+
+      // Set thumb images and show/hide based on available images
+      const thumbGrid = document.getElementById('thumb-grid');
+      thumbGrid.className = `grid gap-2 grid-cols-${allImgs.length}`;
+      allImgs.forEach((src, i) => {
+        document.getElementById(`thumb-img-${i}`).src = src;
+        document.getElementById(`thumb-${i}`).style.display = '';
+      });
+      for (let i = allImgs.length; i < 3; i++) {
+        document.getElementById(`thumb-${i}`).style.display = 'none';
+      }
 
       ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
         document.getElementById(id).style.borderColor = i===0 ? '#761717' : 'transparent';
@@ -2188,6 +2199,8 @@
       ['thumb-0','thumb-1','thumb-2'].forEach((id,i) => {
         document.getElementById(id).style.borderColor = i===idx ? '#761717' : 'transparent';
       });
+      const src = document.getElementById(`thumb-img-${idx}`).src;
+      document.getElementById('product-main-img').src = src;
     }
     function highlightThumb(idx) { }
 
