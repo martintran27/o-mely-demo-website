@@ -2288,8 +2288,14 @@
       { id: 'tui-hong', label: 'Túi hồng', thumb: `${_D}/item-tui-h%E1%BB%93ng.png`, main: `${_D}/tui-hong.png` },
     ];
     let _selectedOutfitId = null;
+    let _originalMainImg = null;
+    let _originalThumbImg = null;
 
     function openPhoiDo() {
+      // Lưu ảnh gốc trước khi thay
+      _originalMainImg = document.getElementById('product-main-img').src;
+      _originalThumbImg = document.getElementById('thumb-img-0').src;
+
       const container = document.getElementById('phoi-do-items');
       container.innerHTML = '';
       OUTFIT_ITEMS.forEach(item => {
@@ -2312,6 +2318,10 @@
     function closePhoiDo() {
       document.getElementById('phoi-do-popup')?.classList.remove('open');
       document.getElementById('phoi-do-backdrop')?.classList.remove('open');
+      // Restore ảnh gốc
+      if (_originalMainImg) document.getElementById('product-main-img').src = _originalMainImg;
+      if (_originalThumbImg) document.getElementById('thumb-img-0').src = _originalThumbImg;
+      _selectedOutfitId = null;
     }
 
     function selectOutfitItem(id) {
