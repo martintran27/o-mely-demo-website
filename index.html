@@ -384,14 +384,29 @@
       pointer-events: none;
     }
     #phoi-do-popup.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
-    .pdo-item {
-      width: 68px; height: 68px; object-fit: cover; flex-shrink: 0;
-      border: 2px solid transparent; cursor: pointer;
-      transition: border-color 0.18s, transform 0.15s;
+    .pdo-item-wrap {
+      position: relative; flex-shrink: 0; cursor: pointer;
     }
-    .pdo-item:hover { transform: scale(1.05); }
-    .pdo-item:hover { border-color: #B06060; }
-    .pdo-item.selected { border-color: #9E3D3D; }
+    .pdo-item {
+      width: 68px; height: 68px; object-fit: cover; display: block;
+      border: 2px solid transparent;
+      transition: border-color 0.18s, transform 0.15s, opacity 0.18s;
+    }
+    .pdo-item-wrap:hover .pdo-item { transform: scale(1.05); border-color: #B06060; }
+    .pdo-item-wrap.selected .pdo-item { border-color: #9E3D3D; opacity: 1; }
+    .pdo-item-wrap.deselected .pdo-item { opacity: 0.38; }
+    /* Checkmark badge */
+    .pdo-item-wrap .pdo-check {
+      display: none;
+      position: absolute; bottom: 4px; right: 4px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #9E3D3D;
+      align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .pdo-item-wrap.selected .pdo-check { display: flex; }
+    /* X badge for deselect hint on hover */
+    .pdo-item-wrap.selected:hover .pdo-check { background: #761717; }
 
     /* === PAYMENT RADIO === */
     .pay-option {
@@ -2308,24 +2323,32 @@
       return null;
     }
 
+    function _makePdoWrap(item, isSelected, hasSelection, clickFn) {
+      const wrap = document.createElement('div');
+      wrap.className = 'pdo-item-wrap' + (isSelected ? ' selected' : (hasSelection ? ' deselected' : ''));
+      wrap.title = item.label;
+      wrap.onclick = clickFn;
+      const img = document.createElement('img');
+      img.src = item.thumb; img.alt = item.label;
+      img.className = 'pdo-item';
+      const check = document.createElement('span');
+      check.className = 'pdo-check';
+      check.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      wrap.appendChild(img);
+      wrap.appendChild(check);
+      return wrap;
+    }
+
     function _renderPhoiDoItems() {
       const aoWrap = document.getElementById('phoi-do-ao');
       const tuiWrap = document.getElementById('phoi-do-tui');
       aoWrap.innerHTML = '';
       tuiWrap.innerHTML = '';
       AO_ITEMS.forEach(item => {
-        const img = document.createElement('img');
-        img.src = item.thumb; img.alt = item.label; img.title = item.label;
-        img.className = 'pdo-item' + (_selectedAoId === item.id ? ' selected' : '');
-        img.onclick = () => selectAo(item.id);
-        aoWrap.appendChild(img);
+        aoWrap.appendChild(_makePdoWrap(item, _selectedAoId === item.id, !!_selectedAoId, () => selectAo(item.id)));
       });
       TUI_ITEMS.forEach(item => {
-        const img = document.createElement('img');
-        img.src = item.thumb; img.alt = item.label; img.title = item.label;
-        img.className = 'pdo-item' + (_selectedTuiId === item.id ? ' selected' : '');
-        img.onclick = () => selectTui(item.id);
-        tuiWrap.appendChild(img);
+        tuiWrap.appendChild(_makePdoWrap(item, _selectedTuiId === item.id, !!_selectedTuiId, () => selectTui(item.id)));
       });
     }
 
