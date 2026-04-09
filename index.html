@@ -2288,6 +2288,13 @@
 
     // === PHỐI ĐỒ POPUP ===
     const _D = 'assets/virtual%20coordination-demofeature';
+    const OUTFIT_ITEMS = [
+      { id: 'blazer',   label: 'Blazer',   thumb: `${_D}/item-blazer.png`,            main: `${_D}/ao-blazer.png` },
+      { id: 'cardigan', label: 'Cardigan', thumb: `${_D}/item-cardigan.png`,          main: `${_D}/ao-cardigan.png` },
+      { id: 'tweed',    label: 'Tweed',    thumb: `${_D}/item-tweed.png`,             main: `${_D}/ao-tweed.png` },
+      { id: 'tui-den',  label: 'Túi đen',  thumb: `${_D}/item-tui-%C4%91en.png`,     main: `${_D}/tui-den.png` },
+      { id: 'tui-hong', label: 'Túi hồng', thumb: `${_D}/item-tui-h%E1%BB%93ng.png`, main: `${_D}/tui-hong.png` },
+    ];
     const COMBOS = [
       {
         id: 'blazer-tui-den',
@@ -2304,33 +2311,10 @@
         main: `${_D}/ao-gardian%2Btui-hong.png`,
       },
     ];
+    let _selectedOutfitId = null;
     let _selectedComboId = null;
     let _originalMainImg = null;
     let _originalThumbImg = null;
-
-    function openPhoiDo() {
-      _originalMainImg = document.getElementById('product-main-img').src;
-      _originalThumbImg = document.getElementById('thumb-img-0').src;
-      _renderCombos();
-      if (_selectedComboId) {
-        const c = COMBOS.find(c => c.id === _selectedComboId);
-        if (c) _setPreview(c.main);
-      } else {
-        _setPreview(COMBOS[0].main);
-        _selectedComboId = COMBOS[0].id;
-        _renderCombos();
-      }
-      document.getElementById('phoi-do-popup').classList.add('open');
-      document.getElementById('phoi-do-backdrop').classList.add('open');
-    }
-
-    function closePhoiDo() {
-      document.getElementById('phoi-do-popup')?.classList.remove('open');
-      document.getElementById('phoi-do-backdrop')?.classList.remove('open');
-      if (_originalMainImg) document.getElementById('product-main-img').src = _originalMainImg;
-      if (_originalThumbImg) document.getElementById('thumb-img-0').src = _originalThumbImg;
-      _selectedComboId = null;
-    }
 
     function _setPreview(src) {
       document.getElementById('phoi-do-preview').src = src;
@@ -2338,11 +2322,22 @@
       document.getElementById('thumb-img-0').src = src;
     }
 
-    function selectCombo(id) {
-      _selectedComboId = id;
-      const c = COMBOS.find(c => c.id === id);
-      if (c) _setPreview(c.main);
-      _renderCombos();
+    function _renderItems() {
+      const container = document.getElementById('phoi-do-items');
+      container.innerHTML = '';
+      OUTFIT_ITEMS.forEach(item => {
+        const wrap = document.createElement('div');
+        wrap.className = 'pdo-item-wrap' + (_selectedOutfitId === item.id ? ' selected' : (_selectedOutfitId ? ' deselected' : ''));
+        wrap.title = item.label;
+        wrap.onclick = () => selectOutfitItem(item.id);
+        const img = document.createElement('img');
+        img.src = item.thumb; img.alt = item.label; img.className = 'pdo-item';
+        const check = document.createElement('span');
+        check.className = 'pdo-check';
+        check.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        wrap.appendChild(img); wrap.appendChild(check);
+        container.appendChild(wrap);
+      });
     }
 
     function _renderCombos() {
@@ -2354,13 +2349,50 @@
         card.onclick = () => selectCombo(c.id);
         card.innerHTML = `
           <div class="pdo-combo-thumbs">
-            <img src="${c.thumbAo}" alt="">
-            <span class="pdo-combo-plus">+</span>
-            <img src="${c.thumbTui}" alt="">
+            <img src="${c.thumbAo}" alt=""><span class="pdo-combo-plus">+</span><img src="${c.thumbTui}" alt="">
           </div>
           <p class="pdo-combo-label">${c.label}</p>`;
         wrap.appendChild(card);
       });
+    }
+
+    function openPhoiDo() {
+      _originalMainImg = document.getElementById('product-main-img').src;
+      _originalThumbImg = document.getElementById('thumb-img-0').src;
+      _renderItems();
+      _renderCombos();
+      const active = OUTFIT_ITEMS.find(i => i.id === _selectedOutfitId) || OUTFIT_ITEMS[0];
+      _setPreview(active.main);
+      if (!_selectedOutfitId) { _selectedOutfitId = active.id; _renderItems(); }
+      document.getElementById('phoi-do-popup').classList.add('open');
+      document.getElementById('phoi-do-backdrop').classList.add('open');
+    }
+
+    function closePhoiDo() {
+      document.getElementById('phoi-do-popup')?.classList.remove('open');
+      document.getElementById('phoi-do-backdrop')?.classList.remove('open');
+      if (_originalMainImg) document.getElementById('product-main-img').src = _originalMainImg;
+      if (_originalThumbImg) document.getElementById('thumb-img-0').src = _originalThumbImg;
+      _selectedOutfitId = null;
+      _selectedComboId = null;
+    }
+
+    function selectOutfitItem(id) {
+      _selectedOutfitId = id;
+      _selectedComboId = null;
+      const item = OUTFIT_ITEMS.find(i => i.id === id);
+      if (item) _setPreview(item.main);
+      _renderItems();
+      _renderCombos();
+    }
+
+    function selectCombo(id) {
+      _selectedComboId = id;
+      _selectedOutfitId = null;
+      const c = COMBOS.find(c => c.id === id);
+      if (c) _setPreview(c.main);
+      _renderItems();
+      _renderCombos();
     }
 
     // === SIZE ===
@@ -2587,7 +2619,9 @@
       <img id="phoi-do-preview" src="" alt="" style="width:100%; max-height:480px; object-fit:contain; display:block;">
     </div>
     <div class="px-4 pt-3 pb-5">
-      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-3" style="color:#9A9A9A;">Chọn phong cách phối</p>
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Chọn phụ kiện</p>
+      <div class="flex gap-2 flex-wrap mb-4" id="phoi-do-items"></div>
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Phối hợp</p>
       <div class="flex gap-3" id="phoi-do-combos"></div>
     </div>
   </div>
