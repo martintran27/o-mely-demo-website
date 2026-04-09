@@ -2370,6 +2370,7 @@
     }
 
     function openPhoiDo() {
+      document.getElementById('phoi-do-wrap').style.display = 'none';
       _renderItems();
       _renderCombos();
       const active = OUTFIT_ITEMS.find(i => i.id === _selectedOutfitId) || OUTFIT_ITEMS[0];
@@ -2384,6 +2385,7 @@
       document.getElementById('phoi-do-backdrop')?.classList.remove('open');
       _selectedOutfitId = null;
       _selectedComboId = null;
+      document.getElementById('phoi-do-wrap').style.display = '';
     }
 
     function selectOutfitItem(id) {
