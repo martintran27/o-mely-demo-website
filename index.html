@@ -384,6 +384,23 @@
       pointer-events: none;
     }
     #phoi-do-popup.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+    .pdo-item-wrap {
+      position: relative; flex-shrink: 0; cursor: pointer; width: 68px; height: 68px; overflow: hidden;
+    }
+    .pdo-item {
+      width: 68px; height: 68px; object-fit: cover; display: block;
+      border: 2px solid transparent;
+      transition: border-color 0.18s, transform 0.15s, opacity 0.18s;
+    }
+    .pdo-item-wrap:hover .pdo-item { transform: scale(1.05); border-color: #B06060; }
+    .pdo-item-wrap.selected .pdo-item { border-color: #9E3D3D; }
+    .pdo-item-wrap.deselected .pdo-item { opacity: 0.38; }
+    .pdo-item-wrap .pdo-check {
+      display: none; position: absolute; bottom: 4px; right: 4px;
+      width: 18px; height: 18px; border-radius: 50%; background: #9E3D3D;
+      align-items: center; justify-content: center; pointer-events: none;
+    }
+    .pdo-item-wrap.selected .pdo-check { display: flex; }
     .pdo-combo {
       flex: 1; border: 2px solid #E2E2E2; padding: 12px 10px 10px;
       cursor: pointer; text-align: center;
