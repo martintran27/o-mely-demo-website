@@ -384,29 +384,22 @@
       pointer-events: none;
     }
     #phoi-do-popup.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
-    .pdo-item-wrap {
-      position: relative; flex-shrink: 0; cursor: pointer;
+    .pdo-combo {
+      flex: 1; border: 2px solid #E2E2E2; padding: 12px 10px 10px;
+      cursor: pointer; text-align: center;
+      transition: border-color 0.18s, box-shadow 0.18s;
     }
-    .pdo-item {
-      width: 68px; height: 68px; object-fit: cover; display: block;
-      border: 2px solid transparent;
-      transition: border-color 0.18s, transform 0.15s, opacity 0.18s;
+    .pdo-combo:hover { border-color: #B06060; }
+    .pdo-combo.selected { border-color: #9E3D3D; box-shadow: 0 0 0 1px #9E3D3D; }
+    .pdo-combo-thumbs {
+      display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 8px;
     }
-    .pdo-item-wrap:hover .pdo-item { transform: scale(1.05); border-color: #B06060; }
-    .pdo-item-wrap.selected .pdo-item { border-color: #9E3D3D; opacity: 1; }
-    .pdo-item-wrap.deselected .pdo-item { opacity: 0.38; }
-    /* Checkmark badge */
-    .pdo-item-wrap .pdo-check {
-      display: none;
-      position: absolute; bottom: 4px; right: 4px;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: #9E3D3D;
-      align-items: center; justify-content: center;
-      pointer-events: none;
+    .pdo-combo-thumbs img { width: 44px; height: 44px; object-fit: cover; }
+    .pdo-combo-plus { font-size: 13px; color: #9A9A9A; line-height: 1; }
+    .pdo-combo-label {
+      font-family: 'Jost', sans-serif; font-size: 11px; color: #1A1A1A; line-height: 1.3;
     }
-    .pdo-item-wrap.selected .pdo-check { display: flex; }
-    /* X badge for deselect hint on hover */
-    .pdo-item-wrap.selected:hover .pdo-check { background: #761717; }
+    .pdo-combo.selected .pdo-combo-label { color: #9E3D3D; font-weight: 500; }
 
     /* === PAYMENT RADIO === */
     .pay-option {
@@ -2295,73 +2288,37 @@
 
     // === PHỐI ĐỒ POPUP ===
     const _D = 'assets/virtual%20coordination-demofeature';
-    const AO_ITEMS = [
-      { id: 'blazer',   label: 'Blazer',   thumb: `${_D}/item-blazer.png`,   main: `${_D}/ao-blazer.png` },
-      { id: 'cardigan', label: 'Cardigan', thumb: `${_D}/item-cardigan.png`, main: `${_D}/ao-cardigan.png` },
-      { id: 'tweed',    label: 'Tweed',    thumb: `${_D}/item-tweed.png`,    main: `${_D}/ao-tweed.png` },
+    const COMBOS = [
+      {
+        id: 'blazer-tui-den',
+        label: 'Blazer + Túi Đen',
+        thumbAo:  `${_D}/item-blazer.png`,
+        thumbTui: `${_D}/item-tui-%C4%91en.png`,
+        main: `${_D}/ao-blazer%2Btui-den.png`,
+      },
+      {
+        id: 'cardigan-tui-hong',
+        label: 'Cardigan + Túi Hồng',
+        thumbAo:  `${_D}/item-cardigan.png`,
+        thumbTui: `${_D}/item-tui-h%E1%BB%93ng.png`,
+        main: `${_D}/ao-gardian%2Btui-hong.png`,
+      },
     ];
-    const TUI_ITEMS = [
-      { id: 'tui-den',  label: 'Túi đen',  thumb: `${_D}/item-tui-%C4%91en.png`,      main: `${_D}/tui-den.png` },
-      { id: 'tui-hong', label: 'Túi hồng', thumb: `${_D}/item-tui-h%E1%BB%93ng.png`, main: `${_D}/tui-hong.png` },
-    ];
-    const COMBO_MAP = {
-      'blazer+tui-den':   `${_D}/ao-blazer%2Btui-den.png`,
-      'cardigan+tui-hong': `${_D}/ao-gardian%2Btui-hong.png`,
-    };
-    let _selectedAoId = null;
-    let _selectedTuiId = null;
+    let _selectedComboId = null;
     let _originalMainImg = null;
     let _originalThumbImg = null;
-
-    function _getComboSrc() {
-      if (_selectedAoId && _selectedTuiId) {
-        const key = `${_selectedAoId}+${_selectedTuiId}`;
-        if (COMBO_MAP[key]) return COMBO_MAP[key];
-      }
-      if (_selectedAoId) return AO_ITEMS.find(i => i.id === _selectedAoId)?.main || null;
-      if (_selectedTuiId) return TUI_ITEMS.find(i => i.id === _selectedTuiId)?.main || null;
-      return null;
-    }
-
-    function _makePdoWrap(item, isSelected, hasSelection, clickFn) {
-      const wrap = document.createElement('div');
-      wrap.className = 'pdo-item-wrap' + (isSelected ? ' selected' : (hasSelection ? ' deselected' : ''));
-      wrap.title = item.label;
-      wrap.onclick = clickFn;
-      const img = document.createElement('img');
-      img.src = item.thumb; img.alt = item.label;
-      img.className = 'pdo-item';
-      const check = document.createElement('span');
-      check.className = 'pdo-check';
-      check.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      wrap.appendChild(img);
-      wrap.appendChild(check);
-      return wrap;
-    }
-
-    function _renderPhoiDoItems() {
-      const aoWrap = document.getElementById('phoi-do-ao');
-      const tuiWrap = document.getElementById('phoi-do-tui');
-      aoWrap.innerHTML = '';
-      tuiWrap.innerHTML = '';
-      AO_ITEMS.forEach(item => {
-        aoWrap.appendChild(_makePdoWrap(item, _selectedAoId === item.id, !!_selectedAoId, () => selectAo(item.id)));
-      });
-      TUI_ITEMS.forEach(item => {
-        tuiWrap.appendChild(_makePdoWrap(item, _selectedTuiId === item.id, !!_selectedTuiId, () => selectTui(item.id)));
-      });
-    }
 
     function openPhoiDo() {
       _originalMainImg = document.getElementById('product-main-img').src;
       _originalThumbImg = document.getElementById('thumb-img-0').src;
-      if (!_selectedAoId) _selectedAoId = AO_ITEMS[0].id;
-      _renderPhoiDoItems();
-      const src = _getComboSrc();
-      if (src) {
-        document.getElementById('phoi-do-preview').src = src;
-        document.getElementById('product-main-img').src = src;
-        document.getElementById('thumb-img-0').src = src;
+      _renderCombos();
+      if (_selectedComboId) {
+        const c = COMBOS.find(c => c.id === _selectedComboId);
+        if (c) _setPreview(c.main);
+      } else {
+        _setPreview(COMBOS[0].main);
+        _selectedComboId = COMBOS[0].id;
+        _renderCombos();
       }
       document.getElementById('phoi-do-popup').classList.add('open');
       document.getElementById('phoi-do-backdrop').classList.add('open');
@@ -2372,28 +2329,38 @@
       document.getElementById('phoi-do-backdrop')?.classList.remove('open');
       if (_originalMainImg) document.getElementById('product-main-img').src = _originalMainImg;
       if (_originalThumbImg) document.getElementById('thumb-img-0').src = _originalThumbImg;
-      _selectedAoId = null;
-      _selectedTuiId = null;
+      _selectedComboId = null;
     }
 
-    function _applyPreview() {
-      const src = _getComboSrc();
-      if (!src) return;
+    function _setPreview(src) {
       document.getElementById('phoi-do-preview').src = src;
       document.getElementById('product-main-img').src = src;
       document.getElementById('thumb-img-0').src = src;
     }
 
-    function selectAo(id) {
-      _selectedAoId = (_selectedAoId === id) ? null : id;
-      _renderPhoiDoItems();
-      _applyPreview();
+    function selectCombo(id) {
+      _selectedComboId = id;
+      const c = COMBOS.find(c => c.id === id);
+      if (c) _setPreview(c.main);
+      _renderCombos();
     }
 
-    function selectTui(id) {
-      _selectedTuiId = (_selectedTuiId === id) ? null : id;
-      _renderPhoiDoItems();
-      _applyPreview();
+    function _renderCombos() {
+      const wrap = document.getElementById('phoi-do-combos');
+      wrap.innerHTML = '';
+      COMBOS.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'pdo-combo' + (_selectedComboId === c.id ? ' selected' : '');
+        card.onclick = () => selectCombo(c.id);
+        card.innerHTML = `
+          <div class="pdo-combo-thumbs">
+            <img src="${c.thumbAo}" alt="">
+            <span class="pdo-combo-plus">+</span>
+            <img src="${c.thumbTui}" alt="">
+          </div>
+          <p class="pdo-combo-label">${c.label}</p>`;
+        wrap.appendChild(card);
+      });
     }
 
     // === SIZE ===
@@ -2619,11 +2586,9 @@
     <div style="background:#F8F8F8; display:flex; align-items:center; justify-content:center; min-height:320px;">
       <img id="phoi-do-preview" src="" alt="" style="width:100%; max-height:480px; object-fit:contain; display:block;">
     </div>
-    <div class="px-4 pt-3 pb-4">
-      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Chọn áo</p>
-      <div class="flex gap-2 flex-wrap mb-3" id="phoi-do-ao"></div>
-      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Chọn túi</p>
-      <div class="flex gap-2 flex-wrap" id="phoi-do-tui"></div>
+    <div class="px-4 pt-3 pb-5">
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-3" style="color:#9A9A9A;">Chọn phong cách phối</p>
+      <div class="flex gap-3" id="phoi-do-combos"></div>
     </div>
   </div>
 </body>
