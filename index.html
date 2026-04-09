@@ -385,43 +385,38 @@
     }
     #phoi-do-popup.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
     .pdo-item-wrap {
-      position: relative; flex-shrink: 0; cursor: pointer; width: 72px; height: 72px; overflow: hidden;
+      position: relative; flex-shrink: 0; cursor: pointer; width: 68px; height: 68px; overflow: hidden;
     }
     .pdo-item {
-      width: 72px; height: 72px; object-fit: cover; display: block;
+      width: 68px; height: 68px; object-fit: cover; display: block;
       border: 2px solid transparent;
       transition: border-color 0.18s, transform 0.15s, opacity 0.18s;
     }
-    .pdo-item-wrap:hover .pdo-item { transform: scale(1.06); border-color: #B06060; }
+    .pdo-item-wrap:hover .pdo-item { transform: scale(1.05); border-color: #B06060; }
     .pdo-item-wrap.selected .pdo-item { border-color: #9E3D3D; }
-    .pdo-item-wrap.deselected .pdo-item { opacity: 0.32; }
+    .pdo-item-wrap.deselected .pdo-item { opacity: 0.38; }
     .pdo-item-wrap .pdo-check {
-      display: none; position: absolute; bottom: 5px; right: 5px;
+      display: none; position: absolute; bottom: 4px; right: 4px;
       width: 18px; height: 18px; border-radius: 50%; background: #9E3D3D;
       align-items: center; justify-content: center; pointer-events: none;
     }
     .pdo-item-wrap.selected .pdo-check { display: flex; }
-    /* Combo cards — outfit photo as background */
     .pdo-combo {
-      flex: 1; position: relative; overflow: hidden; cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.22s, transform 0.18s;
+      flex: 1; border: 2px solid #E2E2E2; padding: 12px 10px 10px;
+      cursor: pointer; text-align: center;
+      transition: border-color 0.18s, box-shadow 0.18s;
     }
-    .pdo-combo:hover { transform: scale(1.015); }
-    .pdo-combo.selected { border-color: #9E3D3D; }
-    .pdo-combo-bg {
-      width: 100%; height: 158px; object-fit: cover; object-position: center 10%; display: block;
+    .pdo-combo:hover { border-color: #B06060; }
+    .pdo-combo.selected { border-color: #9E3D3D; box-shadow: 0 0 0 1px #9E3D3D; }
+    .pdo-combo-thumbs {
+      display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 8px;
     }
-    .pdo-combo-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(0deg, rgba(10,10,10,0.62) 0%, rgba(10,10,10,0.12) 60%, transparent 100%);
-      padding: 28px 12px 11px;
-    }
+    .pdo-combo-thumbs img { width: 44px; height: 44px; object-fit: cover; }
+    .pdo-combo-plus { font-size: 13px; color: #9A9A9A; line-height: 1; }
     .pdo-combo-label {
-      font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.06em;
-      color: #fff; text-align: center; line-height: 1.3;
+      font-family: 'Jost', sans-serif; font-size: 11px; color: #1A1A1A; line-height: 1.3;
     }
-    .pdo-combo.selected .pdo-combo-overlay { background: linear-gradient(0deg, rgba(120,30,30,0.72) 0%, rgba(10,10,10,0.08) 70%, transparent 100%); }
+    .pdo-combo.selected .pdo-combo-label { color: #9E3D3D; font-weight: 500; }
 
     /* === PAYMENT RADIO === */
     .pay-option {
@@ -2366,8 +2361,10 @@
         card.className = 'pdo-combo' + (_selectedComboId === c.id ? ' selected' : '');
         card.onclick = () => selectCombo(c.id);
         card.innerHTML = `
-          <img class="pdo-combo-bg" src="${c.main}" alt="${c.label}">
-          <div class="pdo-combo-overlay"><p class="pdo-combo-label">${c.label}</p></div>`;
+          <div class="pdo-combo-thumbs">
+            <img src="${c.thumbAo}" alt=""><span class="pdo-combo-plus">+</span><img src="${c.thumbTui}" alt="">
+          </div>
+          <p class="pdo-combo-label">${c.label}</p>`;
         wrap.appendChild(card);
       });
     }
@@ -2630,17 +2627,11 @@
     <div style="background:#F8F8F8; display:flex; align-items:center; justify-content:center; min-height:320px;">
       <img id="phoi-do-preview" src="" alt="" style="width:100%; max-height:480px; object-fit:contain; display:block;">
     </div>
-    <div class="px-4 pt-4 pb-5">
-      <div class="flex items-center gap-3 mb-3">
-        <span class="font-body text-[9px] tracking-[0.18em] uppercase" style="color:#B0B0B0;white-space:nowrap;">Phụ kiện</span>
-        <div style="flex:1;height:1px;background:#EBEBEB;"></div>
-      </div>
+    <div class="px-4 pt-3 pb-5">
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Chọn phụ kiện</p>
       <div class="flex gap-2 flex-wrap mb-4" id="phoi-do-items"></div>
-      <div class="flex items-center gap-3 mb-3">
-        <span class="font-body text-[9px] tracking-[0.18em] uppercase" style="color:#B0B0B0;white-space:nowrap;">Gợi ý phối hợp</span>
-        <div style="flex:1;height:1px;background:#EBEBEB;"></div>
-      </div>
-      <div class="flex gap-2" id="phoi-do-combos"></div>
+      <p class="font-body text-[10px] tracking-[0.12em] uppercase mb-2" style="color:#9A9A9A;">Phối hợp</p>
+      <div class="flex gap-3" id="phoi-do-combos"></div>
     </div>
   </div>
 </body>
