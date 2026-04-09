@@ -2318,25 +2318,21 @@
         label: 'Blazer + Túi Đen',
         thumbAo:  `${_D}/item-blazer.png`,
         thumbTui: `${_D}/item-tui-%C4%91en.png`,
-        main: `${_D}/ao-blazer%2Btui-den.png`,
+        main: `${_D}/ao-blazer+tui-den.png`,
       },
       {
         id: 'cardigan-tui-hong',
         label: 'Cardigan + Túi Hồng',
         thumbAo:  `${_D}/item-cardigan.png`,
         thumbTui: `${_D}/item-tui-h%E1%BB%93ng.png`,
-        main: `${_D}/ao-gardian%2Btui-hong.png`,
+        main: `${_D}/ao-gardian+tui-hong.png`,
       },
     ];
     let _selectedOutfitId = null;
     let _selectedComboId = null;
-    let _originalMainImg = null;
-    let _originalThumbImg = null;
 
     function _setPreview(src) {
       document.getElementById('phoi-do-preview').src = src;
-      document.getElementById('product-main-img').src = src;
-      document.getElementById('thumb-img-0').src = src;
     }
 
     function _renderItems() {
@@ -2374,8 +2370,6 @@
     }
 
     function openPhoiDo() {
-      _originalMainImg = document.getElementById('product-main-img').src;
-      _originalThumbImg = document.getElementById('thumb-img-0').src;
       _renderItems();
       _renderCombos();
       const active = OUTFIT_ITEMS.find(i => i.id === _selectedOutfitId) || OUTFIT_ITEMS[0];
@@ -2388,8 +2382,6 @@
     function closePhoiDo() {
       document.getElementById('phoi-do-popup')?.classList.remove('open');
       document.getElementById('phoi-do-backdrop')?.classList.remove('open');
-      if (_originalMainImg) document.getElementById('product-main-img').src = _originalMainImg;
-      if (_originalThumbImg) document.getElementById('thumb-img-0').src = _originalThumbImg;
       _selectedOutfitId = null;
       _selectedComboId = null;
     }
